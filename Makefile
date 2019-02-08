@@ -110,7 +110,7 @@ OBJS := $(C_OBJS) $(CPP_OBJS) $(C_TEENSY_OBJS) $(CPP_TEENSY_OBJS)
 
 # the actual makefile rules
 
-all: $(TARGET).hex
+all: $(TARGET).hex flash
 
 $(TARGET).elf: $(OBJS) $(MCU_LD)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
@@ -118,8 +118,10 @@ $(TARGET).elf: $(OBJS) $(MCU_LD)
 %.hex: %.elf
 	$(SIZE) $<
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
+
+flash: $(TARGET).hex
 ifneq (,$(wildcard $(TOOLSPATH)))
-	$(TOOLSPATH)/teensy_post_compile -file=$(basename $@) -path=$(shell pwd) -tools=$(TOOLSPATH)
+	$(TOOLSPATH)/teensy_post_compile -file=$(basename $<) -path=$(shell pwd) -tools=$(TOOLSPATH)
 	-$(TOOLSPATH)/teensy_reboot
 endif
 
@@ -144,4 +146,4 @@ $(BUILD_DIR):
 clean:
 	rm -rf *.o *.d $(TARGET).elf $(TARGET).hex $(BUILD_DIR)
 
-.PHONY: clean
+.PHONY: clean flash
