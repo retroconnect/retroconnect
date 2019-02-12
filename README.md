@@ -44,6 +44,8 @@
 The following outlines the basic structure of our ```root``` folder and git repository
 ```
 root/
+    lib/
+        teensy-lib/
     src/
       Teensy/
         Input/
@@ -51,16 +53,16 @@ root/
       Bluetooth/
       Mapping/
         ControllerModels/
-            Controller.cpp
-            XboxController.cpp
-            SnesController.cpp
-            ...
+          Controller.cpp
+          XboxController.cpp
+          SnesController.cpp
+          ...
         ControllerConverters/
-            ControllerConverter.cpp
-            ControllerConverterFactory.cpp
-            XboxToSnesControllerConverter.cpp
-            ...
-    Backend/
+          ControllerConverter.cpp
+          ControllerConverterFactory.cpp
+          XboxToSnesControllerConverter.cpp
+          ...
+      Backend/
         Backend.cpp
         SNESBackend.cpp
         ...
@@ -76,6 +78,10 @@ The ```root/``` directory contains the following components:
 - ```build/``` is meant to hold the compiled and built code ready to run retroconnect
 - ```Readme.md``` is the file you are reading
 - ```LICENSE``` is a text file describing our code's legal licensing
+
+### **```lib/```**
+The ```lib/``` directory holds all the 3rd party libraries that support our codebase.
+- ```teensy-lib/``` is a standard library for operating with the teensy microcontroller
 
 ### **```src/```**
 The ```src/``` directory is divided into the logical components that makeup the dataflow of our program
