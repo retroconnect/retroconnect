@@ -54,9 +54,11 @@ struct button_struct_t {        //16 bytes total
 	unsigned int value;    //4 bytes
 } button_struct;
 
+
 void isr() {
 	cout << "Hardware Button Pressed!\n" << endl;
 }
+
 
 void setupPins() {
 	wiringPiSetup();
@@ -68,7 +70,6 @@ void setupPins() {
 	wiringPiISR(CLOCK, INT_EDGE_FALLING, isr);
 	wiringPiISR(LATCH, INT_EDGE_FALLING, isr);
 }
-
 
 
 
@@ -221,7 +222,7 @@ void read_buttons(button_struct_t button_struct) {
 		}
 	}
 
-	// Print full struct for button press
+	// Print full struct for button press debugging
 	//printf("\nButton Timestamp: %08X", button_struct.time);
 	//printf("\nButton Type: %02X", button_struct.type);
 	//printf("\nButton Code: %02X", button_struct.code);
@@ -230,19 +231,26 @@ void read_buttons(button_struct_t button_struct) {
 
 
 int main() {
-	//cout << "Hello world" << endl;   //Print to standard output
 	//system("/bin/echo commandhere"); //Execute bash commands from C++
 
 	//Copy disable_ertm config to /etc/modprobe.d/disable_ertm.conf
-	//std::filesystem::copy("./disable_etrm.conf", "./deleteme/disable_etrm.conf");
+	char buf[100];
+	size_t size;
+
+	int src = open("disable_ertm.conf", O_RDONLY, 0);
+	int dst = open("/etc/modprobe.d/disable_ertm.conf", O_WRONLY | O_CREAT, 0644);
+	size = read(src, buf, 100);
+	write(dst, buf, size);
+	close(src);
+	close(dst);
+
 
 	//Set pin modes and interrupts
 	//SetupPins();
 
+
 	//DBUS Bluetooth Setup
 	//(Chris)
-
-
 
 
 	//Find which event# datastreams are for controller / consumer control device
@@ -280,6 +288,7 @@ int main() {
 
 	if (exit != 2) {
 		printf("Input device not found!\n");
+		return 0;
 	}
 
 	//Monitor event channels for input
@@ -291,7 +300,6 @@ int main() {
 	fds[0].fd = open(event_string.append(1, event_controller).c_str(), O_RDONLY);
 	event_string = "/dev/input/event";
 	fds[1].fd = open(event_string.append(1, event_consumer).c_str(), O_RDONLY);
-
 
 	printf("Starting input collection...\n");
 
