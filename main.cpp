@@ -1,3 +1,4 @@
+using namespace std;
 #include <iostream>
 #include <stdlib.h>
 #include <wiringPi.h>
@@ -9,7 +10,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-//#include <experimental/filesystem>
+#define DATA 27
+#define CLOCK 28
+#define LATCH 29
 
 //Mapping 1
 #define BTN_A		0x130
@@ -43,13 +46,6 @@
 #define LEFT_TRIGGER    0x0A
 */
 
-using namespace std;
-//namespace fs=std::experimental::filesystem;
-
-
-#define DATA 27
-#define CLOCK 28
-#define LATCH 29
 
 struct button_struct_t {        //16 bytes total
 	struct timeval time;   //8 bytes
@@ -58,7 +54,11 @@ struct button_struct_t {        //16 bytes total
 	unsigned int value;    //4 bytes
 } button_struct;
 
-/*void setupPins() {
+void isr() {
+	cout << "Hardware Button Pressed!\n" << endl;
+}
+
+void setupPins() {
 	wiringPiSetup();
 
 	pinMode(DATA, OUTPUT);
@@ -67,12 +67,9 @@ struct button_struct_t {        //16 bytes total
 
 	wiringPiISR(CLOCK, INT_EDGE_FALLING, isr);
 	wiringPiISR(LATCH, INT_EDGE_FALLING, isr);
-}*/
-
-void isr(void)
-{
-	cout << "Hardware Button Pressed" << endl;
 }
+
+
 
 
 void read_buttons(button_struct_t button_struct) {
@@ -154,7 +151,7 @@ void read_buttons(button_struct_t button_struct) {
 					printf("LB pressed\n");
 				}
 				break;
-			case(BTN_RB): //Top Right
+			case(BTN_RB):
 				if (button_struct.value == 0) {
 					printf("RB released\n");
 				}
@@ -224,6 +221,7 @@ void read_buttons(button_struct_t button_struct) {
 		}
 	}
 
+	// Print full struct for button press
 	//printf("\nButton Timestamp: %08X", button_struct.time);
 	//printf("\nButton Type: %02X", button_struct.type);
 	//printf("\nButton Code: %02X", button_struct.code);
@@ -244,21 +242,55 @@ int main() {
 	//DBUS Bluetooth Setup
 	//(Chris)
 
+
+
+
 	//Find which event# datastreams are for controller / consumer control device
-	//ifstream myfile("/proc/bus/input/devices");
+	string line;
+	char event_controller, event_consumer;
+	int event_position;
+	int exit = 0;
 
-	//Get datastream from event#'s
-	//ifstream event_handle("/dev/input/event8", std::ios::binary);
-	////ifstream home_button("/dev/input/event9", std::ios::binary);
+	ifstream devices_list("/proc/bus/input/devices");
 
+	while(getline(devices_list, line) && exit != 2) {
+		if (line.find("Xbox Wireless Controller", 0)  != string::npos) {
+			if (line.find("Consumer Control", 0) != string::npos) {
+				while( getline(devices_list, line) ) {
+					if ((event_position = line.find("event", 0)) != string::npos) {
+						event_consumer = line.at(event_position+5);
+						exit++;
+						printf("Consumer Control is event%c\n", event_consumer);
+						break;
+					}
+				}
+			}
+			else {
+				while( getline(devices_list, line) ) {
+					if ((event_position = line.find("event", 0)) != string::npos) {
+						event_controller = line.at(event_position+5);
+						exit++;
+						printf("Controller is event%c\n", event_controller);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	if (exit != 2) {
+		printf("Input device not found!\n");
+	}
+
+	//Monitor event channels for input
 	struct pollfd fds[2];
-	int ret;
-
-	fds[0].fd = open("/dev/input/event8", O_RDONLY);
-	fds[1].fd = open("/dev/input/event9", O_RDONLY);
-
 	fds[0].events = POLLIN;
 	fds[1].events = POLLIN;
+
+	string event_string = "/dev/input/event";
+	fds[0].fd = open(event_string.append(1, event_controller).c_str(), O_RDONLY);
+	event_string = "/dev/input/event";
+	fds[1].fd = open(event_string.append(1, event_consumer).c_str(), O_RDONLY);
 
 
 	printf("Starting input collection...\n");
