@@ -14,7 +14,7 @@ using namespace std;
 #define CLOCK 28
 #define LATCH 29
 
-//Mapping 1
+//iXbox One Mapping
 #define BTN_A		0x130
 #define BTN_B		0x131
 #define BTN_X		0x133
@@ -26,10 +26,16 @@ using namespace std;
 #define BTN_LS		0x13D
 #define BTN_RS		0x13E
 #define BTN_HOME	0xAC
+#define AXIS_0		0x00
+#define AXIS_1		0x01
+#define AXIS_2		0x02
+#define AXIS_5		0x05
 #define RIGHT_TRIGGER   0x09
 #define LEFT_TRIGGER    0x0A
+#define DPAD_X		0x10
+#define DPAD_Y		0x11
 
-//Mapping 2
+//Xbox One Alternate Mapping (reconnected controller)
 /*
 #define BTN_A		0x130
 #define BTN_B		0x131
@@ -46,6 +52,19 @@ using namespace std;
 #define LEFT_TRIGGER    0x0A
 */
 
+/*
+//PS4 Mappings
+LT = Xbox Right Analog Y
+RT = Xbox Right Analog X
+Right Analog = 0x03
+Square = Xbox Y
+Triangle = Xbox X
+PS_HOME = 0x13C
+SELECT = 0x13A
+LT-Digital = 0x138
+RT-Digital = 0x139
+*/
+
 
 struct button_struct_t {        //16 bytes total
 	struct timeval time;   //8 bytes
@@ -55,20 +74,27 @@ struct button_struct_t {        //16 bytes total
 } button_struct;
 
 
-void isr() {
+/***************************************************/
+/***************************************************/
+
+void clock_isr() {
+	cout << "Hardware Button Pressed!\n" << endl;
+}
+
+void latch_isr() {
 	cout << "Hardware Button Pressed!\n" << endl;
 }
 
 
-void setupPins() {
+void setup_pins() {
 	wiringPiSetup();
 
 	pinMode(DATA, OUTPUT);
 	pinMode(CLOCK, INPUT);
 	pinMode(LATCH, INPUT);
 
-	wiringPiISR(CLOCK, INT_EDGE_FALLING, isr);
-	wiringPiISR(LATCH, INT_EDGE_FALLING, isr);
+	wiringPiISR(CLOCK, INT_EDGE_FALLING, clock_isr);
+	wiringPiISR(LATCH, INT_EDGE_FALLING, latch_isr);
 }
 
 
@@ -77,20 +103,20 @@ void read_buttons(button_struct_t button_struct) {
 
 	if(button_struct.type) {
 		switch(button_struct.code) {
-			case(4): break;
-			case(0):
+			case(4): break; //filters out row of input
+			case(AXIS_0):
 				printf("Left Analog Stick Y\n");
 				break;
-			case(1):
+			case(AXIS_1):
 				printf("Left Analog Stick X\n");
 				break;
-			case(2):
+			case(AXIS_2):
 				printf("Right Analog Stick Y\n");
 				break;
-			case(5):
+			case(AXIS_5):
 				printf("Right Analog Stick X\n");
 						break;
-			case(16):
+			case(DPAD_X):
 				if (button_struct.value == 1) {
 					printf("DPAD-Right\n");
 				}
@@ -101,7 +127,7 @@ void read_buttons(button_struct_t button_struct) {
 					printf("DPAD-Left\n");
 				}
 				break;
-			case(17):
+			case(DPAD_Y):
 				if (button_struct.value == 1) {
 					printf("DPAD-Down\n");
 				}
@@ -200,7 +226,7 @@ void read_buttons(button_struct_t button_struct) {
 					printf("Home pressed\n");
 				}
 				break;
-			case(RIGHT_TRIGGER): //Right Trigger
+			case(RIGHT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Right Trigger released\n");
 				}
@@ -208,7 +234,7 @@ void read_buttons(button_struct_t button_struct) {
 					printf("Right Trigger pressed\n");
 				}
 				break;
-			case(LEFT_TRIGGER): //Left Trigger
+			case(LEFT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Left Trigger released\n");
 				}
@@ -236,7 +262,6 @@ int main() {
 	//Copy disable_ertm config to /etc/modprobe.d/disable_ertm.conf
 	char buf[100];
 	size_t size;
-
 	int src = open("disable_ertm.conf", O_RDONLY, 0);
 	int dst = open("/etc/modprobe.d/disable_ertm.conf", O_WRONLY | O_CREAT, 0644);
 	size = read(src, buf, 100);
@@ -246,11 +271,11 @@ int main() {
 
 
 	//Set pin modes and interrupts
-	//SetupPins();
+	setup_pins();
 
 
 	//DBUS Bluetooth Setup
-	//(Chris)
+	// Chris
 
 
 	//Find which event# datastreams are for controller / consumer control device
@@ -258,7 +283,6 @@ int main() {
 	char event_controller, event_consumer;
 	int event_position;
 	int exit = 0;
-
 	ifstream devices_list("/proc/bus/input/devices");
 
 	while(getline(devices_list, line) && exit != 2) {
@@ -295,6 +319,9 @@ int main() {
 	struct pollfd fds[2];
 	fds[0].events = POLLIN;
 	fds[1].events = POLLIN;
+
+	//PS4 test
+	//fds[0].fd = open("/dev/input/event10", O_RDONLY);
 
 	string event_string = "/dev/input/event";
 	fds[0].fd = open(event_string.append(1, event_controller).c_str(), O_RDONLY);
