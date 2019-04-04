@@ -73,6 +73,46 @@ struct button_struct_t {        //16 bytes total
 	unsigned int value;    //4 bytes
 } button_struct;
 
+struct xbox_controller_t {
+	bool A;
+	bool B;
+	bool X;
+	bool Y;
+	bool D_UP;
+	bool D_DOWN;
+	bool D_LEFT;
+	bool D_RIGHT;
+	bool SELECT;
+	bool START;
+	bool HOME;
+	bool LS_PRESS;
+	bool RS_PRESS;
+	bool LB;
+	bool RB;
+
+	int LT;
+	int RT;
+	int LS_X;
+	int LS_Y;
+	int RS_X;
+	int RS_Y; 
+} xbox_controller;
+
+struct snes_controller_t {
+	bool A;
+	bool B;
+	bool X;
+	bool Y;
+	bool D_UP;
+	bool D_DOWN;
+	bool D_LEFT;
+	bool D_RIGHT;
+	bool SELECT;
+	bool START;
+	bool LB;
+	bool RB;
+} snes_controller;
+
 
 /***************************************************/
 /***************************************************/
