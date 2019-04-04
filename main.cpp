@@ -310,7 +310,7 @@ int main() {
 		}
 	}
 
-	if (exit != 2) {
+	if (exit == 0) {
 		printf("Input device not found!\n");
 		return 0;
 	}
