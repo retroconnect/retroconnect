@@ -139,7 +139,7 @@ void setup_pins() {
 
 
 
-void read_buttons(button_struct_t button_struct) {
+void read_buttons(button_struct_t button_struct, xbox_controller_t input_controller) {
 
 	if(button_struct.type) {
 		switch(button_struct.code) {
@@ -159,127 +159,161 @@ void read_buttons(button_struct_t button_struct) {
 			case(DPAD_X):
 				if (button_struct.value == 1) {
 					printf("DPAD-Right\n");
+					input_controller.D_RIGHT = true;
 				}
 				else if (button_struct.value == 0) {
 					printf("DPAD-X Released\n");
+					input_controller.D_RIGHT = false;
+					input_controller.D_LEFT = false;
 				}
 				else {
 					printf("DPAD-Left\n");
+					input_controller.D_LEFT = true;
 				}
 				break;
 			case(DPAD_Y):
 				if (button_struct.value == 1) {
 					printf("DPAD-Down\n");
+					input_controller.D_DOWN = true;
 				}
 				else if (button_struct.value == 0) {
 					printf("DPAD-Y Released\n");
+					input_controller.D_DOWN = false;
+					input_controller.D_UP = false;
 				}
 				else {
 					printf("DPAD-Up\n");
+					input_controller.D_UP = true;
 				}
 				break;
 			case(BTN_A):
 				if (button_struct.value == 0) {
 					printf("A released\n");
+					input_controller.A = false;
 				}
 				else {
 					printf("A pressed\n");
+					input_controller.A = true;
 				}
 				break;
 			case(BTN_B):
 				if (button_struct.value == 0) {
 					printf("B released\n");
+					input_controller.B = false;
 				}
 				else {
 					printf("B pressed\n");
+					input_controller.B = true;
 				}
 				break;
 			case(BTN_X):
 				if (button_struct.value == 0) {
 					printf("X released\n");
+					input_controller.X = false;
 				}
 				else {
 					printf("X pressed\n");
+					input_controller.X = true;
 				}
 				break;
 			case(BTN_Y):
 				if (button_struct.value == 0) {
 					printf("Y released\n");
+					input_controller.Y = false;
 				}
 				else {
 					printf("Y pressed\n");
+					input_controller.Y = true;
 				}
 				break;
 			case(BTN_LB):
 				if (button_struct.value == 0) {
 					printf("LB released\n");
+					input_controller.LB = false;
 				}
 				else {
 					printf("LB pressed\n");
+					input_controller.LB = true;
 				}
 				break;
 			case(BTN_RB):
 				if (button_struct.value == 0) {
 					printf("RB released\n");
+					input_controller.RB = false;
 				}
 				else {
 					printf("RB pressed\n");
+					input_controller.RB = true;
 				}
 				break;
 			case(BTN_START):
 				if (button_struct.value == 0) {
 					printf("Start released\n");
+					input_controller.START = false;
 				}
 				else {
 					printf("Start pressed\n");
+					input_controller.START = true;
 				}
 				break;
 			case(BTN_SELECT):
 				if (button_struct.value == 0) {
 					printf("Select released\n");
+					input_controller.SELECT = false;
 				}
 				else {
 					printf("Select pressed\n");
+					input_controller.SELECT = true;
 				}
 				break;
 			case(BTN_LS):
 				if (button_struct.value == 0) {
 					printf("Left Thumb released\n");
+					input_controller.LS_PRESS = false;
 				}
 				else {
 					printf("Left Thumb pressed\n");
+					input_controller.LS_PRESS = true;
 				}
 				break;
 			case(BTN_RS):
 				if (button_struct.value == 0) {
 					printf("Right Thumb released\n");
+					input_controller.RS_PRESS = false;
 				}
 				else {
 					printf("Right Thumb pressed\n");
+					input_controller.RS_PRESS = true;
 				}
 				break;
 			case(BTN_HOME):
 				if (button_struct.value == 0) {
 					printf("Home released\n");
+					input_controller.HOME = false;
 				}
 				else {
 					printf("Home pressed\n");
+					input_controller.HOME = true;
 				}
 				break;
 			case(RIGHT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Right Trigger released\n");
+					input_controller.RT = 0;
 				}
 				else {
 					printf("Right Trigger pressed\n");
+					input_controller.RT = 1;
 				}
 				break;
 			case(LEFT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Left Trigger released\n");
+					input_controller.LT = 0;
 				}
 				else {
 					printf("Left Trigger pressed\n");
+					input_controller.LT = 1;
 				}
 				break;
 
@@ -295,6 +329,50 @@ void read_buttons(button_struct_t button_struct) {
 	//printf("\nButton Value: %04X\n", button_struct.value);
 }
 
+xbox_controller_t init_xbox_controller() {
+	xbox_controller_t c = new xbox_controller_t();
+	c.A = false;
+	c.B = false;
+	c.X = false;
+	c.Y = false;
+
+	c.D_DOWN = false;
+	c.D_LEFT = false
+	c.D_RIGHT = false;
+	c.D_UP = false;
+
+	c.HOME = false;
+	c.SELECT = false;
+	c.START = false;
+
+	c.LB = false;
+	c.RB = false;
+
+	c.LS_PRESS = false;
+	c.LS_X = 0;
+	c.LS_Y = 0;
+
+	c.RS_PRESS = false;
+	c.RS_X = 0;
+	c.RS_Y = 0;
+
+	c.LT = 0;
+	c.RT = 0;
+
+	return c;
+}
+
+void print_xbox_controller_state(xbox_controller_t x) {
+	printf("Current state of xbox controller: \n");
+
+	printf("A: " + x.A + ", B: " + x.B + ", X: " + x.X + ", Y: " + x.Y + "\n");
+	printf("D-up: " + x.D_UP + ", D-down: " + x.D_DOWN + ", D-left: " + x.D_LEFT + ", D-right: " + x.D_RIGHT + "\n");
+	printf("LT: " + x.LT + ", RT: " + x.RT + "\n");
+	printf("LB: " + x.LB + ", RB: " + x.RB + "\n");
+	printf("Select: " + x.SELECT + ", Home: " + x.HOME + ", Start: " + x.START + "\n");
+	printf("LS-x: " + x.LS_X + ", LS-y: " + x.LS_Y + ", LS-press: " + x.LS_PRESS + "\n");
+	printf("RS-x: " + x.RS_X + ", RS-y: " + x.RS_Y + ", RS-press: " + x.RS_PRESS + "\n");
+}
 
 int main() {
 	//system("/bin/echo commandhere"); //Execute bash commands from C++
@@ -324,6 +402,10 @@ int main() {
 	int event_position;
 	int exit = 0;
 	ifstream devices_list("/proc/bus/input/devices");
+
+
+	//initialize controller model
+	xbox_controller_t input_controller = init_xbox_controller();
 
 	while(getline(devices_list, line) && exit != 2) {
 		if (line.find("Xbox Wireless Controller", 0)  != string::npos) {
@@ -375,12 +457,14 @@ int main() {
 
 		if (fds[0].revents & POLLIN) {
 			read(fds[0].fd, (char*)&button_struct, 16);
-			read_buttons(button_struct);
+			read_buttons(button_struct, input_controller);
+			print_xbox_controller_state();
 		}
 
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
-			read_buttons(button_struct);
+			read_buttons(button_struct, input_controller);
+			print_xbox_controller_state();
 		}
 	}
 
