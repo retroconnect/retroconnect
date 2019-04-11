@@ -9,6 +9,13 @@ using namespace std;
 #include <poll.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <typeinfo>
+//#include "Mapping/ControllerModels/Controller.h"
+//#include "Mapping/ControllerModels/SnesController.h"
+//#include "Mapping/ControllerModels/XboxController.h"
+
+//#include "Mapping/ControllerConverters/ControllerConverter.h"
+//#include "Mapping/ControllerConverters/ControllerConverterFactory.h"
 
 #define DATA 27
 #define CLOCK 28
@@ -72,6 +79,88 @@ struct button_struct_t {        //16 bytes total
 	unsigned short code;   //2 bytes
 	unsigned int value;    //4 bytes
 } button_struct;
+
+
+/***************************************************/
+/***************************************************/
+
+struct controller_t {
+	bool test;
+} controller;
+
+struct xbox_controller_t: controller_t {
+	bool A;
+	bool B;
+	bool X;
+	bool Y;
+	bool D_UP;
+	bool D_DOWN;
+	bool D_LEFT;
+	bool D_RIGHT;
+	bool SELECT;
+	bool START;
+	bool HOME;
+	bool LS_PRESS;
+	bool RS_PRESS;
+	bool LB;
+	bool RB;
+
+	int LT;
+	int RT;
+	int LS_X;
+	int LS_Y;
+	int RS_X;
+	int RS_Y; 
+} xbox_controller;
+
+struct snes_controller_t: controller_t {
+	bool A;
+	bool B;
+	bool X;
+	bool Y;
+	bool D_UP;
+	bool D_DOWN;
+	bool D_LEFT;
+	bool D_RIGHT;
+	bool SELECT;
+	bool START;
+	bool LB;
+	bool RB;
+} snes_controller;
+
+class ControllerConverter {
+    public:
+        virtual controller_t convert(controller_t input_controller, string user_config_path) = 0;
+};
+
+class XboxToSnesControllerConverter: ControllerConverter {
+    public:
+        snes_controller_t convert(controller_t input_controller, string user_config_path) {
+            return {
+                
+            };
+        }
+};
+
+class ControllerConverterFactory
+{
+ public:
+  static ControllerConverter* createConverter(controller_t input_controller, controller_t output_controller) {
+    string input_type = typeid(input_controller).name();
+    string output_type = typeid(output_controller).name();
+
+    //list of supported input/output combinations currently supported
+    if(input_type == "XboxController" && output_type == "SnesController") { //XBOX -> SNES
+        return new XboxToSnesControllerConverter();
+    } else {
+        print("error: no conversion logic implemented for the controller combination: input: %s, output: %s\n", input_type, output_type)
+    }
+  }
+
+ private:
+  // Disallow creating an instance of this object
+  ControllerConverterFactory() {}
+};
 
 
 /***************************************************/
