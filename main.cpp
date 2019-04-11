@@ -133,9 +133,9 @@ class ControllerConverter {
         virtual controller_t convert(controller_t input_controller, string user_config_path) = 0;
 };
 
-class XboxToSnesControllerConverter: ControllerConverter {
+class XboxToSnesControllerConverter: public ControllerConverter {
     public:
-        snes_controller_t convert(controller_t input_controller, string user_config_path) {
+        controller_t convert(controller_t input_controller, string user_config_path) {
             return {
                 
             };
@@ -153,7 +153,7 @@ class ControllerConverterFactory
     if(input_type == "XboxController" && output_type == "SnesController") { //XBOX -> SNES
         return new XboxToSnesControllerConverter();
     } else {
-        print("error: no conversion logic implemented for the controller combination: input: %s, output: %s\n", input_type, output_type)
+        //print("error: no conversion logic implemented for the controller combination: input: %s, output: %s\n", input_type, output_type)
     }
   }
 
@@ -433,7 +433,8 @@ int main() {
 	snes_controller_t output_controller = init_snes_controller();
 
 	//initialize converter
-	ControllerConverter converter = ControllerConverterFactory.createConverter(input_controller, output_controller);
+	ControllerConverter* converter;
+	converter = ControllerConverterFactory::createConverter(input_controller, output_controller);
 
 	while(getline(devices_list, line) && exit != 2) {
 		if (line.find("Xbox Wireless Controller", 0)  != string::npos) {
@@ -489,13 +490,14 @@ int main() {
 			print_xbox_controller_state(input_controller);
 
 			//conversion step
-			output_controller = converter.convert(input_controller, "user config path goes here");
+			output_controller = (snes_controller_t) converter->convert(input_controller, "user config path goes here");
 		}
 
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
 			read_buttons(button_struct, &input_controller);
 			print_xbox_controller_state(input_controller);
+			output_controller = (snes_controller_t) converter->convert(input_controller, "user config path goes here");
 		}
 	}
 
