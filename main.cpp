@@ -73,46 +73,6 @@ struct button_struct_t {        //16 bytes total
 	unsigned int value;    //4 bytes
 } button_struct;
 
-struct xbox_controller_t {
-	bool A;
-	bool B;
-	bool X;
-	bool Y;
-	bool D_UP;
-	bool D_DOWN;
-	bool D_LEFT;
-	bool D_RIGHT;
-	bool SELECT;
-	bool START;
-	bool HOME;
-	bool LS_PRESS;
-	bool RS_PRESS;
-	bool LB;
-	bool RB;
-
-	int LT;
-	int RT;
-	int LS_X;
-	int LS_Y;
-	int RS_X;
-	int RS_Y; 
-} xbox_controller;
-
-struct snes_controller_t {
-	bool A;
-	bool B;
-	bool X;
-	bool Y;
-	bool D_UP;
-	bool D_DOWN;
-	bool D_LEFT;
-	bool D_RIGHT;
-	bool SELECT;
-	bool START;
-	bool LB;
-	bool RB;
-} snes_controller;
-
 
 /***************************************************/
 /***************************************************/
@@ -329,57 +289,23 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 	//printf("\nButton Value: %04X\n", button_struct.value);
 }
 
-xbox_controller_t init_xbox_controller() {
-	//xbox_controller_t c = new xbox_controller_t();
-	//c.A = false;
-	//c.B = false;
-	//c.X = false;
-	//c.Y = false;
+xbox_controller_t init_xbox_controller() {	
+	return {};
+}
 
-	//c.D_DOWN = false;
-	//c.D_LEFT = false;
-	//c.D_RIGHT = false;
-	//c.D_UP = false;
-
-	//c.HOME = false;
-	//c.SELECT = false;
-	//c.START = false;
-
-	//c.LB = false;
-	//c.RB = false;
-
-	//c.LS_PRESS = false;
-	//c.LS_X = 0;
-	//c.LS_Y = 0;
-
-	//c.RS_PRESS = false;
-	//c.RS_X = 0;
-	//c.RS_Y = 0;
-
-	//c.LT = 0;
-	//c.RT = 0;
-
-	//return c;
-	
+snes_controller_t init_snes_controller() {
 	return {};
 }
 
 void print_xbox_controller_state(xbox_controller_t x) {
 	printf("Current state of xbox controller: \n");
 
-	//printf("A: " + x.A + ", B: " + x.B + ", X: " + x.X + ", Y: " + x.Y + "\n");
 	printf("A: %d, B: %d, X: %d, Y: %d\n", x.A, x.B, x.X, x.Y);
-	//printf("D-up: " + x.D_UP + ", D-down: " + x.D_DOWN + ", D-left: " + x.D_LEFT + ", D-right: " + x.D_RIGHT + "\n");
 	printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", x.D_UP, x.D_DOWN, x.D_LEFT, x.D_RIGHT);
-	//printf("LT: " + x.LT + ", RT: " + x.RT + "\n");
 	printf("LT: %d, RT: %d\n", x.LT, x.RT);
-	//printf("LB: " + x.LB + ", RB: " + x.RB + "\n");
 	printf("LB: %d, RB: %d\n", x.LB, x.RB);
-	//printf("Select: " + x.SELECT + ", Home: " + x.HOME + ", Start: " + x.START + "\n");
 	printf("Select: %d, Home: %d, Start: %d\n", x.SELECT, x.HOME, x.START);
-	//printf("LS-x: " + x.LS_X + ", LS-y: " + x.LS_Y + ", LS-press: " + x.LS_PRESS + "\n");
 	printf("LS-x: %d, LS-y: %d, LS-press: %d\n", x.LS_X, x.LS_Y, x.LS_PRESS);
-	//printf("RS-x: " + x.RS_X + ", RS-y: " + x.RS_Y + ", RS-press: " + x.RS_PRESS + "\n");
 	printf("RS-x: %d, RS-y: %d, RS-press: %d\n", x.RS_X, x.RS_Y, x.RS_PRESS);
 }
 
@@ -402,7 +328,7 @@ int main() {
 
 
 	//DBUS Bluetooth Setup
-	// Chris
+	// Chris`
 
 
 	//Find which event# datastreams are for controller / consumer control device
@@ -413,8 +339,12 @@ int main() {
 	ifstream devices_list("/proc/bus/input/devices");
 
 
-	//initialize controller model
+	//initialize controller models
 	xbox_controller_t input_controller = init_xbox_controller();
+	snes_controller_t output_controller = init_snes_controller();
+
+	//initialize converter
+	ControllerConverter converter = ControllerConverterFactory.createConverter(input_controller, output_controller);
 
 	while(getline(devices_list, line) && exit != 2) {
 		if (line.find("Xbox Wireless Controller", 0)  != string::npos) {
@@ -468,6 +398,9 @@ int main() {
 			read(fds[0].fd, (char*)&button_struct, 16);
 			read_buttons(button_struct, &input_controller);
 			print_xbox_controller_state(input_controller);
+
+			//conversion step
+			output_controller = converter.convert(input_controller, "user config path goes here");
 		}
 
 		if (fds[1].revents & POLLIN) {
