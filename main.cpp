@@ -139,7 +139,7 @@ void setup_pins() {
 
 
 
-void read_buttons(button_struct_t button_struct, xbox_controller_t input_controller) {
+void read_buttons(button_struct_t button_struct, xbox_controller_t *input_controller) {
 
 	if(button_struct.type) {
 		switch(button_struct.code) {
@@ -159,161 +159,161 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t input_control
 			case(DPAD_X):
 				if (button_struct.value == 1) {
 					printf("DPAD-Right\n");
-					input_controller.D_RIGHT = true;
+					input_controller->D_RIGHT = true;
 				}
 				else if (button_struct.value == 0) {
 					printf("DPAD-X Released\n");
-					input_controller.D_RIGHT = false;
-					input_controller.D_LEFT = false;
+					input_controller->D_RIGHT = false;
+					input_controller->D_LEFT = false;
 				}
 				else {
 					printf("DPAD-Left\n");
-					input_controller.D_LEFT = true;
+					input_controller->D_LEFT = true;
 				}
 				break;
 			case(DPAD_Y):
 				if (button_struct.value == 1) {
 					printf("DPAD-Down\n");
-					input_controller.D_DOWN = true;
+					input_controller->D_DOWN = true;
 				}
 				else if (button_struct.value == 0) {
 					printf("DPAD-Y Released\n");
-					input_controller.D_DOWN = false;
-					input_controller.D_UP = false;
+					input_controller->D_DOWN = false;
+					input_controller->D_UP = false;
 				}
 				else {
 					printf("DPAD-Up\n");
-					input_controller.D_UP = true;
+					input_controller->D_UP = true;
 				}
 				break;
 			case(BTN_A):
 				if (button_struct.value == 0) {
 					printf("A released\n");
-					input_controller.A = false;
+					input_controller->A = false;
 				}
 				else {
 					printf("A pressed\n");
-					input_controller.A = true;
+					input_controller->A = true;
 				}
 				break;
 			case(BTN_B):
 				if (button_struct.value == 0) {
 					printf("B released\n");
-					input_controller.B = false;
+					input_controller->B = false;
 				}
 				else {
 					printf("B pressed\n");
-					input_controller.B = true;
+					input_controller->B = true;
 				}
 				break;
 			case(BTN_X):
 				if (button_struct.value == 0) {
 					printf("X released\n");
-					input_controller.X = false;
+					input_controller->X = false;
 				}
 				else {
 					printf("X pressed\n");
-					input_controller.X = true;
+					input_controller->X = true;
 				}
 				break;
 			case(BTN_Y):
 				if (button_struct.value == 0) {
 					printf("Y released\n");
-					input_controller.Y = false;
+					input_controller->Y = false;
 				}
 				else {
 					printf("Y pressed\n");
-					input_controller.Y = true;
+					input_controller->Y = true;
 				}
 				break;
 			case(BTN_LB):
 				if (button_struct.value == 0) {
 					printf("LB released\n");
-					input_controller.LB = false;
+					input_controller->LB = false;
 				}
 				else {
 					printf("LB pressed\n");
-					input_controller.LB = true;
+					input_controller->LB = true;
 				}
 				break;
 			case(BTN_RB):
 				if (button_struct.value == 0) {
 					printf("RB released\n");
-					input_controller.RB = false;
+					input_controller->RB = false;
 				}
 				else {
 					printf("RB pressed\n");
-					input_controller.RB = true;
+					input_controller->RB = true;
 				}
 				break;
 			case(BTN_START):
 				if (button_struct.value == 0) {
 					printf("Start released\n");
-					input_controller.START = false;
+					input_controller->START = false;
 				}
 				else {
 					printf("Start pressed\n");
-					input_controller.START = true;
+					input_controller->START = true;
 				}
 				break;
 			case(BTN_SELECT):
 				if (button_struct.value == 0) {
 					printf("Select released\n");
-					input_controller.SELECT = false;
+					input_controller->SELECT = false;
 				}
 				else {
 					printf("Select pressed\n");
-					input_controller.SELECT = true;
+					input_controller->SELECT = true;
 				}
 				break;
 			case(BTN_LS):
 				if (button_struct.value == 0) {
 					printf("Left Thumb released\n");
-					input_controller.LS_PRESS = false;
+					input_controller->LS_PRESS = false;
 				}
 				else {
 					printf("Left Thumb pressed\n");
-					input_controller.LS_PRESS = true;
+					input_controller->LS_PRESS = true;
 				}
 				break;
 			case(BTN_RS):
 				if (button_struct.value == 0) {
 					printf("Right Thumb released\n");
-					input_controller.RS_PRESS = false;
+					input_controller->RS_PRESS = false;
 				}
 				else {
 					printf("Right Thumb pressed\n");
-					input_controller.RS_PRESS = true;
+					input_controller->RS_PRESS = true;
 				}
 				break;
 			case(BTN_HOME):
 				if (button_struct.value == 0) {
 					printf("Home released\n");
-					input_controller.HOME = false;
+					input_controller->HOME = false;
 				}
 				else {
 					printf("Home pressed\n");
-					input_controller.HOME = true;
+					input_controller->HOME = true;
 				}
 				break;
 			case(RIGHT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Right Trigger released\n");
-					input_controller.RT = 0;
+					input_controller->RT = 0;
 				}
 				else {
 					printf("Right Trigger pressed\n");
-					input_controller.RT = 1;
+					input_controller->RT = 1;
 				}
 				break;
 			case(LEFT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Left Trigger released\n");
-					input_controller.LT = 0;
+					input_controller->LT = 0;
 				}
 				else {
 					printf("Left Trigger pressed\n");
-					input_controller.LT = 1;
+					input_controller->LT = 1;
 				}
 				break;
 
@@ -330,48 +330,57 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t input_control
 }
 
 xbox_controller_t init_xbox_controller() {
-	xbox_controller_t c = new xbox_controller_t();
-	c.A = false;
-	c.B = false;
-	c.X = false;
-	c.Y = false;
+	//xbox_controller_t c = new xbox_controller_t();
+	//c.A = false;
+	//c.B = false;
+	//c.X = false;
+	//c.Y = false;
 
-	c.D_DOWN = false;
-	c.D_LEFT = false
-	c.D_RIGHT = false;
-	c.D_UP = false;
+	//c.D_DOWN = false;
+	//c.D_LEFT = false;
+	//c.D_RIGHT = false;
+	//c.D_UP = false;
 
-	c.HOME = false;
-	c.SELECT = false;
-	c.START = false;
+	//c.HOME = false;
+	//c.SELECT = false;
+	//c.START = false;
 
-	c.LB = false;
-	c.RB = false;
+	//c.LB = false;
+	//c.RB = false;
 
-	c.LS_PRESS = false;
-	c.LS_X = 0;
-	c.LS_Y = 0;
+	//c.LS_PRESS = false;
+	//c.LS_X = 0;
+	//c.LS_Y = 0;
 
-	c.RS_PRESS = false;
-	c.RS_X = 0;
-	c.RS_Y = 0;
+	//c.RS_PRESS = false;
+	//c.RS_X = 0;
+	//c.RS_Y = 0;
 
-	c.LT = 0;
-	c.RT = 0;
+	//c.LT = 0;
+	//c.RT = 0;
 
-	return c;
+	//return c;
+	
+	return {};
 }
 
 void print_xbox_controller_state(xbox_controller_t x) {
 	printf("Current state of xbox controller: \n");
 
-	printf("A: " + x.A + ", B: " + x.B + ", X: " + x.X + ", Y: " + x.Y + "\n");
-	printf("D-up: " + x.D_UP + ", D-down: " + x.D_DOWN + ", D-left: " + x.D_LEFT + ", D-right: " + x.D_RIGHT + "\n");
-	printf("LT: " + x.LT + ", RT: " + x.RT + "\n");
-	printf("LB: " + x.LB + ", RB: " + x.RB + "\n");
-	printf("Select: " + x.SELECT + ", Home: " + x.HOME + ", Start: " + x.START + "\n");
-	printf("LS-x: " + x.LS_X + ", LS-y: " + x.LS_Y + ", LS-press: " + x.LS_PRESS + "\n");
-	printf("RS-x: " + x.RS_X + ", RS-y: " + x.RS_Y + ", RS-press: " + x.RS_PRESS + "\n");
+	//printf("A: " + x.A + ", B: " + x.B + ", X: " + x.X + ", Y: " + x.Y + "\n");
+	printf("A: %d, B: %d, X: %d, Y: %d\n", x.A, x.B, x.X, x.Y);
+	//printf("D-up: " + x.D_UP + ", D-down: " + x.D_DOWN + ", D-left: " + x.D_LEFT + ", D-right: " + x.D_RIGHT + "\n");
+	printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", x.D_UP, x.D_DOWN, x.D_LEFT, x.D_RIGHT);
+	//printf("LT: " + x.LT + ", RT: " + x.RT + "\n");
+	printf("LT: %d, RT: %d\n", x.LT, x.RT);
+	//printf("LB: " + x.LB + ", RB: " + x.RB + "\n");
+	printf("LB: %d, RB: %d\n", x.LB, x.RB);
+	//printf("Select: " + x.SELECT + ", Home: " + x.HOME + ", Start: " + x.START + "\n");
+	printf("Select: %d, Home: %d, Start: %d\n", x.SELECT, x.HOME, x.START);
+	//printf("LS-x: " + x.LS_X + ", LS-y: " + x.LS_Y + ", LS-press: " + x.LS_PRESS + "\n");
+	printf("LS-x: %d, LS-y: %d, LS-press: %d\n", x.LS_X, x.LS_Y, x.LS_PRESS);
+	//printf("RS-x: " + x.RS_X + ", RS-y: " + x.RS_Y + ", RS-press: " + x.RS_PRESS + "\n");
+	printf("RS-x: %d, RS-y: %d, RS-press: %d\n", x.RS_X, x.RS_Y, x.RS_PRESS);
 }
 
 int main() {
@@ -457,14 +466,14 @@ int main() {
 
 		if (fds[0].revents & POLLIN) {
 			read(fds[0].fd, (char*)&button_struct, 16);
-			read_buttons(button_struct, input_controller);
-			print_xbox_controller_state();
+			read_buttons(button_struct, &input_controller);
+			print_xbox_controller_state(input_controller);
 		}
 
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
-			read_buttons(button_struct, input_controller);
-			print_xbox_controller_state();
+			read_buttons(button_struct, &input_controller);
+			print_xbox_controller_state(input_controller);
 		}
 	}
 
