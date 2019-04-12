@@ -1,7 +1,7 @@
 using namespace std;
 #include <iostream>
 #include <stdlib.h>
-#include <wiringPi.h>
+// #include <wiringPi.h>
 #include <sys/time.h>
 #include <fstream>
 #include <iostream>
@@ -10,12 +10,13 @@ using namespace std;
 #include <unistd.h>
 #include <fcntl.h>
 #include <typeinfo>
-//#include "Mapping/ControllerModels/Controller.h"
-//#include "Mapping/ControllerModels/SnesController.h"
-//#include "Mapping/ControllerModels/XboxController.h"
 
-//#include "Mapping/ControllerConverters/ControllerConverter.h"
-//#include "Mapping/ControllerConverters/ControllerConverterFactory.h"
+
+#include "Mapping/ControllerModels/Controller.h"
+#include "Mapping/ControllerModels/SnesController.h"
+#include "Mapping/ControllerModels/XboxController.h"
+#include "Mapping/ControllerConverters/ControllerConverter.h"
+#include "Mapping/ControllerConverters/ControllerConverterFactory.h"
 
 #define DATA 27
 #define CLOCK 28
@@ -82,89 +83,6 @@ struct button_struct_t {        //16 bytes total
 
 
 /***************************************************/
-/***************************************************/
-
-struct controller_t {
-	bool test;
-} controller;
-
-struct xbox_controller_t: controller_t {
-	bool A;
-	bool B;
-	bool X;
-	bool Y;
-	bool D_UP;
-	bool D_DOWN;
-	bool D_LEFT;
-	bool D_RIGHT;
-	bool SELECT;
-	bool START;
-	bool HOME;
-	bool LS_PRESS;
-	bool RS_PRESS;
-	bool LB;
-	bool RB;
-
-	int LT;
-	int RT;
-	int LS_X;
-	int LS_Y;
-	int RS_X;
-	int RS_Y; 
-} xbox_controller;
-
-struct snes_controller_t: controller_t {
-	bool A;
-	bool B;
-	bool X;
-	bool Y;
-	bool D_UP;
-	bool D_DOWN;
-	bool D_LEFT;
-	bool D_RIGHT;
-	bool SELECT;
-	bool START;
-	bool LB;
-	bool RB;
-} snes_controller;
-
-class ControllerConverter {
-    public:
-        virtual controller_t convert(controller_t input_controller, string user_config_path) = 0;
-};
-
-class XboxToSnesControllerConverter: public ControllerConverter {
-    public:
-        controller_t convert(controller_t input_controller, string user_config_path) {
-            return {
-                
-            };
-        }
-};
-
-class ControllerConverterFactory
-{
- public:
-  static ControllerConverter* createConverter(controller_t input_controller, controller_t output_controller) {
-    string input_type = typeid(input_controller).name();
-    string output_type = typeid(output_controller).name();
-
-    //list of supported input/output combinations currently supported
-    if(input_type == "XboxController" && output_type == "SnesController") { //XBOX -> SNES
-        return new XboxToSnesControllerConverter();
-    } else {
-        //print("error: no conversion logic implemented for the controller combination: input: %s, output: %s\n", input_type, output_type)
-    }
-  }
-
- private:
-  // Disallow creating an instance of this object
-  ControllerConverterFactory() {}
-};
-
-
-/***************************************************/
-/***************************************************/
 
 void clock_isr() {
 	cout << "Hardware Button Pressed!\n" << endl;
@@ -175,16 +93,16 @@ void latch_isr() {
 }
 
 
-void setup_pins() {
-	wiringPiSetup();
+// void setup_pins() {
+// 	wiringPiSetup();
 
-	pinMode(DATA, OUTPUT);
-	pinMode(CLOCK, INPUT);
-	pinMode(LATCH, INPUT);
+// 	pinMode(DATA, OUTPUT);
+// 	pinMode(CLOCK, INPUT);
+// 	pinMode(LATCH, INPUT);
 
-	wiringPiISR(CLOCK, INT_EDGE_FALLING, clock_isr);
-	wiringPiISR(LATCH, INT_EDGE_FALLING, latch_isr);
-}
+// 	wiringPiISR(CLOCK, INT_EDGE_FALLING, clock_isr);
+// 	wiringPiISR(LATCH, INT_EDGE_FALLING, latch_isr);
+// }
 
 
 
@@ -413,7 +331,7 @@ int main() {
 
 
 	//Set pin modes and interrupts
-	setup_pins();
+	// setup_pins();
 
 
 	//DBUS Bluetooth Setup
@@ -430,7 +348,7 @@ int main() {
 
 	//initialize controller models
 	xbox_controller_t input_controller = init_xbox_controller();
-	snes_controller_t output_controller = init_snes_controller();
+	snes_controller_t output_controller;
 
 	//initialize converter
 	ControllerConverter* converter;
@@ -490,14 +408,14 @@ int main() {
 			print_xbox_controller_state(input_controller);
 
 			//conversion step
-			output_controller = (snes_controller_t) converter->convert(input_controller, "user config path goes here");
+			output_controller = converter->convert(input_controller, "user config path goes here");
 		}
 
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
 			read_buttons(button_struct, &input_controller);
 			print_xbox_controller_state(input_controller);
-			output_controller = (snes_controller_t) converter->convert(input_controller, "user config path goes here");
+			output_controller =  converter->convert(input_controller, "user config path goes here");
 		}
 	}
 

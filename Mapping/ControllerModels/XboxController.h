@@ -1,4 +1,4 @@
-struct xbox_controller_t: contoller_t {
+struct xbox_controller_t: controller_t {
 	bool A;
 	bool B;
 	bool X;

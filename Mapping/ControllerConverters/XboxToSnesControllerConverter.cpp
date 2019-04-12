@@ -1,8 +1,8 @@
-class XboxToSnesControllerConverter {
+class XboxToSnesControllerConverter: public ControllerConverter {
     public:
-        snes_contoller_t convert(contoller_t input_controller, string user_config_path) {
+        snes_controller_t convert(controller_t input_controller, string user_config_path) {
             return {
                 
             };
         }
-}
+};

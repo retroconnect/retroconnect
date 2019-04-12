@@ -1,3 +1,3 @@
-struct contoller_t {
-
+struct controller_t {
+	bool test;
 } controller;
