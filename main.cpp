@@ -11,68 +11,12 @@ using namespace std;
 #include <fcntl.h>
 #include <typeinfo>
 
-
+#include "Constants.h"
 #include "Mapping/ControllerModels/Controller.h"
 #include "Mapping/ControllerModels/SnesController.h"
 #include "Mapping/ControllerModels/XboxController.h"
 #include "Mapping/ControllerConverters/ControllerConverter.h"
 #include "Mapping/ControllerConverters/ControllerConverterFactory.h"
-
-#define DATA 27
-#define CLOCK 28
-#define LATCH 29
-
-//iXbox One Mapping
-#define BTN_A		0x130
-#define BTN_B		0x131
-#define BTN_X		0x133
-#define BTN_Y		0x134
-#define BTN_LB		0x136
-#define BTN_RB		0x137
-#define BTN_SELECT	0x9E
-#define BTN_START	0x13B
-#define BTN_LS		0x13D
-#define BTN_RS		0x13E
-#define BTN_HOME	0xAC
-#define AXIS_0		0x00
-#define AXIS_1		0x01
-#define AXIS_2		0x02
-#define AXIS_5		0x05
-#define RIGHT_TRIGGER   0x09
-#define LEFT_TRIGGER    0x0A
-#define DPAD_X		0x10
-#define DPAD_Y		0x11
-
-//Xbox One Alternate Mapping (reconnected controller)
-/*
-#define BTN_A		0x130
-#define BTN_B		0x131
-#define BTN_X		0x132
-#define BTN_Y		0x133
-#define BTN_LB		0x134
-#define BTN_RB		0x135
-#define BTN_SELECT	0x136
-#define BTN_START	0x137
-#define BTN_LS		0x138
-#define BTN_RS		0x139
-#define BTN_HOME	0xAC
-#define RIGHT_TRIGGER   0x09
-#define LEFT_TRIGGER    0x0A
-*/
-
-/*
-//PS4 Mappings
-LT = Xbox Right Analog Y
-RT = Xbox Right Analog X
-Right Analog = 0x03
-Square = Xbox Y
-Triangle = Xbox X
-PS_HOME = 0x13C
-SELECT = 0x13A
-LT-Digital = 0x138
-RT-Digital = 0x139
-*/
-
 
 struct button_struct_t {        //16 bytes total
 	struct timeval time;   //8 bytes
@@ -93,16 +37,16 @@ void latch_isr() {
 }
 
 
-// void setup_pins() {
-// 	wiringPiSetup();
+void setup_pins() {
+	wiringPiSetup();
 
-// 	pinMode(DATA, OUTPUT);
-// 	pinMode(CLOCK, INPUT);
-// 	pinMode(LATCH, INPUT);
+	pinMode(DATA, OUTPUT);
+	pinMode(CLOCK, INPUT);
+	pinMode(LATCH, INPUT);
 
-// 	wiringPiISR(CLOCK, INT_EDGE_FALLING, clock_isr);
-// 	wiringPiISR(LATCH, INT_EDGE_FALLING, latch_isr);
-// }
+	wiringPiISR(CLOCK, INT_EDGE_FALLING, clock_isr);
+	wiringPiISR(LATCH, INT_EDGE_FALLING, latch_isr);
+}
 
 
 
@@ -111,19 +55,19 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 	if(button_struct.type) {
 		switch(button_struct.code) {
 			case(4): break; //filters out row of input
-			case(AXIS_0):
+			case(XB1_LEFT_Y_AXIS):
 				printf("Left Analog Stick Y\n");
 				break;
-			case(AXIS_1):
+			case(XB1_LEFT_X_AXIS):
 				printf("Left Analog Stick X\n");
 				break;
-			case(AXIS_2):
+			case(XB1_RIGHT_Y_AXIS):
 				printf("Right Analog Stick Y\n");
 				break;
-			case(AXIS_5):
+			case(XB1_RIGHT_X_AXIS):
 				printf("Right Analog Stick X\n");
 						break;
-			case(DPAD_X):
+			case(XB1_DPAD_X):
 				if (button_struct.value == 1) {
 					printf("DPAD-Right\n");
 					input_controller->D_RIGHT = true;
@@ -138,7 +82,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->D_LEFT = true;
 				}
 				break;
-			case(DPAD_Y):
+			case(XB1_DPAD_Y):
 				if (button_struct.value == 1) {
 					printf("DPAD-Down\n");
 					input_controller->D_DOWN = true;
@@ -153,7 +97,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->D_UP = true;
 				}
 				break;
-			case(BTN_A):
+			case(XB1_BTN_A):
 				if (button_struct.value == 0) {
 					printf("A released\n");
 					input_controller->A = false;
@@ -163,7 +107,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->A = true;
 				}
 				break;
-			case(BTN_B):
+			case(XB1_BTN_B):
 				if (button_struct.value == 0) {
 					printf("B released\n");
 					input_controller->B = false;
@@ -173,7 +117,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->B = true;
 				}
 				break;
-			case(BTN_X):
+			case(XB1_BTN_X):
 				if (button_struct.value == 0) {
 					printf("X released\n");
 					input_controller->X = false;
@@ -183,7 +127,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->X = true;
 				}
 				break;
-			case(BTN_Y):
+			case(XB1_BTN_Y):
 				if (button_struct.value == 0) {
 					printf("Y released\n");
 					input_controller->Y = false;
@@ -193,7 +137,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->Y = true;
 				}
 				break;
-			case(BTN_LB):
+			case(XB1_BTN_LB):
 				if (button_struct.value == 0) {
 					printf("LB released\n");
 					input_controller->LB = false;
@@ -203,7 +147,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->LB = true;
 				}
 				break;
-			case(BTN_RB):
+			case(XB1_BTN_RB):
 				if (button_struct.value == 0) {
 					printf("RB released\n");
 					input_controller->RB = false;
@@ -213,7 +157,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->RB = true;
 				}
 				break;
-			case(BTN_START):
+			case(XB1_BTN_START):
 				if (button_struct.value == 0) {
 					printf("Start released\n");
 					input_controller->START = false;
@@ -223,7 +167,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->START = true;
 				}
 				break;
-			case(BTN_SELECT):
+			case(XB1_BTN_SELECT):
 				if (button_struct.value == 0) {
 					printf("Select released\n");
 					input_controller->SELECT = false;
@@ -233,7 +177,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->SELECT = true;
 				}
 				break;
-			case(BTN_LS):
+			case(XB1_BTN_LS):
 				if (button_struct.value == 0) {
 					printf("Left Thumb released\n");
 					input_controller->LS_PRESS = false;
@@ -243,7 +187,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->LS_PRESS = true;
 				}
 				break;
-			case(BTN_RS):
+			case(XB1_BTN_RS):
 				if (button_struct.value == 0) {
 					printf("Right Thumb released\n");
 					input_controller->RS_PRESS = false;
@@ -253,7 +197,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->RS_PRESS = true;
 				}
 				break;
-			case(BTN_HOME):
+			case(XB1_BTN_HOME):
 				if (button_struct.value == 0) {
 					printf("Home released\n");
 					input_controller->HOME = false;
@@ -263,7 +207,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->HOME = true;
 				}
 				break;
-			case(RIGHT_TRIGGER):
+			case(XB1_RIGHT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Right Trigger released\n");
 					input_controller->RT = 0;
@@ -273,7 +217,7 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 					input_controller->RT = 1;
 				}
 				break;
-			case(LEFT_TRIGGER):
+			case(XB1_LEFT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Left Trigger released\n");
 					input_controller->LT = 0;
@@ -331,7 +275,7 @@ int main() {
 
 
 	//Set pin modes and interrupts
-	// setup_pins();
+	setup_pins();
 
 
 	//DBUS Bluetooth Setup
