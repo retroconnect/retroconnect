@@ -341,7 +341,7 @@ int main() {
 		if (fds[0].revents & POLLIN) {
 			read(fds[0].fd, (char*)&button_struct, 16);
 			read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
-			//print_xbox_controller_state(*input_controller);
+			print_xbox_controller_state(*((xbox_controller_t*) input_controller));
 
 			//conversion step
 			*output_controller = converter->convert(*input_controller, "user config path goes here");
@@ -350,7 +350,7 @@ int main() {
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
 			read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
-			//print_xbox_controller_state(*input_controller);
+			print_xbox_controller_state(*((xbox_controller_t*) input_controller));
 
 			//convserion step
 			*output_controller =  converter->convert(*input_controller, "user config path goes here");
