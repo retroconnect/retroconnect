@@ -252,6 +252,15 @@ void print_xbox_controller_state(xbox_controller_t x) {
 	printf("RS-x: %d, RS-y: %d, RS-press: %d\n", x.RS_X, x.RS_Y, x.RS_PRESS);
 }
 
+void print_snes_controller_state(snes_controller_t s) {
+	printf("Current state of snes (converted) controller: \n");
+
+	printf("A: %d, B: %d, X: %d, Y: %d\n", s.A, s.B, s.X, s.Y);
+	printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", s.D_UP, s.D_DOWN, s.D_LEFT, s.D_RIGHT);
+	printf("LB: %d, RB: %d\n", s.LB, s.RB);
+	printf("Select: %d, Start: %d\n", s.SELECT, s.START);
+}
+
 int main() {
 	//system("/bin/echo commandhere"); //Execute bash commands from C++
 
@@ -345,6 +354,7 @@ int main() {
 
 			//conversion step
 			*output_controller = converter->convert(*input_controller, "user config path goes here");
+			print_snes_controller_state(*((snes_controller_t*) output_controller));
 		}
 
 		if (fds[1].revents & POLLIN) {
@@ -354,6 +364,7 @@ int main() {
 
 			//convserion step
 			*output_controller =  converter->convert(*input_controller, "user config path goes here");
+			print_snes_controller_state(*((snes_controller_t*) output_controller));
 		}
 	}
 
