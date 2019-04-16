@@ -50,7 +50,7 @@ void setup_pins() {
 
 
 
-void read_buttons(button_struct_t button_struct, xbox_controller_t *input_controller) {
+void read_xbox_buttons(button_struct_t button_struct, xbox_controller_t *input_controller) {
 
 	if(button_struct.type) {
 		switch(button_struct.code) {
@@ -240,14 +240,6 @@ void read_buttons(button_struct_t button_struct, xbox_controller_t *input_contro
 	//printf("\nButton Value: %04X\n", button_struct.value);
 }
 
-xbox_controller_t init_xbox_controller() {	
-	return {};
-}
-
-snes_controller_t init_snes_controller() {
-	return {};
-}
-
 void print_xbox_controller_state(xbox_controller_t x) {
 	printf("Current state of xbox controller: \n");
 
@@ -291,12 +283,12 @@ int main() {
 
 
 	//initialize controller models
-	xbox_controller_t input_controller = init_xbox_controller();
-	snes_controller_t output_controller;
+	controller_t* input_controller = new xbox_controller_t;
+	controller_t* output_controller = new snes_controller_t;
 
 	//initialize converter
 	ControllerConverter* converter;
-	converter = ControllerConverterFactory::createConverter(input_controller, output_controller);
+	converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 
 	while(getline(devices_list, line) && exit != 2) {
 		if (line.find("Xbox Wireless Controller", 0)  != string::npos) {
@@ -348,18 +340,20 @@ int main() {
 
 		if (fds[0].revents & POLLIN) {
 			read(fds[0].fd, (char*)&button_struct, 16);
-			read_buttons(button_struct, &input_controller);
-			print_xbox_controller_state(input_controller);
+			read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
+			//print_xbox_controller_state(*input_controller);
 
 			//conversion step
-			output_controller = converter->convert(input_controller, "user config path goes here");
+			*output_controller = converter->convert(*input_controller, "user config path goes here");
 		}
 
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
-			read_buttons(button_struct, &input_controller);
-			print_xbox_controller_state(input_controller);
-			output_controller =  converter->convert(input_controller, "user config path goes here");
+			read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
+			//print_xbox_controller_state(*input_controller);
+
+			//convserion step
+			*output_controller =  converter->convert(*input_controller, "user config path goes here");
 		}
 	}
 
