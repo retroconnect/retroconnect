@@ -1,7 +1,7 @@
 using namespace std;
 #include <iostream>
 #include <stdlib.h>
-// #include <wiringPi.h>
+#include <wiringPi.h>
 #include <sys/time.h>
 #include <fstream>
 #include <iostream>
@@ -16,7 +16,8 @@ using namespace std;
 #include "Mapping/ControllerModels/SnesController.h"
 #include "Mapping/ControllerModels/XboxController.h"
 #include "Mapping/ControllerConverters/ControllerConverter.h"
-#include "Mapping/ControllerConverters/ControllerConverterFactory.h"
+#include "Mapping/ControllerConverters/XboxToSnesControllerConverter.cpp"
+#include "Mapping/ControllerConverters/ControllerConverterFactory.cpp"
 
 struct button_struct_t {        //16 bytes total
 	struct timeval time;   //8 bytes
