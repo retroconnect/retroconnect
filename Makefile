@@ -14,10 +14,10 @@ LIBS =
 CXX = g++
 
 # Source Destinations
-SRC_DIRS :=
+SRC_DIRS := src/Mapping/ControllerConverters/
 
 # Includes Directories
-INCLUDES :=
+INCLUDES := -I src/Mapping/ControllerConverters/ -I src/Mapping/ControllerModels/
 
 # automatically create lists of the sources and objects
 SRC_FILES := $(wildcard $(addsuffix *.cpp, $(SRC_DIRS)))
