@@ -1,30 +1,33 @@
-class XboxToSnesControllerConverter: public ControllerConverter {
-    private:
-        int AXIS_DEADZONE = 100;
-        int TRIGGER_DEADZONE = 100;
+#include <string>
+#include <ControllerConverter.h>
+#include <SnesController.h>
+#include <XboxController.h>
+#include <XboxToSnesControllerConverter.h>
 
-    public:
-        snes_controller_t convert(xbox_controller_t input_controller, string user_config_path) {
-            snes_controller_t* converted = new snes_controller_t;
+XboxToSnesControllerConverter::XboxToSnesControllerConverter() :AXIS_DEADZONE{10000}, TRIGGER_DEADZONE{100} {}
+
+bool XboxToSnesControllerConverter::convert(controller_t& input_controller, controller_t& output_controller, std::string user_config_path)
+{
+            snes_controller_t& snes_controller = (snes_controller_t&) output_controller;
+            xbox_controller_t& xbox_controller = (xbox_controller_t&) input_controller;
 
             //A, B, X, Y, START, SELECT are all straight forward mappings
-            converted->A = input_controller.A;
-            converted->B = input_controller.B;
-            converted->X = input_controller.X;
-            converted->Y = input_controller.Y;
-            converted->START = input_controller.START;
-            converted->SELECT = input_controller.SELECT;
+            snes_controller.B = xbox_controller.A;
+            snes_controller.A = xbox_controller.B;
+            snes_controller.Y = xbox_controller.X;
+            snes_controller.X = xbox_controller.Y;
+            snes_controller.START = xbox_controller.START;
+            snes_controller.SELECT = xbox_controller.SELECT;
 
             //D-PAD direction determined by xbox's d-pad in conjunciton with LS axis'
-            converted->D_UP = input_controller.D_UP || input_controller.LS_Y > AXIS_DEADZONE;
-            converted->D_DOWN = input_controller.D_DOWN || input_controller.LS_Y < -AXIS_DEADZONE;
-            converted->D_RIGHT = input_controller.D_RIGHT || input_controller.LS_X > AXIS_DEADZONE;
-            converted->D_LEFT = input_controller.D_LEFT || input_controller.LS_X < -AXIS_DEADZONE;
+            snes_controller.D_UP = xbox_controller.D_UP || (xbox_controller.LS_X - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
+            snes_controller.D_DOWN = xbox_controller.D_DOWN || (xbox_controller.LS_X - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
+            snes_controller.D_RIGHT = xbox_controller.D_RIGHT || (xbox_controller.LS_Y - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
+            snes_controller.D_LEFT = xbox_controller.D_LEFT || (xbox_controller.LS_Y - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
 
             //LB, RB, map to both the xboxs bumpers as well as the triggers
-            converted->LB = input_controller.LB || input_controller.LT > TRIGGER_DEADZONE;
-            converted->RB = input_controller.RB || input_controller.RT > TRIGGER_DEADZONE;
+            snes_controller.LB = xbox_controller.LB || xbox_controller.LT > TRIGGER_DEADZONE;
+            snes_controller.RB = xbox_controller.RB || xbox_controller.RT > TRIGGER_DEADZONE;
 
-            return *converted;
-        }
-};
+            return true;
+}

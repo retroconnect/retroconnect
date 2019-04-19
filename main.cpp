@@ -12,14 +12,14 @@ using namespace std;
 #include <typeinfo>
 
 #include "Constants.h"
-#include "Mapping/ControllerModels/Controller.h"
-#include "Mapping/ControllerModels/SnesController.h"
-#include "Mapping/ControllerModels/XboxController.h"
-#include "Mapping/ControllerConverters/ControllerConverter.h"
-#include "Mapping/ControllerConverters/XboxToSnesControllerConverter.cpp"
-#include "Mapping/ControllerConverters/ControllerConverterFactory.cpp"
+#include "Controller.h"
+#include "SnesController.h"
+#include "XboxController.h"
+#include "ControllerConverter.h"
+#include "XboxToSnesControllerConverter.h"
+#include "ControllerConverterFactory.h"
 
-struct button_struct_t {        //16 bytes total
+struct button_struct_t {       //16 bytes total
 	struct timeval time;   //8 bytes
 	unsigned short type;   //2 bytes
 	unsigned short code;   //2 bytes
@@ -58,16 +58,20 @@ void read_xbox_buttons(button_struct_t button_struct, xbox_controller_t *input_c
 			case(4): break; //filters out row of input
 			case(XB1_LEFT_Y_AXIS):
 				printf("Left Analog Stick Y\n");
+				input_controller->LS_Y = button_struct.value;
 				break;
 			case(XB1_LEFT_X_AXIS):
 				printf("Left Analog Stick X\n");
+				input_controller->LS_X = button_struct.value;
 				break;
 			case(XB1_RIGHT_Y_AXIS):
 				printf("Right Analog Stick Y\n");
+				input_controller->RS_Y = button_struct.value;
 				break;
 			case(XB1_RIGHT_X_AXIS):
 				printf("Right Analog Stick X\n");
-						break;
+				input_controller->RS_X = button_struct.value;
+				break;
 			case(XB1_DPAD_X):
 				if (button_struct.value == 1) {
 					printf("DPAD-Right\n");
@@ -211,22 +215,20 @@ void read_xbox_buttons(button_struct_t button_struct, xbox_controller_t *input_c
 			case(XB1_RIGHT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Right Trigger released\n");
-					input_controller->RT = 0;
 				}
 				else {
 					printf("Right Trigger pressed\n");
-					input_controller->RT = 1;
 				}
+				input_controller->RT = button_struct.value;
 				break;
 			case(XB1_LEFT_TRIGGER):
 				if (button_struct.value == 0) {
 					printf("Left Trigger released\n");
-					input_controller->LT = 0;
 				}
 				else {
 					printf("Left Trigger pressed\n");
-					input_controller->LT = 1;
 				}
+				input_controller->LT = button_struct.value;
 				break;
 
 			default:
@@ -241,25 +243,25 @@ void read_xbox_buttons(button_struct_t button_struct, xbox_controller_t *input_c
 	//printf("\nButton Value: %04X\n", button_struct.value);
 }
 
-void print_xbox_controller_state(xbox_controller_t x) {
+void print_xbox_controller_state(xbox_controller_t* x) {
 	printf("Current state of xbox controller: \n");
 
-	printf("A: %d, B: %d, X: %d, Y: %d\n", x.A, x.B, x.X, x.Y);
-	printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", x.D_UP, x.D_DOWN, x.D_LEFT, x.D_RIGHT);
-	printf("LT: %d, RT: %d\n", x.LT, x.RT);
-	printf("LB: %d, RB: %d\n", x.LB, x.RB);
-	printf("Select: %d, Home: %d, Start: %d\n", x.SELECT, x.HOME, x.START);
-	printf("LS-x: %d, LS-y: %d, LS-press: %d\n", x.LS_X, x.LS_Y, x.LS_PRESS);
-	printf("RS-x: %d, RS-y: %d, RS-press: %d\n", x.RS_X, x.RS_Y, x.RS_PRESS);
+	printf("A: %d, B: %d, X: %d, Y: %d\n", x->A, x->B, x->X, x->Y);
+	printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", x->D_UP, x->D_DOWN, x->D_LEFT, x->D_RIGHT);
+	printf("LT: %d, RT: %d\n", x->LT, x->RT);
+	printf("LB: %d, RB: %d\n", x->LB, x->RB);
+	printf("Select: %d, Home: %d, Start: %d\n", x->SELECT, x->HOME, x->START);
+	printf("LS-x: %d, LS-y: %d, LS-press: %d\n", x->LS_X, x->LS_Y, x->LS_PRESS);
+	printf("RS-x: %d, RS-y: %d, RS-press: %d\n", x->RS_X, x->RS_Y, x->RS_PRESS);
 }
 
-void print_snes_controller_state(snes_controller_t s) {
+void print_snes_controller_state(snes_controller_t* s) {
 	printf("Current state of snes (converted) controller: \n");
 
-	printf("A: %d, B: %d, X: %d, Y: %d\n", s.A, s.B, s.X, s.Y);
-	printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", s.D_UP, s.D_DOWN, s.D_LEFT, s.D_RIGHT);
-	printf("LB: %d, RB: %d\n", s.LB, s.RB);
-	printf("Select: %d, Start: %d\n", s.SELECT, s.START);
+	printf("A: %d, B: %d, X: %d, Y: %d\n", s->A, s->B, s->X, s->Y);
+	printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", s->D_UP, s->D_DOWN, s->D_LEFT, s->D_RIGHT);
+	printf("LB: %d, RB: %d\n", s->LB, s->RB);
+	printf("Select: %d, Start: %d\n", s->SELECT, s->START);
 }
 
 int main() {
@@ -293,8 +295,8 @@ int main() {
 
 
 	//initialize controller models
-	controller_t* input_controller = new xbox_controller_t;
-	controller_t* output_controller = new snes_controller_t;
+	controller_t* input_controller = new xbox_controller_t();
+	controller_t* output_controller = new snes_controller_t();
 
 	//initialize converter
 	ControllerConverter* converter;
@@ -304,7 +306,7 @@ int main() {
 		if (line.find("Xbox Wireless Controller", 0)  != string::npos) {
 			if (line.find("Consumer Control", 0) != string::npos) {
 				while( getline(devices_list, line) ) {
-					if ((event_position = line.find("event", 0)) != string::npos) {
+					if ((event_position = line.find("event", 0)) != (int) string::npos) {
 						event_consumer = line.at(event_position+5);
 						exit++;
 						printf("Consumer Control is event%c\n", event_consumer);
@@ -314,7 +316,7 @@ int main() {
 			}
 			else {
 				while( getline(devices_list, line) ) {
-					if ((event_position = line.find("event", 0)) != string::npos) {
+					if ((event_position = line.find("event", 0)) != (int) string::npos) {
 						event_controller = line.at(event_position+5);
 						exit++;
 						printf("Controller is event%c\n", event_controller);
@@ -349,23 +351,26 @@ int main() {
 		poll(fds, 2, -1);
 
 		if (fds[0].revents & POLLIN) {
-			read(fds[0].fd, (char*)&button_struct, 16);
+			read(fds[0].fd, (char*)&button_struct, sizeof(button_struct));
+			if (button_struct.code == 4 || button_struct.type == 0) {
+				continue;
+			}
 			read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
-			print_xbox_controller_state(*((xbox_controller_t*) input_controller));
+			print_xbox_controller_state((xbox_controller_t*) input_controller);
 
 			//conversion step
-			*output_controller = converter->convert(*input_controller, "user config path goes here");
-			print_snes_controller_state(*((snes_controller_t*) output_controller));
+			converter->convert(*input_controller, *output_controller, "user config path goes here");
+			print_snes_controller_state((snes_controller_t*) output_controller);
 		}
 
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
 			read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
-			print_xbox_controller_state(*((xbox_controller_t*) input_controller));
+			print_xbox_controller_state((xbox_controller_t*) input_controller);
 
 			//convserion step
-			*output_controller =  converter->convert(*input_controller, "user config path goes here");
-			print_snes_controller_state(*((snes_controller_t*) output_controller));
+			converter->convert(*input_controller, *output_controller, "user config path goes here");
+			print_snes_controller_state((snes_controller_t*) output_controller);
 		}
 	}
 

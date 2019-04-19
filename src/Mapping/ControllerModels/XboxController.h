@@ -1,3 +1,8 @@
+#include <Controller.h>
+
+#ifndef XBOX_CONTROLLER_H
+#define XBOX_CONTROLLER_H
+
 struct xbox_controller_t: controller_t {
 	bool A;
 	bool B;
@@ -21,4 +26,6 @@ struct xbox_controller_t: controller_t {
 	int LS_Y;
 	int RS_X;
 	int RS_Y; 
-} xbox_controller;
+};
+
+#endif

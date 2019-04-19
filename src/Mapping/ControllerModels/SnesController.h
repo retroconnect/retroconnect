@@ -1,3 +1,8 @@
+#include <Controller.h>
+
+#ifndef SNES_CONTROLLER_H
+#define SNES_CONTROLLER_H
+
 struct snes_controller_t: controller_t {
 	bool A;
 	bool B;
@@ -11,4 +16,6 @@ struct snes_controller_t: controller_t {
 	bool START;
 	bool LB;
 	bool RB;
-} snes_controller;
+};
+
+#endif
