@@ -44,12 +44,7 @@
 The following outlines the basic structure of our ```root``` folder and git repository
 ```
 root/
-    lib/
-        teensy-lib/
     src/
-      Teensy/
-        Input/
-        Output/
       Bluetooth/
       Mapping/
         ControllerModels/
@@ -79,16 +74,9 @@ The ```root/``` directory contains the following components:
 - ```Readme.md``` is the file you are reading
 - ```LICENSE``` is a text file describing our code's legal licensing
 
-### **```lib/```**
-The ```lib/``` directory holds all the 3rd party libraries that support our codebase.
-- ```teensy-lib/``` is a standard library for operating with the teensy microcontroller
-
 ### **```src/```**
 The ```src/``` directory is divided into the logical components that makeup the dataflow of our program
-- ```Teensy/``` contains code that controls the teensy pins and signals
-    - ```Input/``` contains code for decoding the input signals to the teensy from the bluetooth module
-    - ```Output/``` contains code for sending output signals to the console
-- ```Bluetooth``` covers connecting, pairing, and deserializing data being decoded in ```Teensy/Input/```
+- ```Bluetooth``` covers connecting and pairing
 - ```Mapping/``` handles converting one controllers state to another's
     - ```ControllerModels/``` holds all the classes that define a controller's inputs and states, as well as the abstract Controller class that they all inherit from
     - ```ControllerConverters/``` holds all the classes that  have methods for converting one controller model to another, as well as the interface all controller converters will implement.
