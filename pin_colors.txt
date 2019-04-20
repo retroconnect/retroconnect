@@ -1,0 +1,5 @@
+Yellow: Clock
+Green:  5V
+White:  Latch
+Red:    Data
+Black:  Ground

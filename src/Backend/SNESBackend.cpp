@@ -1,12 +1,21 @@
+#include <stdio.h>
 #include <wiringPi.h>
 #include <SNESBackend.h>
 #include <SnesController.h>
+#include <Constants.h>
 
-void SNESBackend::setup () {
+namespace snesbackend {
+
+static snes_controller_t* output_controller;
+static bool output[16];
+static int count = 0;
+
+void setup() {
 
 	wiringPiSetup();
 
 	pinMode(DATA, OUTPUT);
+	digitalWrite(DATA, HIGH);
 	pinMode(CLOCK, INPUT);
 	pinMode(LATCH, INPUT);
 
@@ -15,26 +24,26 @@ void SNESBackend::setup () {
 
 }
 
-void SNESBackend::update_controller (snes_controller_t* new_controller) {
+void update_controller(snes_controller_t* new_controller) {
 
 	output_controller = new_controller;
 
 }
 
-void SNESBackend::set_output () {
+void set_output() {
 
-	output[0] = output_controller.B;
-	output[1] = output_controller.Y;
-	output[2] = output_controller.SELECT;
-	output[3] = output_controller.START;
-	output[4] = output_controller.D_UP;
-	output[5] = output_controller.D_DOWN;
-	output[6] = output_controller.D_LEFT;
-	output[7] = output_controller.D_RIGHT;
-	output[8] = output_controller.A;
-	output[9] = output_controller.X;
-	output[10] = output_controller.LB;
-	output[11] = output_controller.RB;
+	output[0] = output_controller->B;
+	output[1] = output_controller->Y;
+	output[2] = output_controller->SELECT;
+	output[3] = output_controller->START;
+	output[4] = output_controller->D_UP;
+	output[5] = output_controller->D_DOWN;
+	output[6] = output_controller->D_LEFT;
+	output[7] = output_controller->D_RIGHT;
+	output[8] = output_controller->A;
+	output[9] = output_controller->X;
+	output[10] = output_controller->LB;
+	output[11] = output_controller->RB;
 	output[12] = false;
 	output[13] = false;
 	output[14] = false;
@@ -42,25 +51,22 @@ void SNESBackend::set_output () {
 
 }
 
-void SNESBackend::clock_isr () {
-
+void clock_isr() {
 	if (count == 0)
 		return;
 
-	digitalWrite(DATA, 1 - output[count]);
-
+	digitalWrite(DATA, !output[count]);
 	count++;
-
 }
 
-void SNESBackend::latch_isr () {
-
+void latch_isr() {
+	//if (count > 7) {
+	//	printf("count: %d\n", count);
+	//}
 	count = 0;
-
 	set_output();
-
-	digitalWrite(DATA, 1 - output[count]);
-
+	digitalWrite(DATA, !output[count]);
 	count++;
+}
 
 }

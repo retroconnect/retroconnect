@@ -1,7 +1,9 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
-#define DATA 27
-#define CLOCK 28
-#define LATCH 29
+#define DATA 9
+#define CLOCK 8
+#define LATCH 7
 
 //Xbox One Mapping
 #define XB1_BTN_A		0x130
@@ -61,3 +63,5 @@
 #define PS4_LEFT_TRIGGER    	0x02
 #define PS4_DPAD_X			0x10
 #define PS4_DPAD_Y			0x11
+
+#endif

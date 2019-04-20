@@ -5,7 +5,7 @@ BUILD_DIR := build
 TARGET := retroconnect
 
 # compiler options for C++
-CXXFLAGS := -Wall -Wpedantic -Wextra -O2 -std=gnu++14
+CXXFLAGS := -Wall -O2 -std=gnu++14
 
 # additional libraries to link
 LIBS = -lwiringPi
@@ -14,11 +14,11 @@ LIBS = -lwiringPi
 CXX = g++
 
 # Source Destinations
-SRC_DIRS := src/Mapping/ControllerConverters/ src/Backend ./
+SRC_DIRS := src/Mapping/ControllerConverters/ src/Backend/ ./
 
 # Includes Directories
 INCLUDES =  -I src/Mapping/ControllerConverters/include -I src/Mapping/ControllerModels/
-INCLUDES += -I src/Backend/include
+INCLUDES += -I src/Backend/include -I ./
 
 # automatically create lists of the sources and objects
 SRC_FILES := $(wildcard $(addsuffix *.cpp, $(SRC_DIRS)))

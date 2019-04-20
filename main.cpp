@@ -18,6 +18,7 @@ using namespace std;
 #include "ControllerConverter.h"
 #include "XboxToSnesControllerConverter.h"
 #include "ControllerConverterFactory.h"
+#include "SNESBackend.h"
 
 struct button_struct_t {       //16 bytes total
 	struct timeval time;   //8 bytes
@@ -28,28 +29,6 @@ struct button_struct_t {       //16 bytes total
 
 
 /***************************************************/
-
-void clock_isr() {
-	cout << "Hardware Button Pressed!\n" << endl;
-}
-
-void latch_isr() {
-	cout << "Hardware Button Pressed!\n" << endl;
-}
-
-
-void setup_pins() {
-	wiringPiSetup();
-
-	pinMode(DATA, OUTPUT);
-	pinMode(CLOCK, INPUT);
-	pinMode(LATCH, INPUT);
-
-	wiringPiISR(CLOCK, INT_EDGE_FALLING, clock_isr);
-	wiringPiISR(LATCH, INT_EDGE_FALLING, latch_isr);
-}
-
-
 
 void read_xbox_buttons(button_struct_t button_struct, xbox_controller_t *input_controller) {
 
@@ -278,9 +257,6 @@ int main() {
 	close(dst);
 
 
-	//Set pin modes and interrupts
-	setup_pins();
-
 
 	//DBUS Bluetooth Setup
 	// Chris`
@@ -301,6 +277,10 @@ int main() {
 	//initialize converter
 	ControllerConverter* converter;
 	converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
+
+	//Set pin modes and interrupts
+	snesbackend::setup();
+	snesbackend::update_controller((snes_controller_t*) output_controller);
 
 	while(getline(devices_list, line) && exit != 2) {
 		if (line.find("Xbox Wireless Controller", 0)  != string::npos) {
