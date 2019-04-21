@@ -129,6 +129,7 @@ int main() {
 	printf("Starting input collection...\n");
 
 	struct button_struct_t button_struct;
+	int serial_fd = open("/dev/ttyS0", O_WRONLY);
 	while (1) {
 		poll(fds, 2, -1);
 
@@ -170,6 +171,22 @@ int main() {
 			converter->convert(*input_controller, *output_controller, "user config path goes here");
 			output_controller->print_state();
 		}
+
+		char data[3] = {0, 0, 0};
+		data[0] = 0xFF;
+		data[1] |= (((snes_controller_t* ) output_controller)->B ? 1 : 0 ) << 0;
+		data[1] |= (((snes_controller_t* ) output_controller)->Y ? 1 : 0 ) << 1;
+		data[1] |= (((snes_controller_t* ) output_controller)->SELECT ? 1 : 0 ) << 2;
+		data[1] |= (((snes_controller_t* ) output_controller)->START ? 1 : 0 ) << 3;
+		data[1] |= (((snes_controller_t* ) output_controller)->D_UP ? 1 : 0 ) << 4;
+		data[1] |= (((snes_controller_t* ) output_controller)->D_DOWN ? 1 : 0 ) << 5;
+		data[1] |= (((snes_controller_t* ) output_controller)->D_LEFT ? 1 : 0 ) << 6;
+		data[1] |= (((snes_controller_t* ) output_controller)->D_RIGHT ? 1 : 0 ) << 7;
+		data[2] |= (((snes_controller_t* ) output_controller)->A ? 1 : 0 ) << 0;
+		data[2] |= (((snes_controller_t* ) output_controller)->X ? 1 : 0 ) << 1;
+		data[2] |= (((snes_controller_t* ) output_controller)->LB ? 1 : 0 ) << 2;
+		data[2] |= (((snes_controller_t* ) output_controller)->RB ? 1 : 0 ) << 3;
+		write(serial_fd, data, 3);
 	}
 
 	return 0;
