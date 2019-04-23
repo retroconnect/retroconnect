@@ -29,7 +29,192 @@ struct button_struct_t {       //16 bytes total
 
 
 /***************************************************/
+void read_ps4_controller(button_struct_t button_struct, ps4_controller_t *input_controller) {
+	if(button_struct.type) {
+		switch(button_struct.code) {
+			case(4): break; //filters out row of input
+			case(PS4_LEFT_Y_AXIS):
+				printf("Left Analog Stick Y\n");
+				input_controller->LS_Y = button_struct.value;
+				break;
+			case(PS4_LEFT_X_AXIS):
+				printf("Left Analog Stick X\n");
+				input_controller->LS_X = button_struct.value;
+				break;
+			case(PS4_RIGHT_Y_AXIS):
+				printf("Right Analog Stick Y\n");
+				input_controller->RS_Y = button_struct.value;
+				break;
+			case(PS4_RIGHT_X_AXIS):
+				printf("Right Analog Stick X\n");
+				input_controller->RS_X = button_struct.value;
+				break;
+			case(PS4_DPAD_X):
+				if (button_struct.value == 1) {
+					printf("DPAD-Right\n");
+					input_controller->D_RIGHT = true;
+				}
+				else if (button_struct.value == 0) {
+					printf("DPAD-X Released\n");
+					input_controller->D_RIGHT = false;
+					input_controller->D_LEFT = false;
+				}
+				else {
+					printf("DPAD-Left\n");
+					input_controller->D_LEFT = true;
+				}
+				break;
+			case(PS4_DPAD_Y):
+				if (button_struct.value == 1) {
+					printf("DPAD-Down\n");
+					input_controller->D_DOWN = true;
+				}
+				else if (button_struct.value == 0) {
+					printf("DPAD-Y Released\n");
+					input_controller->D_DOWN = false;
+					input_controller->D_UP = false;
+				}
+				else {
+					printf("DPAD-Up\n");
+					input_controller->D_UP = true;
+				}
+				break;
+			case(PS4_BTN_CROSS):
+				if (button_struct.value == 0) {
+					printf("X released\n");
+					input_controller->X = false;
+				}
+				else {
+					printf("X pressed\n");
+					input_controller->X = true;
+				}
+				break;
+			case(PS4_BTN_CIRCLE):
+				if (button_struct.value == 0) {
+					printf("Circle released\n");
+					input_controller->CIRCLE = false;
+				}
+				else {
+					printf("Circle pressed\n");
+					input_controller->CIRCLE = true;
+				}
+				break;
+			case(PS4_BTN_SQUARE):
+				if (button_struct.value == 0) {
+					printf("Square released\n");
+					input_controller->SQUARE = false;
+				}
+				else {
+					printf("Square pressed\n");
+					input_controller->SQUARE = true;
+				}
+				break;
+			case(PS4_BTN_TRIANGLE):
+				if (button_struct.value == 0) {
+					printf("Triangle released\n");
+					input_controller->TRIANGLE = false;
+				}
+				else {
+					printf("Triangle pressed\n");
+					input_controller->TRIANGLE = true;
+				}
+				break;
+			case(PS4_BTN_L1):
+				if (button_struct.value == 0) {
+					printf("L1 released\n");
+					input_controller->L1 = false;
+				}
+				else {
+					printf("L1 pressed\n");
+					input_controller->L1 = true;
+				}
+				break;
+			case(PS4_BTN_R1):
+				if (button_struct.value == 0) {
+					printf("R1 released\n");
+					input_controller->R1 = false;
+				}
+				else {
+					printf("R1 pressed\n");
+					input_controller->R1 = true;
+				}
+				break;
+			case(PS4_BTN_START):
+				if (button_struct.value == 0) {
+					printf("Start released\n");
+					input_controller->START = false;
+				}
+				else {
+					printf("Start pressed\n");
+					input_controller->START = true;
+				}
+				break;
+			case(PS4_BTN_SELECT):
+				if (button_struct.value == 0) {
+					printf("Select released\n");
+					input_controller->SELECT = false;
+				}
+				else {
+					printf("Select pressed\n");
+					input_controller->SELECT = true;
+				}
+				break;
+			case(PS4_BTN_LS):
+				if (button_struct.value == 0) {
+					printf("Left Thumb released\n");
+					input_controller->LS_PRESS = false;
+				}
+				else {
+					printf("Left Thumb pressed\n");
+					input_controller->LS_PRESS = true;
+				}
+				break;
+			case(PS4_BTN_RS):
+				if (button_struct.value == 0) {
+					printf("Right Thumb released\n");
+					input_controller->RS_PRESS = false;
+				}
+				else {
+					printf("Right Thumb pressed\n");
+					input_controller->RS_PRESS = true;
+				}
+				break;
+			case(PS4_BTN_HOME):
+				if (button_struct.value == 0) {
+					printf("Home released\n");
+					input_controller->HOME = false;
+				}
+				else {
+					printf("Home pressed\n");
+					input_controller->HOME = true;
+				}
+				break;
+			case(PS4_RIGHT_TRIGGER):
+				if (button_struct.value == 0) {
+					printf("Right Trigger released\n");
+				}
+				else {
+					printf("Right Trigger pressed\n");
+				}
+				input_controller->R2 = button_struct.value;
+				break;
+			case(PS4_LEFT_TRIGGER):
+				if (button_struct.value == 0) {
+					printf("Left Trigger released\n");
+				}
+				else {
+					printf("Left Trigger pressed\n");
+				}
+				input_controller->L2 = button_struct.value;
+				break;
 
+			default:
+				printf("!!! Unknown button code: %d !!!\n", button_struct.code);
+		}
+
+
+
+}
 void read_xbox_buttons(button_struct_t button_struct, xbox_controller_t *input_controller) {
 
 	if(button_struct.type) {
@@ -242,7 +427,19 @@ void print_snes_controller_state(snes_controller_t* s) {
 	printf("LB: %d, RB: %d\n", s->LB, s->RB);
 	printf("Select: %d, Start: %d\n", s->SELECT, s->START);
 }
+void print_ps4_controlller_state(ps4_controller_t* x) {
+	print("Current state of ps4 controller: \n");
 
+	printf("X: %d, Circle: %d, Triangle: %d, Square: %d\n", x->X, x->CIRCLE, x->TRIANGLE, x->SQUARE);
+	printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", x->D_UP, x->D_DOWN, x->D_LEFT, x->D_RIGHT);
+	printf("L2: %d, R2: %d\n", x->L2, x->R2);
+	printf("L1: %d, R1: %d\n", x->L1, x->R1);
+	printf("Select: %d, Home: %d, Start: %d\n", x->SELECT, x->HOME, x->START);
+	printf("LS-x: %d, LS-y: %d, LS-press: %d\n", x->LS_X, x->LS_Y, x->LS_PRESS);
+	printf("RS-x: %d, RS-y: %d, RS-press: %d\n", x->RS_X, x->RS_Y, x->RS_PRESS);
+
+}
+}
 int main() {
 	//system("/bin/echo commandhere"); //Execute bash commands from C++
 
