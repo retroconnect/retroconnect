@@ -4,7 +4,7 @@
 #include <Ps4Controller.h>
 
 #ifndef PS4_TO_SNES_CONTROLLER_CONVERTER_H
-#define PS4_TO_SNES_CONTROLLER_H
+#define PS4_TO_SNES_CONTROLLER_CONVERTER_H
 
 
 class Ps4ToSnesControllerConverter: public ControllerConverter {
