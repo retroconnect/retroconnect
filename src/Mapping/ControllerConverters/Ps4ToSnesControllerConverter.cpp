@@ -6,7 +6,7 @@
 
 
 
-Ps4ToSnesControllerConverter::Ps4ToSnesControllerConverter() :AXIS_DEADZONE{10000}, TRIGGER_DEADZONE{100} {}
+Ps4ToSnesControllerConverter::Ps4ToSnesControllerConverter() :AXIS_DEADZONE{50}, TRIGGER_DEADZONE{100} {}
 
 
 bool Ps4ToSnesControllerConverter::convert(controller_t& input_controller, controller_t& output_controller, std::string user_config_path)
@@ -18,8 +18,8 @@ bool Ps4ToSnesControllerConverter::convert(controller_t& input_controller, contr
         //X, CIRCLE, TRIANGLE, SQUARE, START, SELECT
         snes_controller.B = ps4_controller.X;
         snes_controller.A = ps4_controller.CIRCLE;
-        snes_controller.Y = ps4_controller.TRIANGLE;
-        snes_controller.X = ps4_controller.SQUARE;
+        snes_controller.Y = ps4_controller.SQUARE;
+        snes_controller.X = ps4_controller.TRIANGLE;
         snes_controller.START = ps4_controller.START;
         snes_controller.SELECT = ps4_controller.SELECT;
 

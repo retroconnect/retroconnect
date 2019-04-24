@@ -10,23 +10,29 @@
 
 class ControllerConverterFactory
 {
-public:
-	static ControllerConverter* createConverter(controller_t& input_controller, controller_t& output_controller)
-{
-//    std::string input_type = typeid(input_controller).name();
-//    std::string output_type = typeid(output_controller).name();
+	public:
+		static ControllerConverter* createConverter(controller_t& input_controller, controller_t& output_controller)
+	{
+		
+		//list of supported input/output combinations currently supported
+		if(input_controller.type == XB1) {
+			if (output_controller.type == SNES) { //XBOX -> SNES
+				return new XboxToSnesControllerConverter();
+			} 
+		}
+	
+		if(input_controller.type == PS4) {
+			if (output_controller.type == SNES) { //PS4 -> SNES
+				return new Ps4ToSnesControllerConverter();
+			}
+		}
+		        
+		printf("ERROR: Controller combination not supported\n");
+       		exit(EXIT_FAILURE);
+	}
 
-    //list of supported input/output combinations currently supported
-    if(1){//input_type == "XboxController" && output_type == "SnesController") { //XBOX -> SNES
-        return new XboxToSnesControllerConverter();
-    } else {
-        printf("error: no conversion logic implemented\n");
-        return NULL;
-    }
-}
-
-private:
-	ControllerConverterFactory() {};
+	private:
+		ControllerConverterFactory() {};
 
 };
 

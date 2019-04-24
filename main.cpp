@@ -33,7 +33,7 @@ struct button_struct_t {       //16 bytes total
 
 /***************************************************/
 
-void read_ps4_controller(button_struct_t button_struct, ps4_controller_t *input_controller) {
+void read_ps4_buttons(button_struct_t button_struct, ps4_controller_t *input_controller) {
 	switch(button_struct.code) {
 		case(PS4_LEFT_Y_AXIS):
 			printf("Left Analog Stick Y\n");
@@ -213,6 +213,12 @@ void read_ps4_controller(button_struct_t button_struct, ps4_controller_t *input_
 		default:
 			printf("!!! Unknown button code: %d !!!\n", button_struct.code);
 	}
+	// Print full struct for button press debugging
+	//printf("\nButton Timestamp: %08X", button_struct.time);
+	//printf("\nButton Type: %02X", button_struct.type);
+	//printf("\nButton Code: %02X", button_struct.code);
+	//printf("\nButton Value: %04x\n", button_struct.value);
+	         
 }
 
 void read_xbox_buttons(button_struct_t button_struct, xbox_controller_t *input_controller) {
@@ -425,7 +431,7 @@ void print_snes_controller_state(snes_controller_t* s) {
 	printf("Select: %d, Start: %d\n\n", s->SELECT, s->START);
 }
 
-void print_ps4_controlller_state(ps4_controller_t* x) {
+void print_ps4_controller_state(ps4_controller_t* x) {
 	printf("\n---PS4 Controller State---\n");
 
 	printf("X: %d, Circle: %d, Triangle: %d, Square: %d\n", x->X, x->CIRCLE, x->TRIANGLE, x->SQUARE);
@@ -455,17 +461,16 @@ int main() {
 	//Initialize controller models
 	controller_t* input_controller; 
   	controller_t* output_controller = new snes_controller_t();
-  
+ 	output_controller->type = SNES; 
 
 	//Find which event# datastreams are for controller / consumer control device
-	string line;
-	string event_controller, event_consumer;
+	string line, event_controller, event_consumer;
 	int event_position;
 	int devices_found = 0;
 	ifstream devices_list("/proc/bus/input/devices");
 	
 	while(getline(devices_list, line) && devices_found != 2) {
-		if (line.find("Vendor=054c Product=05c4", 0) != string::npos) {
+		if (line.find("Vendor=054c Product=05c4", 0) != string::npos) { //PlayStation 4
 			getline(devices_list, line);
 			if (line.find("\"Wireless Controller\"", 0) != string::npos) {
 				while( getline(devices_list, line) ) {
@@ -473,6 +478,7 @@ int main() {
 						event_controller = line.substr(event_position+5,2);
 						devices_found++;
 						input_controller = new ps4_controller_t();
+						input_controller->type = PS4;
 						printf("PlayStation 4 Controller detected on event%s\n", event_controller.c_str());
 						continue;
 					}
@@ -498,6 +504,7 @@ int main() {
 						devices_found++;
 						printf("Xbox One Controller detected on event%s\n", event_controller.c_str());
 						input_controller = new xbox_controller_t();
+						input_controller->type = XB1;
 						break;
 					}
 				}
@@ -538,30 +545,53 @@ int main() {
 	
 	printf("Starting input collection...\n");
 
-	while (1) {
-		poll(fds, 2, -1);
+	if (input_controller->type == XB1) {
 
-		if (fds[0].revents & POLLIN) {
-			read(fds[0].fd, (char*)&button_struct, sizeof(button_struct));
-			if (button_struct.code == 4 || button_struct.type == 0) {
-				continue;
+		while (1) {
+			poll(fds, 2, -1);
+
+			if (fds[0].revents & POLLIN) {
+				read(fds[0].fd, (char*)&button_struct, sizeof(button_struct));
+				if (button_struct.code == 4 || button_struct.type == 0) {
+					continue;
+				}
+				read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
+				print_xbox_controller_state((xbox_controller_t*) input_controller);
+	
+				//conversion step
+				converter->convert(*input_controller, *output_controller, "user config path goes here");
+				print_snes_controller_state((snes_controller_t*) output_controller);
 			}
-			read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
-			print_xbox_controller_state((xbox_controller_t*) input_controller);
-
-			//conversion step
-			converter->convert(*input_controller, *output_controller, "user config path goes here");
-			print_snes_controller_state((snes_controller_t*) output_controller);
+	
+			if (fds[1].revents & POLLIN) {
+				read(fds[1].fd, (char*)&button_struct, 16);
+				read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
+				print_xbox_controller_state((xbox_controller_t*) input_controller);
+	
+				//convserion step
+				converter->convert(*input_controller, *output_controller, "user config path goes here");
+				print_snes_controller_state((snes_controller_t*) output_controller);
+			}
 		}
+	
+	}
+	else if (input_controller->type == PS4) {
 
-		if (fds[1].revents & POLLIN) {
-			read(fds[1].fd, (char*)&button_struct, 16);
-			read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
-			print_xbox_controller_state((xbox_controller_t*) input_controller);
+		while (1) {
+			poll(fds, 1, -1);
 
-			//convserion step
-			converter->convert(*input_controller, *output_controller, "user config path goes here");
-			print_snes_controller_state((snes_controller_t*) output_controller);
+			if (fds[0].revents & POLLIN) {
+				read(fds[0].fd, (char*)&button_struct, sizeof(button_struct));
+				if (button_struct.code == 4 || button_struct.type == 0) {
+					continue;
+				}
+				read_ps4_buttons(button_struct, (ps4_controller_t*) input_controller);
+				print_ps4_controller_state((ps4_controller_t*) input_controller);
+	
+				//conversion step
+				converter->convert(*input_controller, *output_controller, "user config path goes here");
+				print_snes_controller_state((snes_controller_t*) output_controller);
+			}	
 		}
 	}
 

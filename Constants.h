@@ -20,7 +20,7 @@
 #define XB1_LEFT_Y_AXIS		0x00
 #define XB1_LEFT_X_AXIS		0x01
 #define XB1_RIGHT_Y_AXIS	0x02
-#define XB1_RIGHT_X_AXIS	0x05
+#define XB1_RIGHT_X_AXIS	0x06
 #define XB1_RIGHT_TRIGGER   	0x09
 #define XB1_LEFT_TRIGGER   	0x0A
 #define XB1_DPAD_X		0x10
@@ -48,20 +48,20 @@
 #define PS4_BTN_CIRCLE		0x131
 #define PS4_BTN_SQUARE		0x134
 #define PS4_BTN_TRIANGLE	0x133
-#define PS4_BTN_L1			0x138
-#define PS4_BTN_R1			0x139
+#define PS4_BTN_L1		0x136
+#define PS4_BTN_R1		0x137
 #define PS4_BTN_SELECT		0x13A
 #define PS4_BTN_START		0x13B
-#define PS4_BTN_LS			0x13D
-#define PS4_BTN_RS			0x13E
+#define PS4_BTN_LS		0x13D
+#define PS4_BTN_RS		0x13E
 #define PS4_BTN_HOME		0x13C
-#define PS4_LEFT_Y_AXIS		0x00
-#define PS4_LEFT_X_AXIS		0x01
-#define PS4_RIGHT_Y_AXIS	0x03
-#define PS4_RIGHT_X_AXIS	0x04
+#define PS4_LEFT_Y_AXIS		0x01
+#define PS4_LEFT_X_AXIS		0x00
+#define PS4_RIGHT_Y_AXIS	0x06
+#define PS4_RIGHT_X_AXIS	0x03
 #define PS4_RIGHT_TRIGGER   	0x05
 #define PS4_LEFT_TRIGGER    	0x02
-#define PS4_DPAD_X			0x10
-#define PS4_DPAD_Y			0x11
+#define PS4_DPAD_X		0x10
+#define PS4_DPAD_Y		0x11
 
 #endif
