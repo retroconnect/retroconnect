@@ -89,7 +89,6 @@ int main() {
 						devices_found++;
 						printf("Xbox One Controller detected on event%s\n", event_controller.c_str());
 						input_controller = new xbox_controller_t();
-						input_controller->type = XB1;
 						break;
 					}
 				}
@@ -120,7 +119,6 @@ int main() {
 	fds[0].events = POLLIN;
         fds[0].fd = open(event_string.append(event_controller).c_str(), O_RDONLY);
 
-
 	if (devices_found == 2) {
 		event_consumer.erase(std::remove(event_consumer.begin(), event_consumer.end(), ' '), event_consumer.end());
 		fds[1].events = POLLIN;
@@ -141,7 +139,7 @@ int main() {
 			input_controller->read_buttons(button_struct);
 			input_controller->print_state();
 
-			if(input_controller->snes_combo_pressed())
+			if(input_controller->snes_combo_pressed()) {
 				printf("Combo detected! Switching to SNES output\n");
 				output_controller = new snes_controller_t();
 

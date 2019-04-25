@@ -21,7 +21,19 @@ struct snes_controller_t: controller_t {
 		type = SNES;
 	}
 
-	void print_state() {
+	virtual bool snes_combo_pressed() override {
+	        return false;
+	}
+	 
+	virtual bool nes_combo_pressed() override {
+	        return false;
+	}
+
+	virtual void read_buttons(button_struct_t b) override {
+		return;
+	}
+	
+	virtual void print_state() override {
 		printf("\n---SNES Controller State---\n");
 
 		printf("A: %d, B: %d, X: %d, Y: %d\n", A, B, X, Y);

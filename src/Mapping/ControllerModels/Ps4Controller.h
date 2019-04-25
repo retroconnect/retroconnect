@@ -32,15 +32,15 @@ struct ps4_controller_t: controller_t {
 		type = PS4;
 	}
 
-	bool snes_combo_pressed() {
+	virtual bool snes_combo_pressed() override {
 		return HOME && X;
 	}
 
-	bool nes_combo_pressed() {
+	virtual bool nes_combo_pressed() override {
 		return HOME && CIRCLE;
 	}
 
-	void print_state() {
+	virtual void print_state() override {
 		printf("\n---PS4 Controller State---\n");
 
 		printf("X: %d, Circle: %d, Triangle: %d, Square: %d\n", X, CIRCLE, TRIANGLE, SQUARE);
@@ -52,7 +52,7 @@ struct ps4_controller_t: controller_t {
 		printf("RS-x: %d, RS-y: %d, RS-press: %d\n", RS_X, RS_Y, RS_PRESS);
 	}
 
-	void read_buttons(button_struct_t button_struct) {
+	virtual void read_buttons(button_struct_t button_struct) override {
 		switch(button_struct.code) {
 			case(PS4_LEFT_Y_AXIS):
 				printf("Left Analog Stick Y\n");

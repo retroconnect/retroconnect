@@ -5,42 +5,42 @@
 #define XBOX_CONTROLLER_H
 
 struct xbox_controller_t: controller_t {
-	bool A;
-	bool B;
-	bool X;
-	bool Y;
-	bool D_UP;
-	bool D_DOWN;
-	bool D_LEFT;
-	bool D_RIGHT;
-	bool SELECT;
-	bool START;
-	bool HOME;
-	bool LS_PRESS;
-	bool RS_PRESS;
-	bool LB;
-	bool RB;
+	bool A = false;
+	bool B = false;
+	bool X = false;
+	bool Y = false;
+	bool D_UP = false;
+	bool D_DOWN = false;
+	bool D_LEFT = false;
+	bool D_RIGHT = false;
+	bool SELECT = false;
+	bool START = false;
+	bool HOME = false;
+	bool LS_PRESS = false;
+	bool RS_PRESS = false;
+	bool LB = false;
+	bool RB = false;
 
-	int LT;
-	int RT;
-	int LS_X;
-	int LS_Y;
-	int RS_X;
-	int RS_Y; 
+	int LT = 0;
+	int RT = 0;
+	int LS_X = 0;
+	int LS_Y = 0;
+	int RS_X = 0;
+	int RS_Y = 0; 
 
 	xbox_controller_t() {
 		type = XB1;
 	}
 
-	bool snes_combo_pressed() {
+	virtual bool snes_combo_pressed() override {
 		return HOME && A;
 	}
 
-	bool nes_combo_pressed() {
+	virtual bool nes_combo_pressed() override {
 		return HOME && B;
 	}
 
-	void print_state() {
+	virtual void print_state() override {
 		printf("\n---Xbox Controller State---\n");
 
 		printf("A: %d, B: %d, X: %d, Y: %d\n", A, B, X, Y);
