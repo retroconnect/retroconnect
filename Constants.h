@@ -20,7 +20,7 @@
 #define XB1_LEFT_Y_AXIS		0x00
 #define XB1_LEFT_X_AXIS		0x01
 #define XB1_RIGHT_Y_AXIS	0x02
-#define XB1_RIGHT_X_AXIS	0x06
+#define XB1_RIGHT_X_AXIS	0x05
 #define XB1_RIGHT_TRIGGER   	0x09
 #define XB1_LEFT_TRIGGER   	0x0A
 #define XB1_DPAD_X		0x10

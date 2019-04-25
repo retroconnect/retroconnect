@@ -14,13 +14,17 @@ using namespace std;
 
 #include "Constants.h"
 #include "Controller.h"
+#include "NesController.h"
 #include "SnesController.h"
 #include "XboxController.h"
 #include "Ps4Controller.h"
 #include "ControllerConverter.h"
+#include "XboxToNesControllerConverter.h"
 #include "XboxToSnesControllerConverter.h"
+#include "Ps4ToNesControllerConverter.h"
 #include "Ps4ToSnesControllerConverter.h"
 #include "ControllerConverterFactory.h"
+#include "NESBackend.h"
 #include "SNESBackend.h"
 
 struct button_struct_t {       //16 bytes total
@@ -398,6 +402,9 @@ void read_xbox_buttons(button_struct_t button_struct, xbox_controller_t *input_c
 			}
 			input_controller->LT = button_struct.value;
 			break;
+		case(4):
+			//Junk value
+			break;
 
 		default:
 			printf("!!! Unknown button code: %d !!!\n", button_struct.code);
@@ -458,7 +465,7 @@ int main() {
 	close(dst);
 
 
-	//Initialize controller models
+	//Initialize controller models (SNES default output)
 	controller_t* input_controller; 
   	controller_t* output_controller = new snes_controller_t();
  	output_controller->type = SNES; 
@@ -556,21 +563,37 @@ int main() {
 					continue;
 				}
 				read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
-				print_xbox_controller_state((xbox_controller_t*) input_controller);
-	
+				//print_xbox_controller_state((xbox_controller_t*) input_controller);
+
+				if ( ((xbox_controller_t*)input_controller)->HOME ) {
+					if ( ((xbox_controller_t*)input_controller)->A ) {
+						printf("Combo detected! Switching to SNES output\n");
+						output_controller = new snes_controller_t();
+						output_controller->type = SNES;
+					}
+					else if ( ((xbox_controller_t*)input_controller)->B ) {
+						printf("Combo detected! Switching to NES output\n");
+						output_controller = new nes_controller_t();
+						output_controller->type = NES;
+					}
+				}
+
 				//conversion step
 				converter->convert(*input_controller, *output_controller, "user config path goes here");
-				print_snes_controller_state((snes_controller_t*) output_controller);
+				//print_snes_controller_state((snes_controller_t*) output_controller);
 			}
 	
 			if (fds[1].revents & POLLIN) {
 				read(fds[1].fd, (char*)&button_struct, 16);
+				if (button_struct.code == 4 || button_struct.type == 0) {
+					continue;
+				}
 				read_xbox_buttons(button_struct, (xbox_controller_t*) input_controller);
-				print_xbox_controller_state((xbox_controller_t*) input_controller);
-	
+				//print_xbox_controller_state((xbox_controller_t*) input_controller);
+				
 				//convserion step
 				converter->convert(*input_controller, *output_controller, "user config path goes here");
-				print_snes_controller_state((snes_controller_t*) output_controller);
+				//print_snes_controller_state((snes_controller_t*) output_controller);
 			}
 		}
 	
