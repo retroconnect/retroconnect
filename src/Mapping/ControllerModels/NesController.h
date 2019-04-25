@@ -12,6 +12,18 @@ struct nes_controller_t: controller_t {
 	bool D_RIGHT;
 	bool SELECT;
 	bool START;
+
+	nes_controller_t() {
+		type = NES;
+	}
+
+	void print_state() {
+		printf("\n---NES Controller State---\n");
+
+		printf("A: %d, B: %d\n", A, B);
+		printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", D_UP, D_DOWN, D_LEFT, D_RIGHT);
+		printf("Select: %d, Start: %d\n\n", SELECT, START);
+	}
 };
 
 #endif
