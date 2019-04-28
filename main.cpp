@@ -128,6 +128,7 @@ int main() {
 	
 	printf("Starting input collection...\n");
 
+	struct button_struct_t button_struct;
 	while (1) {
 		poll(fds, 2, -1);
 
@@ -154,7 +155,7 @@ int main() {
 
 			//conversion step
 			converter->convert(*input_controller, *output_controller, "user config path goes here");
-			input_controller->print_state();
+			output_controller->print_state();
 		}
 
 		if (fds[1].revents & POLLIN) {
@@ -167,7 +168,7 @@ int main() {
 			
 			//convserion step
 			converter->convert(*input_controller, *output_controller, "user config path goes here");
-			input_controller->print_state();
+			output_controller->print_state();
 		}
 	}
 
