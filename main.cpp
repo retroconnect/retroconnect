@@ -135,7 +135,7 @@ int main() {
 	//Monitor streams for input
 	printf("Starting input collection...\n");
 	struct button_struct_t button_struct;
-	int serial_fd = open("/dev/ttyS0", O_WRONLY);
+	//int serial_fd = open("/dev/ttyS0", O_WRONLY);
 
 	while (1) {
 		poll(fds, 2, -1);
@@ -146,7 +146,7 @@ int main() {
 				continue;
 			}
 			input_controller->read_buttons(button_struct);
-			input_controller->print_state();
+			//input_controller->print_state();
 
 			if(input_controller->snes_combo_pressed()) {
 				printf("Combo detected! Switching to SNES output\n");
@@ -163,50 +163,22 @@ int main() {
 
 			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller, "user config path goes here");
-			output_controller->print_state();
-
-			//NES
-			//char data[2] = {0, 0};			
-			//data[0] = 0xFF;	
-			//data[1] |= (((nes_controller_t* ) output_controller)->A ? 1 : 0 ) << 0;
-			//data[1] |= (((nes_controller_t* ) output_controller)->B ? 1 : 0 ) << 1;
-			//data[1] |= (((nes_controller_t* ) output_controller)->SELECT ? 1 : 0 ) << 2;
-			//data[1] |= (((nes_controller_t* ) output_controller)->START ? 1 : 0 ) << 3;
-			//data[1] |= (((nes_controller_t* ) output_controller)->D_UP ? 1 : 0 ) << 4;
-			//data[1] |= (((nes_controller_t* ) output_controller)->D_DOWN ? 1 : 0 ) << 5;
-			//data[1] |= (((nes_controller_t* ) output_controller)->D_LEFT ? 1 : 0 ) << 6;
-			//data[1] |= (((nes_controller_t* ) output_controller)->D_RIGHT ? 1 : 0 ) << 7;
-			//write(serial_fd, data, 2);
-			
-			//SNES
-			char data[3] = {0, 0, 0};
-			data[0] = 0xFF; 
-			data[1] |= (((snes_controller_t* ) output_controller)->B ? 1 : 0 ) << 0;
-			data[1] |= (((snes_controller_t* ) output_controller)->Y ? 1 : 0 ) << 1;
-			data[1] |= (((snes_controller_t* ) output_controller)->SELECT ? 1 : 0 ) << 2;
-			data[1] |= (((snes_controller_t* ) output_controller)->START ? 1 : 0 ) << 3;
-			data[1] |= (((snes_controller_t* ) output_controller)->D_UP ? 1 : 0 ) << 4;
-			data[1] |= (((snes_controller_t* ) output_controller)->D_DOWN ? 1 : 0 ) << 5;
-			data[1] |= (((snes_controller_t* ) output_controller)->D_LEFT ? 1 : 0 ) << 6;
-			data[1] |= (((snes_controller_t* ) output_controller)->D_RIGHT ? 1 : 0 ) << 7;
-			data[2] |= (((snes_controller_t* ) output_controller)->A ? 1 : 0 ) << 0;
-			data[2] |= (((snes_controller_t* ) output_controller)->X ? 1 : 0 ) << 1;
-			data[2] |= (((snes_controller_t* ) output_controller)->LB ? 1 : 0 ) << 2;
-			data[2] |= (((snes_controller_t* ) output_controller)->RB ? 1 : 0 ) << 3;
-			write(serial_fd, data, 3);
+			//output_controller->print_state();
+			output_controller->send_state();
 		}
 
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
-			if (button_struct.type != 0 && button_struct.type != 3) {
+			if (button_struct.type != 1 && button_struct.type != 3) {
 				continue;
 			}
 			input_controller->read_buttons(button_struct);
-			input_controller->print_state();
+			//input_controller->print_state();
 			
 			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller, "user config path goes here");
-			output_controller->print_state();
+			//output_controller->print_state();
+			output_controller->send_state();
 		}	
 	}
 

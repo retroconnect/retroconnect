@@ -20,6 +20,7 @@ struct controller_t {
 
 	virtual void print_state() = 0;
 	virtual void read_buttons(button_struct_t) = 0;
+	virtual void send_state(){};
 };
 
 #endif
