@@ -260,9 +260,9 @@ struct xbox_controller_t: controller_t {
 
 		// Print full struct for button press debugging
 		//printf("\nButton Timestamp: %08X", button_struct.time);
-		//printf("\nButton Type: %02X", button_struct.type);
-		//printf("\nButton Code: %02X", button_struct.code);
-		//printf("\nButton Value: %04X\n", button_struct.value);
+		printf("\nButton Type: %02X", button_struct.type);
+		printf("\nButton Code: %02X", button_struct.code);
+		printf("\nButton Value: %04X\n", button_struct.value);
 	}
 };
 

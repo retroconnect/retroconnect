@@ -17,10 +17,10 @@
 #define XB1_BTN_LS		0x13D
 #define XB1_BTN_RS		0x13E
 #define XB1_BTN_HOME		0xAC
-#define XB1_LEFT_Y_AXIS		0x00
-#define XB1_LEFT_X_AXIS		0x01
-#define XB1_RIGHT_Y_AXIS	0x02
-#define XB1_RIGHT_X_AXIS	0x05
+#define XB1_LEFT_Y_AXIS		0x01
+#define XB1_LEFT_X_AXIS		0x00
+#define XB1_RIGHT_Y_AXIS	0x05
+#define XB1_RIGHT_X_AXIS	0x02
 #define XB1_RIGHT_TRIGGER   	0x09
 #define XB1_LEFT_TRIGGER   	0x0A
 #define XB1_DPAD_X		0x10
@@ -55,9 +55,9 @@
 #define PS4_BTN_LS		0x13D
 #define PS4_BTN_RS		0x13E
 #define PS4_BTN_HOME		0x13C
-#define PS4_LEFT_Y_AXIS		0x00
-#define PS4_LEFT_X_AXIS		0x01
-#define PS4_RIGHT_Y_AXIS	0x06
+#define PS4_LEFT_Y_AXIS		0x01
+#define PS4_LEFT_X_AXIS		0x00
+#define PS4_RIGHT_Y_AXIS	0x04
 #define PS4_RIGHT_X_AXIS	0x03
 #define PS4_RIGHT_TRIGGER   	0x05
 #define PS4_LEFT_TRIGGER    	0x02

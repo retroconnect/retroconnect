@@ -21,10 +21,10 @@ void Ps4ToNesControllerConverter::convert(controller_t& input_controller, contro
 
 
         //D-PAD
-        nes_controller.D_UP = ps4_controller.D_UP || (ps4_controller.LS_X - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
-        nes_controller.D_DOWN = ps4_controller.D_DOWN || (ps4_controller.LS_X - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
-        nes_controller.D_RIGHT= ps4_controller.D_RIGHT || (ps4_controller.LS_Y - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
-        nes_controller.D_LEFT = ps4_controller.D_LEFT || (ps4_controller.LS_Y - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
+        nes_controller.D_UP = ps4_controller.D_UP || (ps4_controller.LS_Y - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
+        nes_controller.D_DOWN = ps4_controller.D_DOWN || (ps4_controller.LS_Y - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
+        nes_controller.D_RIGHT= ps4_controller.D_RIGHT || (ps4_controller.LS_X - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
+        nes_controller.D_LEFT = ps4_controller.D_LEFT || (ps4_controller.LS_X - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
 
 
 	//Optional mappings

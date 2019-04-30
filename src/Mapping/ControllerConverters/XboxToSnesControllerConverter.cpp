@@ -23,10 +23,10 @@ void XboxToSnesControllerConverter::convert(controller_t& input_controller, cont
 
 
             //D-PAD direction determined by xbox's d-pad in conjunciton with LS axis'
-            snes_controller.D_UP = xbox_controller.D_UP || (xbox_controller.LS_X - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
-            snes_controller.D_DOWN = xbox_controller.D_DOWN || (xbox_controller.LS_X - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
-            snes_controller.D_RIGHT = xbox_controller.D_RIGHT || (xbox_controller.LS_Y - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
-            snes_controller.D_LEFT = xbox_controller.D_LEFT || (xbox_controller.LS_Y - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
+            snes_controller.D_UP = xbox_controller.D_UP || (xbox_controller.LS_Y - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
+            snes_controller.D_DOWN = xbox_controller.D_DOWN || (xbox_controller.LS_Y - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
+            snes_controller.D_RIGHT = xbox_controller.D_RIGHT || (xbox_controller.LS_X - MAX_AXIS_VALUE / 2) > AXIS_DEADZONE;
+            snes_controller.D_LEFT = xbox_controller.D_LEFT || (xbox_controller.LS_X - MAX_AXIS_VALUE / 2) < -AXIS_DEADZONE;
 
 
             //LB, RB, map to both the xboxs bumpers as well as the triggers

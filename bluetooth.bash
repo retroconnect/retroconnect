@@ -17,7 +17,7 @@ while true; do
 	echo "devices" >&"$BTIN"
 	while read a b c BTADDR DEV <&"$BTOUT"; do
 		#echo "$DEV"
-		if [[ "$DEV" == "Xbox Wireless Controller" ]]; then
+		if [[ "$DEV" == "Xbox Wireless Controller" || "$DEV" == "Wireless Controller" ]]; then
 			break
 		fi
 	done

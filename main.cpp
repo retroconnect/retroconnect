@@ -142,7 +142,7 @@ int main() {
 
 		if (fds[0].revents & POLLIN) {
 			read(fds[0].fd, (char*)&button_struct, sizeof(button_struct));
-			if (button_struct.code == 4 || button_struct.type == 0) {
+			if (button_struct.type != 1 && button_struct.type != 3) {
 				continue;
 			}
 			input_controller->read_buttons(button_struct);
@@ -198,7 +198,7 @@ int main() {
 
 		if (fds[1].revents & POLLIN) {
 			read(fds[1].fd, (char*)&button_struct, 16);
-			if (button_struct.code == 4 || button_struct.type == 0) {
+			if (button_struct.type != 0 && button_struct.type != 3) {
 				continue;
 			}
 			input_controller->read_buttons(button_struct);
