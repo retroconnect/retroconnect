@@ -1,6 +1,7 @@
 #!/bin/bash
 # Bluetooth Script
 
+
 # Run bluetoothctl as a coprocess
 coproc BT { bluetoothctl; }
 
@@ -15,13 +16,12 @@ echo "scan on" >&"$BTIN"
 while true; do
 	echo "devices" >&"$BTIN"
 	while read a b c BTADDR DEV <&"$BTOUT"; do
-		echo "$DEV"
+		#echo "$DEV"
 		if [[ "$DEV" == "Xbox Wireless Controller" ]]; then
 			break
 		fi
 	done
 	if test -n "$BTADDR"; then
-		echo "$BTADDR"
 		break
 	fi
 done
@@ -37,11 +37,11 @@ echo "connect $BTADDR" >&"$BTIN"
 # Quit
 while true; do
 	read p STATUS <&"$BTOUT"
-	echo "${STATUS}"
+	#echo "${STATUS}"
 	if [[ "${STATUS}" == *"Connection successful" ]]; then
 		sleep 5s
 		if [[ "${STATUS}" == *"Connection successful" ]]; then
-			echo "Connected!"
+			#echo "Connected!"
 			break
 		else
 			echo "Connection problem, re-connecting..."

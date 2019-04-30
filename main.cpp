@@ -31,10 +31,7 @@ using namespace std;
 /***************************************************/
 
 int main() {
-	//system("/bin/echo commandhere"); //Execute bash commands from C++
-	//Call the bluetooth.bash script here
 	
-
 	//Copy disable_ertm config to /etc/modprobe.d/disable_ertm.conf
 	char buf[100];
 	int src = open("disable_ertm.conf", O_RDONLY, 0);
@@ -49,56 +46,64 @@ int main() {
 	controller_t* input_controller; 
   	controller_t* output_controller = new snes_controller_t();
 
+
 	//Find which event# datastreams are for controller / consumer control device
 	string line, event_controller, event_consumer;
 	int event_position;
 	int devices_found = 0;
 	ifstream devices_list("/proc/bus/input/devices");
-	
-	while(getline(devices_list, line) && devices_found != 2) {
-		if (line.find("Vendor=054c Product=05c4", 0) != string::npos) { //PlayStation 4
-			getline(devices_list, line);
-			if (line.find("\"Wireless Controller\"", 0) != string::npos) {
-				while( getline(devices_list, line) ) {
-					if ((event_position = line.find("event", 0)) != (int) string::npos) {
-						event_controller = line.substr(event_position+5,2);
-						devices_found++;
-						input_controller = new ps4_controller_t();
-						printf("PlayStation 4 Controller detected on event%s\n", event_controller.c_str());
-						continue;
-					}
-				}
-			}
-		}
-		if (line.find("Vendor=045e Product=02fd", 0)  != string::npos) { //Xbox One
-			getline(devices_list, line);
-			if (line.find("Consumer Control", 0) != string::npos) {
-				while( getline(devices_list, line) ) {
-					if ((event_position = line.find("event", 0)) != (int) string::npos) {
-						event_consumer = line.substr(event_position+5, 2);
-						devices_found++;
-						printf("Xbox One Consumer Control detected on event%s\n", event_consumer.c_str());
-						break;
-					}
-				}
-			}
-			else {
-				while( getline(devices_list, line) ) {
-					if ((event_position = line.find("event", 0)) != (int) string::npos) {
-						event_controller = line.substr(event_position+5, 2);
-						devices_found++;
-						printf("Xbox One Controller detected on event%s\n", event_controller.c_str());
-						input_controller = new xbox_controller_t();
-						break;
-					}
-				}
-			}
-		}
-	}
 
-	if (devices_found == 0) {
-		printf("Input device not found!\n");
-		return 0;
+	while(devices_found == 0) {	
+		while(getline(devices_list, line) && devices_found != 2) {
+			if (line.find("Vendor=054c Product=05c4", 0) != string::npos) { //PlayStation 4
+				getline(devices_list, line);
+				if (line.find("\"Wireless Controller\"", 0) != string::npos) {
+					while( getline(devices_list, line) ) {
+						if ((event_position = line.find("event", 0)) != (int) string::npos) {
+							event_controller = line.substr(event_position+5,2);
+							devices_found++;
+							input_controller = new ps4_controller_t();
+							printf("PlayStation 4 Controller detected on event%s\n", event_controller.c_str());
+							continue;
+						}
+					}
+				}
+			}
+			if (line.find("Vendor=045e Product=02fd", 0)  != string::npos) { //Xbox One
+				getline(devices_list, line);
+				if (line.find("Consumer Control", 0) != string::npos) {
+					while( getline(devices_list, line) ) {
+						if ((event_position = line.find("event", 0)) != (int) string::npos) {
+							event_consumer = line.substr(event_position+5, 2);
+							devices_found++;
+							printf("Xbox One Consumer Control detected on event%s\n", event_consumer.c_str());
+							break;
+						}
+					}
+				}
+				else {
+					while( getline(devices_list, line) ) { //Xbox One Consumer Control
+						if ((event_position = line.find("event", 0)) != (int) string::npos) {
+							event_controller = line.substr(event_position+5, 2);
+							devices_found++;
+							printf("Xbox One Controller detected on event%s\n", event_controller.c_str());
+							input_controller = new xbox_controller_t();
+							break;
+						}
+					}
+				}
+			}
+		}
+		if (devices_found == 0) {
+			printf("Supported input device not connected, scanning for supported Bluetooth controller...\n");
+			if (system("bash bluetooth.bash") == 2) {
+				return 0;
+			}
+
+			printf("\nBluetooth controller found!\n");
+			devices_list.clear();
+			devices_list.seekg(0);
+		}
 	}
 
 
@@ -112,24 +117,26 @@ int main() {
 	snesbackend::update_controller((snes_controller_t*) output_controller);
 
 
-	//Monitor event channels for input
+	//Setup input streams
 	string event_string = "/dev/input/event";
 	struct pollfd fds[2];
 	event_controller.erase(std::remove(event_controller.begin(), event_controller.end(), ' '), event_controller.end());
 	fds[0].events = POLLIN;
         fds[0].fd = open(event_string.append(event_controller).c_str(), O_RDONLY);
 
-	if (devices_found == 2) {
+	if (devices_found == 2) { //Special handling for Xbox One Consumer Control
 		event_consumer.erase(std::remove(event_consumer.begin(), event_consumer.end(), ' '), event_consumer.end());
 		fds[1].events = POLLIN;
 		event_string = "/dev/input/event";
 		fds[1].fd = open(event_string.append(event_consumer).c_str(), O_RDONLY);
 	}
 	
-	printf("Starting input collection...\n");
 
+	//Monitor streams for input
+	printf("Starting input collection...\n");
 	struct button_struct_t button_struct;
 	int serial_fd = open("/dev/ttyS0", O_WRONLY);
+
 	while (1) {
 		poll(fds, 2, -1);
 
@@ -154,9 +161,39 @@ int main() {
 				converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 			}
 
-			//conversion step
+			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller, "user config path goes here");
 			output_controller->print_state();
+
+			//NES
+			//char data[2] = {0, 0};			
+			//data[0] = 0xFF;	
+			//data[1] |= (((nes_controller_t* ) output_controller)->A ? 1 : 0 ) << 0;
+			//data[1] |= (((nes_controller_t* ) output_controller)->B ? 1 : 0 ) << 1;
+			//data[1] |= (((nes_controller_t* ) output_controller)->SELECT ? 1 : 0 ) << 2;
+			//data[1] |= (((nes_controller_t* ) output_controller)->START ? 1 : 0 ) << 3;
+			//data[1] |= (((nes_controller_t* ) output_controller)->D_UP ? 1 : 0 ) << 4;
+			//data[1] |= (((nes_controller_t* ) output_controller)->D_DOWN ? 1 : 0 ) << 5;
+			//data[1] |= (((nes_controller_t* ) output_controller)->D_LEFT ? 1 : 0 ) << 6;
+			//data[1] |= (((nes_controller_t* ) output_controller)->D_RIGHT ? 1 : 0 ) << 7;
+			//write(serial_fd, data, 2);
+			
+			//SNES
+			char data[3] = {0, 0, 0};
+			data[0] = 0xFF; 
+			data[1] |= (((snes_controller_t* ) output_controller)->B ? 1 : 0 ) << 0;
+			data[1] |= (((snes_controller_t* ) output_controller)->Y ? 1 : 0 ) << 1;
+			data[1] |= (((snes_controller_t* ) output_controller)->SELECT ? 1 : 0 ) << 2;
+			data[1] |= (((snes_controller_t* ) output_controller)->START ? 1 : 0 ) << 3;
+			data[1] |= (((snes_controller_t* ) output_controller)->D_UP ? 1 : 0 ) << 4;
+			data[1] |= (((snes_controller_t* ) output_controller)->D_DOWN ? 1 : 0 ) << 5;
+			data[1] |= (((snes_controller_t* ) output_controller)->D_LEFT ? 1 : 0 ) << 6;
+			data[1] |= (((snes_controller_t* ) output_controller)->D_RIGHT ? 1 : 0 ) << 7;
+			data[2] |= (((snes_controller_t* ) output_controller)->A ? 1 : 0 ) << 0;
+			data[2] |= (((snes_controller_t* ) output_controller)->X ? 1 : 0 ) << 1;
+			data[2] |= (((snes_controller_t* ) output_controller)->LB ? 1 : 0 ) << 2;
+			data[2] |= (((snes_controller_t* ) output_controller)->RB ? 1 : 0 ) << 3;
+			write(serial_fd, data, 3);
 		}
 
 		if (fds[1].revents & POLLIN) {
@@ -167,26 +204,10 @@ int main() {
 			input_controller->read_buttons(button_struct);
 			input_controller->print_state();
 			
-			//convserion step
+			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller, "user config path goes here");
 			output_controller->print_state();
-		}
-
-		char data[3] = {0, 0, 0};
-		data[0] = 0xFF;
-		data[1] |= (((snes_controller_t* ) output_controller)->B ? 1 : 0 ) << 0;
-		data[1] |= (((snes_controller_t* ) output_controller)->Y ? 1 : 0 ) << 1;
-		data[1] |= (((snes_controller_t* ) output_controller)->SELECT ? 1 : 0 ) << 2;
-		data[1] |= (((snes_controller_t* ) output_controller)->START ? 1 : 0 ) << 3;
-		data[1] |= (((snes_controller_t* ) output_controller)->D_UP ? 1 : 0 ) << 4;
-		data[1] |= (((snes_controller_t* ) output_controller)->D_DOWN ? 1 : 0 ) << 5;
-		data[1] |= (((snes_controller_t* ) output_controller)->D_LEFT ? 1 : 0 ) << 6;
-		data[1] |= (((snes_controller_t* ) output_controller)->D_RIGHT ? 1 : 0 ) << 7;
-		data[2] |= (((snes_controller_t* ) output_controller)->A ? 1 : 0 ) << 0;
-		data[2] |= (((snes_controller_t* ) output_controller)->X ? 1 : 0 ) << 1;
-		data[2] |= (((snes_controller_t* ) output_controller)->LB ? 1 : 0 ) << 2;
-		data[2] |= (((snes_controller_t* ) output_controller)->RB ? 1 : 0 ) << 3;
-		write(serial_fd, data, 3);
+		}	
 	}
 
 	return 0;

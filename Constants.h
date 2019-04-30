@@ -55,8 +55,8 @@
 #define PS4_BTN_LS		0x13D
 #define PS4_BTN_RS		0x13E
 #define PS4_BTN_HOME		0x13C
-#define PS4_LEFT_Y_AXIS		0x01
-#define PS4_LEFT_X_AXIS		0x00
+#define PS4_LEFT_Y_AXIS		0x00
+#define PS4_LEFT_X_AXIS		0x01
 #define PS4_RIGHT_Y_AXIS	0x06
 #define PS4_RIGHT_X_AXIS	0x03
 #define PS4_RIGHT_TRIGGER   	0x05

@@ -16,7 +16,7 @@ class ControllerConverterFactory
 		static ControllerConverter* createConverter(controller_t& input_controller, controller_t& output_controller)
 	{
 		
-		//list of supported input/output combinations currently supported
+		//List of supported input/output combinations currently supported
 		if(input_controller.type == XB1) {
 			if (output_controller.type == SNES) {
 				return new XboxToSnesControllerConverter();

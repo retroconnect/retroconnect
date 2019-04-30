@@ -5,31 +5,53 @@
 #define XBOX_CONTROLLER_H
 
 struct xbox_controller_t: controller_t {
-	bool A = false;
-	bool B = false;
-	bool X = false;
-	bool Y = false;
-	bool D_UP = false;
-	bool D_DOWN = false;
-	bool D_LEFT = false;
-	bool D_RIGHT = false;
-	bool SELECT = false;
-	bool START = false;
-	bool HOME = false;
-	bool LS_PRESS = false;
-	bool RS_PRESS = false;
-	bool LB = false;
-	bool RB = false;
+	bool A;
+	bool B;
+	bool X;
+	bool Y;
+	bool D_UP;
+	bool D_DOWN;
+	bool D_LEFT;
+	bool D_RIGHT;
+	bool SELECT;
+	bool START;
+	bool HOME;
+	bool LS_PRESS;
+	bool RS_PRESS;
+	bool LB;
+	bool RB;
 
-	int LT = 0;
-	int RT = 0;
-	int LS_X = 0;
-	int LS_Y = 0;
-	int RS_X = 0;
-	int RS_Y = 0; 
+	int LT;
+	int RT;
+	int LS_X;
+	int LS_Y;
+	int RS_X;
+	int RS_Y; 
 
 	xbox_controller_t() {
 		type = XB1;
+		A = false;
+		B = false;
+		X = false;
+		Y = false;
+		D_UP = false;
+		D_DOWN = false;
+		D_LEFT = false;
+		D_RIGHT = false;
+		SELECT = false;
+		START = false;
+		HOME = false;
+		LS_PRESS = false;
+		RS_PRESS = false;
+		LB = false;
+		RB = false;
+
+		LT = 0;
+		RT = 0;
+		LS_X = 32768;
+		LS_Y = 32768;
+		RS_X = 32768;
+		RS_Y = 32768;
 	}
 
 	virtual bool snes_combo_pressed() override {

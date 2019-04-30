@@ -30,14 +30,36 @@ struct ps4_controller_t: controller_t {
 
 	ps4_controller_t() {
 		type = PS4;
+
+		X = false;
+		CIRCLE = false;
+		TRIANGLE = false;
+		SQUARE = false;
+		D_UP = false;
+		D_DOWN = false;
+		D_LEFT = false;
+		D_RIGHT = false;
+		SELECT = false;
+		START = false;
+		HOME = false;
+		LS_PRESS = false;
+		RS_PRESS = false;
+		L1 = 0;
+		R1 = 0;
+		L2 = 0;
+		R2 = 0;
+		LS_X = 128;
+		LS_Y = 128;
+		RS_X = 128;
+		RS_Y = 128;
 	}
 
-	virtual bool snes_combo_pressed() override {
-		return HOME && X;
-	}
+		virtual bool snes_combo_pressed() override {
+			return HOME && X;
+		}
 
-	virtual bool nes_combo_pressed() override {
-		return HOME && CIRCLE;
+		virtual bool nes_combo_pressed() override {
+			return HOME && CIRCLE;
 	}
 
 	virtual void print_state() override {
@@ -234,9 +256,9 @@ struct ps4_controller_t: controller_t {
 		}
 		// Print full struct for button press debugging
 		//printf("\nButton Timestamp: %08X", button_struct.time);
-		//printf("\nButton Type: %02X", button_struct.type);
-		//printf("\nButton Code: %02X", button_struct.code);
-		//printf("\nButton Value: %04x\n", button_struct.value);
+		printf("\nButton Type: %02X", button_struct.type);
+		printf("\nButton Code: %02X", button_struct.code);
+		printf("\nButton Value: %04x\n", button_struct.value);
 	}
 };
 

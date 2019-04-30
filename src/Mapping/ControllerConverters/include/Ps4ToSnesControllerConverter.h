@@ -15,7 +15,7 @@ class Ps4ToSnesControllerConverter: public ControllerConverter {
 
     public:
     	Ps4ToSnesControllerConverter();
-        bool convert(controller_t& input_contrller, controller_t& output_controller, std::string user_config_path);
+        void convert(controller_t& input_contrller, controller_t& output_controller, std::string user_config_path);
 };
 
 #endif

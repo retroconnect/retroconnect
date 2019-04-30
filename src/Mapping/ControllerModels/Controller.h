@@ -10,7 +10,7 @@ struct button_struct_t {       //16 bytes total
          unsigned short type;   //2 bytes
          unsigned short code;   //2 bytes
          unsigned int value;    //4 bytes
-} button_struct;
+};
 
 struct controller_t {
 	ControllerType type;

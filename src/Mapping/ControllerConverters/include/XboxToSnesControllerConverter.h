@@ -14,7 +14,7 @@ class XboxToSnesControllerConverter: public ControllerConverter {
 
     public:
 	XboxToSnesControllerConverter();
-        bool convert(controller_t& input_controller, controller_t& output_controller, std::string user_config_path);
+        void convert(controller_t& input_controller, controller_t& output_controller, std::string user_config_path);
 };
 
 #endif
