@@ -32,6 +32,10 @@ using namespace std;
 
 int main() {
 	
+	//Set serial baud rate
+	system("sudo stty -F /dev/ttyS0 115200");
+	
+
 	//Copy disable_ertm config to /etc/modprobe.d/disable_ertm.conf
 	char buf[100];
 	int src = open("disable_ertm.conf", O_RDONLY, 0);
@@ -135,7 +139,12 @@ int main() {
 	//Monitor streams for input
 	printf("Starting input collection...\n");
 	struct button_struct_t button_struct;
-	//int serial_fd = open("/dev/ttyS0", O_WRONLY);
+	unsigned char data[3] = {0xFF, 0, 0};
+	int serial_fd = open("/dev/ttyS0", O_WRONLY);
+	if (serial_fd == 0) {
+		printf("Teensy not connected!");
+		return 0;
+	}
 
 	while (1) {
 		poll(fds, 2, -1);
@@ -145,9 +154,9 @@ int main() {
 			if (button_struct.type != 1 && button_struct.type != 3) {
 				continue;
 			}
+			
 			input_controller->read_buttons(button_struct);
-			//input_controller->print_state();
-
+			
 			if(input_controller->snes_combo_pressed()) {
 				printf("Combo detected! Switching to SNES output\n");
 				output_controller = new snes_controller_t();
@@ -161,10 +170,15 @@ int main() {
 				converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 			}
 
+			//input_controller->print_state();
+
 			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller, "user config path goes here");
+			
 			//output_controller->print_state();
-			output_controller->send_state();
+			
+			//Send button state to Teensy
+			output_controller->send_state(serial_fd, data);
 		}
 
 		if (fds[1].revents & POLLIN) {
@@ -172,13 +186,21 @@ int main() {
 			if (button_struct.type != 1 && button_struct.type != 3) {
 				continue;
 			}
-			input_controller->read_buttons(button_struct);
+			
+			//input_controller->read_buttons(button_struct);
+			if (button_struct.code == XB1_BTN_HOME) {
+				((xbox_controller_t*)input_controller)->HOME = button_struct.value;
+			}	
+			
 			//input_controller->print_state();
 			
 			//Convert button inputs to outputs
-			converter->convert(*input_controller, *output_controller, "user config path goes here");
+			//converter->convert(*input_controller, *output_controller, "user config path goes here");
+			
 			//output_controller->print_state();
-			output_controller->send_state();
+			
+			//Send button state to Teensy
+			//output_controller->send_state();
 		}	
 	}
 

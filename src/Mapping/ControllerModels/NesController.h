@@ -39,12 +39,9 @@ struct nes_controller_t: controller_t {
 		printf("Select: %d, Start: %d\n\n", SELECT, START);
 	}
 
-	virtual void send_state() override {
-		int serial_fd = open("/dev/ttyS0", O_WRONLY);
-		if (serial_fd == 0) {
-			return;
-		}
-		unsigned char data[3] = {0xFF, 0, 0};
+	virtual void send_state(int serial_fd, unsigned char data[3]) override {
+		data[1] = 0;
+		data[2] = 0;
 		data[1] |= (this->A ? 1 : 0 ) << 0;
 		data[1] |= (this->B ? 1 : 0 ) << 1;
 		data[1] |= (this->SELECT ? 1 : 0 ) << 2;
@@ -54,7 +51,6 @@ struct nes_controller_t: controller_t {
 		data[1] |= (this->D_LEFT ? 1 : 0 ) << 6;
 		data[1] |= (this->D_RIGHT ? 1 : 0 ) << 7;
 		write(serial_fd, &data, sizeof(data));
-		close(serial_fd);
 	}
 
 };
