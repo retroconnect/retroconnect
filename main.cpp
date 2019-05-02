@@ -117,18 +117,18 @@ int main() {
 
 	//read user config and convert to map for converter
 	std::map<std::string, std::string> userMap = {
-		{"A", "A"},
-		{"B", "B"},
-		{"X", "X"},
-		{"Y", "Y"},
-		{"START", "START"},
-		{"SELECT", "SELECT"},
-		{"LB", "LB LT"},
-		{"RB", "RB RT"},
-		{"D_LEFT", "D_LEFT LS_LEFT"},
-		{"D_RIGHT", "D_RIGHT LS_RIGHT"},
-		{"D_UP", "D_UP LS_UP"},
-		{"D_DOWN", "D_DOWN LS_DOWN"},
+		{"A", "B "},
+		{"B", "A "},
+		{"X", "X "},
+		{"Y", "Y "},
+		{"START", "START "},
+		{"SELECT", "SELECT "},
+		{"LB", "LB LT "},
+		{"RB", "RB RT "},
+		{"D_LEFT", "D_LEFT LS_LEFT "},
+		{"D_RIGHT", "D_RIGHT LS_RIGHT "},
+		{"D_UP", "D_UP LS_UP "},
+		{"D_DOWN", "D_DOWN LS_DOWN "},
 		{"TRIGGER_DEADZONE", "100"},
 		{"STICK_DEADZONE", "10000"}
 		//map built on this config: (xbox to snes)

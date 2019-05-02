@@ -69,26 +69,26 @@ int Ps4ToNesControllerConverter::compileButtonMappingsFor(std::string b, std::ma
                 
                 //handling for sticks is different for each direction, handling for triggers is unique, all other buttons captured by else
                 if(token == "LS_LEFT") {
-                        triggerValue = -std::stoi(user_map["STICK_DEADZONE"]);
-                        ps4Value = ps4.button_states["LS_X"] - MAX_AXIS_VALUE / 2;
+                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+                        ps4Value = -(ps4.button_states["LS_X"] - MAX_AXIS_VALUE / 2);
                 } else if (token == "LS_RIGHT") {
                         triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
                         ps4Value = ps4.button_states["LS_X"] - MAX_AXIS_VALUE / 2;
                 } else if (token == "LS_UP") {
-                        triggerValue = -std::stoi(user_map["STICK_DEADZONE"]);
-                        ps4Value = ps4.button_states["LS_Y"] - MAX_AXIS_VALUE / 2;
+                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+                        ps4Value = -(ps4.button_states["LS_Y"] - MAX_AXIS_VALUE / 2);
                 } else if (token == "LS_DOWN") {
                         triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
                         ps4Value = ps4.button_states["LS_Y"] - MAX_AXIS_VALUE / 2;
                 } else if (token == "RS_LEFT") {
-                        triggerValue = -std::stoi(user_map["STICK_DEADZONE"]);
-                        ps4Value = ps4.button_states["RS_X"] - MAX_AXIS_VALUE / 2;
+                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+                        ps4Value = -(ps4.button_states["RS_X"] - MAX_AXIS_VALUE / 2);
                 } else if (token == "RS_RIGHT") {
                         triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
                         ps4Value = ps4.button_states["RS_X"] - MAX_AXIS_VALUE / 2;
                 } else if (token == "RS_UP") {
-                        triggerValue = -std::stoi(user_map["STICK_DEADZONE"]);
-                        ps4Value = ps4.button_states["RS_Y"] - MAX_AXIS_VALUE / 2;
+                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+                        ps4Value = -(ps4.button_states["RS_Y"] - MAX_AXIS_VALUE / 2);
                 } else if (token == "RS_DOWN") {
                         triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
                         ps4Value = ps4.button_states["RS_Y"] - MAX_AXIS_VALUE / 2;
