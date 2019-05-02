@@ -3,6 +3,8 @@
 
 #include <sys/time.h>
 
+#include <map>
+
 enum ControllerType {UNSET, XB1, PS4, SNES, NES};
 
 struct button_struct_t {       //16 bytes total
@@ -14,6 +16,8 @@ struct button_struct_t {       //16 bytes total
 
 struct controller_t {
 	ControllerType type;
+
+	std::map<std::string, int> button_states;
 
 	virtual bool snes_combo_pressed() = 0;
 	virtual bool nes_combo_pressed() = 0;

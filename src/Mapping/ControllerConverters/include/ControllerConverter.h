@@ -6,7 +6,7 @@
 
 class ControllerConverter {
     public:
-        virtual void convert(controller_t& input_controller, controller_t& output_controller, std::string user_config_path) = 0;
+        virtual void convert(controller_t& input_controller, controller_t& output_controller, std::map<std::string, std::string> user_map) = 0;
 };
 
 #endif

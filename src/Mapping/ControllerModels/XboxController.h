@@ -5,231 +5,210 @@
 #define XBOX_CONTROLLER_H
 
 struct xbox_controller_t: controller_t {
-	bool A;
-	bool B;
-	bool X;
-	bool Y;
-	bool D_UP;
-	bool D_DOWN;
-	bool D_LEFT;
-	bool D_RIGHT;
-	bool SELECT;
-	bool START;
-	bool HOME;
-	bool LS_PRESS;
-	bool RS_PRESS;
-	bool LB;
-	bool RB;
-
-	int LT;
-	int RT;
-	int LS_X;
-	int LS_Y;
-	int RS_X;
-	int RS_Y; 
 
 	xbox_controller_t() {
 		type = XB1;
-		A = false;
-		B = false;
-		X = false;
-		Y = false;
-		D_UP = false;
-		D_DOWN = false;
-		D_LEFT = false;
-		D_RIGHT = false;
-		SELECT = false;
-		START = false;
-		HOME = false;
-		LS_PRESS = false;
-		RS_PRESS = false;
-		LB = false;
-		RB = false;
 
-		LT = 0;
-		RT = 0;
-		LS_X = 32768;
-		LS_Y = 32768;
-		RS_X = 32768;
-		RS_Y = 32768;
+		//Note: these strings must be exactly the ones used in config files
+		button_states["A"] = 0;
+		button_states["B"] = 0;
+		button_states["X"] = 0;
+		button_states["Y"] = 0;
+		button_states["D_UP"] = 0;
+		button_states["D_DOWN"] = 0;
+		button_states["D_LEFT"] = 0;
+		button_states["D_RIGHT"] = 0;
+		button_states["SELECT"] = 0;
+		button_states["START"] = 0;
+		button_states["HOME"] = 0;
+		button_states["LB"] = 0;
+		button_states["RB"] = 0;
+		button_states["LS_PRESS"] = 0;
+		button_states["RS_PRESS"] = 0;
+		button_states["RT"] = 0;
+		button_states["LT"] = 0;
+		button_states["LS_X"] = 32768;
+		button_states["LS_Y"] = 32768;
+		button_states["RS_X"] = 32768;
+		button_states["RS_Y"] = 32768;
 	}
 
 	virtual bool snes_combo_pressed() override {
-		return HOME && A;
+		return button_states["HOME"] && button_states["A"];
 	}
 
 	virtual bool nes_combo_pressed() override {
-		return HOME && B;
+		return button_states["HOME"] && button_states["B"];
 	}
 
 	virtual void print_state() override {
 		printf("\n---Xbox Controller State---\n");
 
-		printf("A: %d, B: %d, X: %d, Y: %d\n", A, B, X, Y);
-		printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", D_UP, D_DOWN, D_LEFT, D_RIGHT);
-		printf("LT: %d, RT: %d\n", LT, RT);
-		printf("LB: %d, RB: %d\n", LB, RB);
-		printf("Select: %d, Home: %d, Start: %d\n", SELECT, HOME, START);
-		printf("LS-x: %d, LS-y: %d, LS-press: %d\n", LS_X, LS_Y, LS_PRESS);
-		printf("RS-x: %d, RS-y: %d, RS-press: %d\n", RS_X, RS_Y, RS_PRESS);
+		printf("A: %d, B: %d, X: %d, Y: %d\n", button_states["A"], button_states["B"], button_states["X"], button_states["Y"]);
+		printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", button_states["D_UP"], button_states["D_DOWN"], button_states["D_LEFT"], button_states["D_RIGHT"]);
+		printf("LT: %d, RT: %d\n", button_states["LT"], button_states["RT"]);
+		printf("LB: %d, RB: %d\n", button_states["LB"], button_states["RB"]);
+		printf("Select: %d, Home: %d, Start: %d\n", button_states["SELECT"], button_states["HOME"], button_states["START"]);
+		printf("LS-x: %d, LS-y: %d, LS-press: %d\n", button_states["LS_X"], button_states["LS_Y"], button_states["LS_PRESS"]);
+		printf("RS-x: %d, RS-y: %d, RS-press: %d\n", button_states["RS_X"], button_states["RS_Y"], button_states["RS_PRESS"]);
 	}
 
 	void read_buttons(button_struct_t button_struct) {
 		switch(button_struct.code) {
 			case(XB1_LEFT_Y_AXIS):
 				printf("Left Analog Stick Y\n");
-				LS_Y = button_struct.value;
+				button_states["LS_Y"] = button_struct.value;
 				break;
 			case(XB1_LEFT_X_AXIS):
 				printf("Left Analog Stick X\n");
-				LS_X = button_struct.value;
+				button_states["LS_X"] = button_struct.value;
 				break;
 			case(XB1_RIGHT_Y_AXIS):
 				printf("Right Analog Stick Y\n");
-				RS_Y = button_struct.value;
+				button_states["RS_Y"] = button_struct.value;
 				break;
 			case(XB1_RIGHT_X_AXIS):
 				printf("Right Analog Stick X\n");
-				RS_X = button_struct.value;
+				button_states["RS_X"] = button_struct.value;
 				break;
 			case(XB1_DPAD_X):
 				if (button_struct.value == 1) {
 					printf("DPAD-Right\n");
-					D_RIGHT = true;
+					button_states["D_RIGHT"] = 1;
 				}
 				else if (button_struct.value == 0) {
 					printf("DPAD-X Released\n");
-					D_RIGHT = false;
-					D_LEFT = false;
+					button_states["D_RIGHT"] = 0;
+					button_states["D_LEFT"] = 0;
 				}
 				else {
 					printf("DPAD-Left\n");
-					D_LEFT = true;
+					button_states["D_LEFT"] = 1;
 				}
 				break;
 			case(XB1_DPAD_Y):
 				if (button_struct.value == 1) {
 					printf("DPAD-Down\n");
-					D_DOWN = true;
+					button_states["D_DOWN"] = 1;
 				}
 				else if (button_struct.value == 0) {
 					printf("DPAD-Y Released\n");
-					D_DOWN = false;
-					D_UP = false;
+					button_states["D_DOWN"] = 0;
+					button_states["D_UP"] = 0;
 				}
 				else {
 					printf("DPAD-Up\n");
-					D_UP = true;
+					button_states["D_UP"] = 1;
 				}
 				break;
 			case(XB1_BTN_A):
 				if (button_struct.value == 0) {
 					printf("A released\n");
-					A = false;
+					button_states["A"] = 0;
 				}
 				else {
 					printf("A pressed\n");
-					A = true;
+					button_states["A"] = 1;
 				}
 				break;
 			case(XB1_BTN_B):
 				if (button_struct.value == 0) {
 					printf("B released\n");
-					B = false;
+					button_states["B"] = 0;
 				}
 				else {
 					printf("B pressed\n");
-					B = true;
+					button_states["B"] = 1;
 				}
 				break;
 			case(XB1_BTN_X):
 				if (button_struct.value == 0) {
 					printf("X released\n");
-					X = false;
+					button_states["X"] = 0;
 				}
 				else {
 					printf("X pressed\n");
-					X = true;
+					button_states["X"] = 1;
 				}
 				break;
 			case(XB1_BTN_Y):
 				if (button_struct.value == 0) {
 					printf("Y released\n");
-					Y = false;
+					button_states["Y"] = 0;
 				}
 				else {
 					printf("Y pressed\n");
-					Y = true;
+					button_states["Y"] = 1;
 				}
 				break;
 			case(XB1_BTN_LB):
 				if (button_struct.value == 0) {
 					printf("LB released\n");
-					LB = false;
+					button_states["LB"] = 0;
 				}
 				else {
 					printf("LB pressed\n");
-					LB = true;
+					button_states["LB"] = 1;
 				}
 				break;
 			case(XB1_BTN_RB):
 				if (button_struct.value == 0) {
 					printf("RB released\n");
-					RB = false;
+					button_states["RB"] = 0;
 				}
 				else {
 					printf("RB pressed\n");
-					RB = true;
+					button_states["RB"] = 1;
 				}
 				break;
 			case(XB1_BTN_START):
 				if (button_struct.value == 0) {
 					printf("Start released\n");
-					START = false;
+					button_states["START"] = 0;
 				}
 				else {
 					printf("Start pressed\n");
-					START = true;
+					button_states["START"] = 1;
 				}
 				break;
 			case(XB1_BTN_SELECT):
 				if (button_struct.value == 0) {
 					printf("Select released\n");
-					SELECT = false;
+					button_states["SELECT"] = 0;
 				}
 				else {
 					printf("Select pressed\n");
-					SELECT = true;
+					button_states["SELECT"] = 1;
 				}
 				break;
 			case(XB1_BTN_LS):
 				if (button_struct.value == 0) {
 					printf("Left Thumb released\n");
-					LS_PRESS = false;
+					button_states["LS_PRESS"] = 0;
 				}
 				else {
 					printf("Left Thumb pressed\n");
-					LS_PRESS = true;
+					button_states["LS_PRESS"] = 1;
 				}
 				break;
 			case(XB1_BTN_RS):
 				if (button_struct.value == 0) {
 					printf("Right Thumb released\n");
-					RS_PRESS = false;
+					button_states["RS_PRESS"] = 0;
 				}
 				else {
 					printf("Right Thumb pressed\n");
-					RS_PRESS = true;
+					button_states["RS_PRESS"] = 1;
 				}
 				break;
 			case(XB1_BTN_HOME):
 				if (button_struct.value == 0) {
 					printf("Home released\n");
-					HOME = false;
+					button_states["HOME"] = 0;
 				}
 				else {
 					printf("Home pressed\n");
-					HOME = true;
+					button_states["HOME"] = 1;
 				}
 				break;
 			case(XB1_RIGHT_TRIGGER):
@@ -239,7 +218,7 @@ struct xbox_controller_t: controller_t {
 				else {
 					printf("Right Trigger pressed\n");
 				}
-				RT = button_struct.value;
+				button_states["RT"] = button_struct.value;
 				break;
 			case(XB1_LEFT_TRIGGER):
 				if (button_struct.value == 0) {
@@ -248,7 +227,7 @@ struct xbox_controller_t: controller_t {
 				else {
 					printf("Left Trigger pressed\n");
 				}
-				LT = button_struct.value;
+				button_states["LT"] = button_struct.value;
 				break;
 			case(4):
 				//Junk value
