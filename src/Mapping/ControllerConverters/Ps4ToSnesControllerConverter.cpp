@@ -4,10 +4,12 @@
 #include <Ps4Controller.h>
 #include <Ps4ToSnesControllerConverter.h>
 
-Ps4ToSnesControllerConverter::Ps4ToSnesControllerConverter() :AXIS_DEADZONE{50}, TRIGGER_DEADZONE{100} {}
+Ps4ToSnesControllerConverter::Ps4ToSnesControllerConverter(std::map<std::string, std::string> userMap) :AXIS_DEADZONE{50}, TRIGGER_DEADZONE{100} {
+        user_map = userMap;
+}
 
 
-void Ps4ToSnesControllerConverter::convert(controller_t& input_controller, controller_t& output_controller, std::map<std::string, std::string> user_map)
+void Ps4ToSnesControllerConverter::convert(controller_t& input_controller, controller_t& output_controller)
 {
         snes_controller_t& snes_controller = (snes_controller_t&) output_controller;
         ps4_controller_t& ps4_controller = (ps4_controller_t&) input_controller;
@@ -40,22 +42,22 @@ void Ps4ToSnesControllerConverter::convert(controller_t& input_controller, contr
         //NOTE: Find a way to handle multiple buttons mapping to one. (i.e. triggers and bumpers on ps4 -> bumper on snes)
 
         //A, B, X, Y, START, SELECT
-        snes_controller.button_states["B"] = compileButtonMappingsFor("B", user_map, ps4_controller);
-        snes_controller.button_states["A"] = compileButtonMappingsFor("A", user_map, ps4_controller);
-        snes_controller.button_states["X"] = compileButtonMappingsFor("X", user_map, ps4_controller);
-        snes_controller.button_states["Y"] = compileButtonMappingsFor("Y", user_map, ps4_controller);
-        snes_controller.button_states["START"] = compileButtonMappingsFor("START", user_map, ps4_controller);
-        snes_controller.button_states["SELECT"] = compileButtonMappingsFor("SELECT", user_map, ps4_controller);
+        snes_controller.button_states["B"] = compileButtonMappingsFor("B", ps4_controller);
+        snes_controller.button_states["A"] = compileButtonMappingsFor("A", ps4_controller);
+        snes_controller.button_states["X"] = compileButtonMappingsFor("X", ps4_controller);
+        snes_controller.button_states["Y"] = compileButtonMappingsFor("Y", ps4_controller);
+        snes_controller.button_states["START"] = compileButtonMappingsFor("START", ps4_controller);
+        snes_controller.button_states["SELECT"] = compileButtonMappingsFor("SELECT", ps4_controller);
 
         //D-PAD
-        snes_controller.button_states["D_UP"] = compileButtonMappingsFor("D_UP", user_map, ps4_controller);
-        snes_controller.button_states["D_DOWN"] = compileButtonMappingsFor("D_DOWN", user_map, ps4_controller);
-        snes_controller.button_states["D_RIGHT"] = compileButtonMappingsFor("D_RIGHT", user_map, ps4_controller);
-        snes_controller.button_states["D_LEFT"] = compileButtonMappingsFor("D_LEFT", user_map, ps4_controller);
+        snes_controller.button_states["D_UP"] = compileButtonMappingsFor("D_UP", ps4_controller);
+        snes_controller.button_states["D_DOWN"] = compileButtonMappingsFor("D_DOWN", ps4_controller);
+        snes_controller.button_states["D_RIGHT"] = compileButtonMappingsFor("D_RIGHT", ps4_controller);
+        snes_controller.button_states["D_LEFT"] = compileButtonMappingsFor("D_LEFT", ps4_controller);
 
         //Triggers and bumpers
-        snes_controller.button_states["LB"] = compileButtonMappingsFor("LB", user_map, ps4_controller);
-        snes_controller.button_states["RB"] = compileButtonMappingsFor("RB", user_map, ps4_controller);
+        snes_controller.button_states["LB"] = compileButtonMappingsFor("LB", ps4_controller);
+        snes_controller.button_states["RB"] = compileButtonMappingsFor("RB", ps4_controller);
 }
 
 //user map will look like:
@@ -63,7 +65,7 @@ void Ps4ToSnesControllerConverter::convert(controller_t& input_controller, contr
 //      if both R1 and R2 on ps4 controller should trigger the snes's RB
 //this function makes sure multiple mappings on input controller are taken into account when producing output controllers state
 //also handles deadzones
-int Ps4ToSnesControllerConverter::compileButtonMappingsFor(std::string b, std::map<std::string, std::string> user_map, ps4_controller_t ps4) {
+int Ps4ToSnesControllerConverter::compileButtonMappingsFor(std::string b, ps4_controller_t ps4) {
         std::string ps4Buttons = user_map[b];
 
         //split user_map string by space

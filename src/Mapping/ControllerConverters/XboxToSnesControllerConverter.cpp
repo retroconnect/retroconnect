@@ -4,30 +4,32 @@
 #include <XboxController.h>
 #include <XboxToSnesControllerConverter.h>
 
-XboxToSnesControllerConverter::XboxToSnesControllerConverter() :AXIS_DEADZONE{10000}, TRIGGER_DEADZONE{100} {}
+XboxToSnesControllerConverter::XboxToSnesControllerConverter(std::map<std::string, std::string> userMap) :AXIS_DEADZONE{10000}, TRIGGER_DEADZONE{100} {
+        user_map = userMap;
+}
 
-void XboxToSnesControllerConverter::convert(controller_t& input_controller, controller_t& output_controller, std::map<std::string, std::string> user_map)
+void XboxToSnesControllerConverter::convert(controller_t& input_controller, controller_t& output_controller)
 {
         snes_controller_t& snes_controller = (snes_controller_t&) output_controller;
         xbox_controller_t& xbox_controller = (xbox_controller_t&) input_controller;
 
         //A, B, X, Y, START, SELECT
-        snes_controller.button_states["B"] = compileButtonMappingsFor("B", user_map, xbox_controller);
-        snes_controller.button_states["A"] = compileButtonMappingsFor("A", user_map, xbox_controller);
-        snes_controller.button_states["X"] = compileButtonMappingsFor("X", user_map, xbox_controller);
-        snes_controller.button_states["Y"] = compileButtonMappingsFor("Y", user_map, xbox_controller);
-        snes_controller.button_states["START"] = compileButtonMappingsFor("START", user_map, xbox_controller);
-        snes_controller.button_states["SELECT"] = compileButtonMappingsFor("SELECT", user_map, xbox_controller);
+        snes_controller.button_states["B"] = compileButtonMappingsFor("B", xbox_controller);
+        snes_controller.button_states["A"] = compileButtonMappingsFor("A", xbox_controller);
+        snes_controller.button_states["X"] = compileButtonMappingsFor("X", xbox_controller);
+        snes_controller.button_states["Y"] = compileButtonMappingsFor("Y", xbox_controller);
+        snes_controller.button_states["START"] = compileButtonMappingsFor("START", xbox_controller);
+        snes_controller.button_states["SELECT"] = compileButtonMappingsFor("SELECT", xbox_controller);
 
         //D-PAD
-        snes_controller.button_states["D_UP"] = compileButtonMappingsFor("D_UP", user_map, xbox_controller);
-        snes_controller.button_states["D_DOWN"] = compileButtonMappingsFor("D_DOWN", user_map, xbox_controller);
-        snes_controller.button_states["D_RIGHT"] = compileButtonMappingsFor("D_RIGHT", user_map, xbox_controller);
-        snes_controller.button_states["D_LEFT"] = compileButtonMappingsFor("D_LEFT", user_map, xbox_controller);
+        snes_controller.button_states["D_UP"] = compileButtonMappingsFor("D_UP", xbox_controller);
+        snes_controller.button_states["D_DOWN"] = compileButtonMappingsFor("D_DOWN", xbox_controller);
+        snes_controller.button_states["D_RIGHT"] = compileButtonMappingsFor("D_RIGHT", xbox_controller);
+        snes_controller.button_states["D_LEFT"] = compileButtonMappingsFor("D_LEFT", xbox_controller);
 
         //Triggers and bumpers
-        snes_controller.button_states["LB"] = compileButtonMappingsFor("LB", user_map, xbox_controller);
-        snes_controller.button_states["RB"] = compileButtonMappingsFor("RB", user_map, xbox_controller);
+        snes_controller.button_states["LB"] = compileButtonMappingsFor("LB", xbox_controller);
+        snes_controller.button_states["RB"] = compileButtonMappingsFor("RB", xbox_controller);
 }
 
 //user map will look like:
@@ -35,7 +37,7 @@ void XboxToSnesControllerConverter::convert(controller_t& input_controller, cont
 //      if both R1 and R2 on xbox controller should trigger the snes's RB
 //this function makes sure multiple mappings on input controller are taken into account when producing output controllers state
 //also handles deadzones
-int XboxToSnesControllerConverter::compileButtonMappingsFor(std::string b, std::map<std::string, std::string> user_map, xbox_controller_t xbox) {
+int XboxToSnesControllerConverter::compileButtonMappingsFor(std::string b, xbox_controller_t xbox) {
         std::string xboxButtons = user_map[b];
 
         //split user_map string by space

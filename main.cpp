@@ -115,53 +115,6 @@ int main() {
 	ControllerConverter* converter;
 	converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 
-	//read user config and convert to map for converter
-	std::map<std::string, std::string> userMap = {
-		{"A", "B "},
-		{"B", "A "},
-		{"X", "X "},
-		{"Y", "Y "},
-		{"START", "START "},
-		{"SELECT", "SELECT "},
-		{"LB", "LB LT "},
-		{"RB", "RB RT "},
-		{"D_LEFT", "D_LEFT LS_LEFT "},
-		{"D_RIGHT", "D_RIGHT LS_RIGHT "},
-		{"D_UP", "D_UP LS_UP "},
-		{"D_DOWN", "D_DOWN LS_DOWN "},
-		{"TRIGGER_DEADZONE", "100"},
-		{"STICK_DEADZONE", "10000"}
-		//map built on this config: (xbox to snes)
-		// A=A
-		// B=B
-		// X=X
-		// Y=Y
-		// START=START
-		// SELECT=SELECT
-		// HOME=NULL
-		// LS_PRESS=NULL
-		// RS_PRESS=NULL
-		// LB=LB
-		// RB=RB
-		// LT=LB
-		// RT=RB
-		// TRIGGER_DEADZONE=100
-		// D_LEFT=D_LEFT
-		// D_RIGHT=D_RIGHT
-		// D_DOWN=D_DOWN
-		// D_UP=D_UP
-		// LS_LEFT=D_LEFT
-		// LS_RIGHT=D_RIGHT
-		// LS_UP=D_UP
-		// LS_DOWN=D_DOWN
-		// RS_LEFT=NULL
-		// RS_RIGHT=NULL
-		// RS_UP=NULL
-		// RS_DOWN=NULL
-		// STICK_DEADZONE=10000
-	};
-
-
 	//Set pin modes and interrupts
 	snesbackend::setup();
 	snesbackend::update_controller((snes_controller_t*) output_controller);
@@ -219,7 +172,7 @@ int main() {
 			//input_controller->print_state();
 
 			//Convert button inputs to outputs
-			converter->convert(*input_controller, *output_controller, userMap);
+			converter->convert(*input_controller, *output_controller);
 			//output_controller->print_state();
 			
 			//Send button state to Teensy
@@ -240,7 +193,7 @@ int main() {
 			//input_controller->print_state();
 			
 			//Convert button inputs to outputs
-			converter->convert(*input_controller, *output_controller, userMap);
+			converter->convert(*input_controller, *output_controller);
 			//output_controller->print_state();
 			
 			//Send button state to Teensy
