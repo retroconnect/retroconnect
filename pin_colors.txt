@@ -1,0 +1,19 @@
+Teensy Pins
+
+SNES:
+Black GND
+Blue RX0 0
+Purple TX0 1
+Red DATA 2
+Yellow CLOCK 3
+White LATCH 4
+Green 5V (unused)
+
+NES:
+White GND
+Blue RX0 0
+Purple TX0 1
+Black DATA 2
+Yellow CLOCK 3
+Green LATCH 4 
+Red 5V (unused)
