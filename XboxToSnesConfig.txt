@@ -12,10 +12,10 @@
 
 Xbox to SNES Mapping Configuration
 *================================*
-A=A
-B=B
-X=X
-Y=Y
+A=B
+B=A
+X=Y
+Y=X
 START=START
 SELECT=SELECT
 HOME=NULL
