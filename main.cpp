@@ -163,13 +163,15 @@ int main() {
 			if(input_controller->snes_combo_pressed()) {
 				printf("Combo detected! Switching to SNES output\n");
 				output_controller = new snes_controller_t();
-
 				converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 			}
 			else if (input_controller->nes_combo_pressed()) {
 				printf("Combo detected! Switching to NES output\n");
 				output_controller = new nes_controller_t();
-
+				converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
+			} else if (input_controller->gen_combo_pressed()) {
+				printf("Combo detected! Switching to GEN output\n");
+				output_controller = new gen_controller_t();
 				converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 			}
 
