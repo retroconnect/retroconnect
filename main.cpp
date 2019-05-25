@@ -18,14 +18,18 @@ using namespace std;
 #include "SnesController.h"
 #include "XboxController.h"
 #include "Ps4Controller.h"
+#include "GenController.h"
 #include "ControllerConverter.h"
 #include "XboxToNesControllerConverter.h"
 #include "XboxToSnesControllerConverter.h"
+#include "XboxToGenControllerConverter.h"
 #include "Ps4ToNesControllerConverter.h"
 #include "Ps4ToSnesControllerConverter.h"
+#include "Ps4ToGenControllerConverter.h"
 #include "ControllerConverterFactory.h"
 #include "NESBackend.h"
 #include "SNESBackend.h"
+#include "GENBackend.h"
 
 
 /***************************************************/
@@ -115,8 +119,8 @@ int main() {
 	ControllerConverter* converter;
 	converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 
-	//Set pin modes and interrupts
-	snesbackend::setup();
+
+	//Set SNES as default output controllers
 	snesbackend::update_controller((snes_controller_t*) output_controller);
 
 

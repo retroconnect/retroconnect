@@ -41,6 +41,10 @@ struct xbox_controller_t: controller_t {
 		return button_states["HOME"] && button_states["B"];
 	}
 
+	virtual bool gen_combo_pressed() override {
+		return button_states["HOME"] && button_states["X"];
+	}
+
 	virtual void print_state() override {
 		printf("\n---Xbox Controller State---\n");
 
