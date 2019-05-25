@@ -18,24 +18,26 @@
 
 * **Our solution:**
 
-    The proposed solution is a single Bluetooth dongle which can wirelessly connect to a modern bluetooth controller of the user's choosing.The dongle can then be plugged in using a unique connector for each game console to adapt the Bluetooth dongle’s outputs to correct controller outputs for the target console. Suddenly, the great pile of old controllers is reduced to a single favorite controller. (With a dongle of course)
-
-
+    Our solution is a Bluetooth dongle which can wirelessly connect to a modern bluetooth controller of the user's choosing.The dongle can then be plugged in using a unique connector for each game console to adapt the Bluetooth dongle’s inputs to correct controller outputs for the target console. Suddenly, the great pile of old controllers is reduced to a single favorite controller.
+    
     
 
 ## **Project Goals**
 
-#### Main goals:
-- Ability to sync Bluetooth controller with device
-- Use a second generation XBox One controller to control a SNES
-- Minimal input latency (< 16.6 ms estimated)
+#### Completed Features:
+- Supported input devices: Xbox One / PlayStation 4
+- Supported output devices: Nintendo / Super Nintendo
+- Uses Raspberry Pi Zero W and Teensy 3.2
+- Less than 1 frame of input lag
 - Electronic safety with proper voltage handling
 
-#### Stretch goals:
+#### Future Features:
 
+- Single MCU instead of Raspberry Pi and Teensy
+- Manufactured console adapters with standard USB-C plug
 - 3D printed case
-- Out-of-the-box support additional target consoles
-- Out-of-the-box support for additional wireless controllers
+- Support for input devices: Switch Joycons, DualShock 3 / SixAxis, Wii, third party controllers
+- Support for output devices: Genesis, Saturn, Dreamcast, Nintendo 64, PlayStation 1, and more
 - A web app UI for customizing the controller mappings
 
 
@@ -62,6 +64,7 @@ root/
         SNESBackend.cpp
         ...
     build/
+    configs/
     Readme.md
     LICENSE
     .gitignore
@@ -71,19 +74,20 @@ root/
 The ```root/``` directory contains the following components:
 - ```src/``` is meant to hold all our source code
 - ```build/``` is meant to hold the compiled and built code ready to run retroconnect
+- ```configs/``` is meant to hold user-configurable mapping config files
 - ```Readme.md``` is the file you are reading
 - ```LICENSE``` is a text file describing our code's legal licensing
 
 ### **```src/```**
 The ```src/``` directory is divided into the logical components that makeup the dataflow of our program
-- ```Bluetooth``` covers connecting and pairing
 - ```Mapping/``` handles converting one controllers state to another's
     - ```ControllerModels/``` holds all the classes that define a controller's inputs and states, as well as the abstract Controller class that they all inherit from
     - ```ControllerConverters/``` holds all the classes that  have methods for converting one controller model to another, as well as the interface all controller converters will implement.
 - ```Backend/``` holds all the classes that have methods for writing a controllers state to its corresponding console, as well as the interface all backends will implement.
+
+
+
 ## **Useful Links**
 
-- [Trello Board](https://trello.com/b/ROS3Fkvu/retroconnect)
-- [Full Project Documentation (Drive)](https://docs.google.com/document/d/1mEBRCkgICx4aQAnAozwCzarPqw2R9PdMzJhonUkf57s/edit)
 - [SNES Protocol Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
 - [Controlling Arduino with Xbox Controller (guide + pics)](https://www.instructables.com/id/Controlling-Arduino-with-Gamepad/)
