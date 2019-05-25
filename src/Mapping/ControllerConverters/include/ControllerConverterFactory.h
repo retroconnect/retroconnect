@@ -50,6 +50,7 @@ class ControllerConverterFactory
 			std::map<std::string, std::string> cfgMap = {};
 			string line;
 			bool passedInstructions = false;
+			configFileName = "./configs/" + configFileName;
 			ifstream cfgFile (configFileName);
 
 			if(cfgFile.is_open()) {
