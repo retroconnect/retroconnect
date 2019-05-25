@@ -169,11 +169,11 @@ int main() {
 				converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 			}
 
-			//input_controller->print_state();
+			input_controller->print_state();
 
 			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller);
-			//output_controller->print_state();
+			output_controller->print_state();
 			
 			//Send button state to Teensy
 			output_controller->send_state(serial_fd, data);
