@@ -1,8 +1,6 @@
 # RetroConnect
 ##### *Giving modern gamers a link to the past*
 
-
-
 ### **Sections**
 
 - [Project Summary](#project-summary)
@@ -37,7 +35,7 @@
 - Manufactured console adapters with standard USB-C plug
 - 3D printed case
 - Support for input devices: Switch Joycons, DualShock 3 / SixAxis, Wii, third party controllers
-- Support for output devices: Genesis, Saturn, Dreamcast, Nintendo 64, PlayStation 1, and more
+- Support for output devices: Genesis, Saturn, Dreamcast, Nintendo 64, PlayStation 1, Atari 2600, and more
 - A web app UI for customizing the controller mappings
 
 
@@ -65,6 +63,7 @@ root/
         ...
     build/
     configs/
+    NES_SNES.ino
     Readme.md
     LICENSE
     .gitignore
@@ -75,6 +74,7 @@ The ```root/``` directory contains the following components:
 - ```src/``` is meant to hold all our source code
 - ```build/``` is meant to hold the compiled and built code ready to run retroconnect
 - ```configs/``` is meant to hold user-configurable mapping config files
+- ```configs/``` is the Arduino code to be flashed to a Teensy 3.2 or other MCU
 - ```Readme.md``` is the file you are reading
 - ```LICENSE``` is a text file describing our code's legal licensing
 
@@ -91,3 +91,8 @@ The ```src/``` directory is divided into the logical components that makeup the 
 
 - [SNES Protocol Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
 - [Controlling Arduino with Xbox Controller (guide + pics)](https://www.instructables.com/id/Controlling-Arduino-with-Gamepad/)
+
+
+Like it? Give us a tip on PayPal! 
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MBDA5CZQHXUU6)
