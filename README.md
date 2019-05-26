@@ -23,9 +23,14 @@
 ## **Project Goals**
 
 #### Completed Features:
-- Supported input devices: Xbox One / PlayStation 4
-- Supported output devices: Nintendo / Super Nintendo
-- Uses Raspberry Pi Zero W and Teensy 3.2
+- Supported input devices: 
+  - Xbox One (XB1)
+  - PlayStation 4 (PS4)
+- Supported output devices:
+  - Nintendo Entertainment System (NES)
+  - Super Nintendo Entertainment System (SNES)
+- Analog sticks map to D-pads
+- Button combos to change output console
 - Less than 1 frame of input lag
 - Electronic safety with proper voltage handling
 
@@ -38,6 +43,51 @@
 - Support for output devices: Genesis, Saturn, Dreamcast, Nintendo 64, PlayStation 1, Atari 2600, and more
 - A web app UI for customizing the controller mappings
 
+## **Usage**
+
+#### Requirements
+- Teensy 3.2 (or other compatible microcontroller)
+- Raspberry Pi Zero W (or similar)
+- Console-specific adapters that connect to Teensy pin headers
+- Wires to connect the Teensy to the Raspberry Pi
+
+#### Teensy Setup
+Open the `NES_SNES.ino` file using the Arduino IDE, and upload it to your microcontroller.  
+
+#### Raspberry Pi Setup
+1. Pull the git repo, compile with `make`.
+2. Modify configs found in the `configs/` folder to suit your preferences
+3. Run `sudo retroconnect`. Sudo is necessary on the very first run to disable Bluetooth's Enhanced Retransmission Mode (ERTM) which breaks certain functionality of the Xbox One and PlayStation 4 controllers.
+
+#### Wiring
+1. Teensy 3.2 wiring is as follows:
+  - SNES:
+    - GND
+    - RX0 0
+    - TX0 1
+    - DATA 2
+    - CLOCK 3
+    - LATCH 4
+    - 5V line is unused
+
+  - NES:
+    - GND
+    - RX0 0
+    - TX0 1
+    - DATA 2
+    - CLOCK 3
+    - LATCH 4 
+    - 5V line is unused
+    
+2. Wire the RX0 line from the Teensy to the TX line of the Raspberry Pi. Wire the TX0 line from the Teensy to the RX line of the Raspberry Pi. 
+
+#### Execution
+Execute the `retroconnect` program. If a compatible Bluetooth controller is not detected, it will automatically scan for supported devices in sync mode. Once a suitable controller is connected, it will display your button inputs in the terminal and button inputs will be converted and forwarded to the target console.
+
+#### Button Combos
+- HOME + South Button = SNES mode (default)
+- HOME + East Button = NES mode 
+- HOME + West Button = Genesis mode
 
 ## **File Organization**
 
