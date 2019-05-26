@@ -5,6 +5,7 @@
 
 - [Project Summary](#project-summary)
 - [Project Goals](#project-goals)
+- [Usage](#usage)
 - [File  Organization](#file-organization)
 - [Useful Links](#useful-links)
 
