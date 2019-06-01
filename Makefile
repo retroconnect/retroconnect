@@ -24,13 +24,16 @@ INCLUDES += -I src/Backend/include -I ./
 SRC_FILES := $(wildcard $(addsuffix *.cpp, $(SRC_DIRS)))
 OBJS := $(SRC_FILES:%.cpp=$(BUILD_DIR)/%.o)
 
+# automatically create list of header files
+HEADERS := $(wildcard $(addsuffix *.h, $(INCLUDES)))
+
 # the actual makefile rules
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CXX) -o $@ $(LIBS) $(CXXFLAGS) $(INCLUDES) $^
+$(TARGET): $(OBJS) $(HEADERS)
+	$(CXX) -o $@ $(LIBS) $(CXXFLAGS) $(INCLUDES) $(OBJS)
 
-$(OBJS): $(BUILD_DIR)/%.o: %.cpp
+$(OBJS): $(BUILD_DIR)/%.o: %.cpp $(HEADERS)
 	mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
 
