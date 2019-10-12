@@ -55,7 +55,7 @@ int main() {
   	controller_t* output_controller = new snes_controller_t();
 
 
-	//Find which event# datastreams are for controller / consumer control device
+	//Find which event datastreams are for controller / consumer control device
 	string line, event_controller, event_consumer;
 	int event_position;
 	int devices_found = 0;
@@ -142,7 +142,7 @@ int main() {
 	//Monitor streams for input
 	printf("Starting input collection...\n");
 	struct button_struct_t button_struct;
-	unsigned char data[3] = {0xFF, 0, 0};
+	unsigned char data[2] = {0, 0};
 	int serial_fd = open("/dev/ttyS0", O_WRONLY);
 	if (serial_fd == 0) {
 		printf("Teensy not connected!");
