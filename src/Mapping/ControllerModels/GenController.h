@@ -22,6 +22,7 @@ struct gen_controller_t: controller_t {
 		button_states["D_LEFT"] = 0;
 		button_states["D_RIGHT"] = 0;
 		button_states["START"] = 0;
+		button_states["MODE"] = 0;
 	}
 
 	virtual bool snes_combo_pressed() override {
@@ -48,22 +49,24 @@ struct gen_controller_t: controller_t {
 		printf("Start: %d\n\n", button_states["START"]);
 	}
 
-	virtual void send_state(int serial_fd, unsigned char data[3]) override {
-	        data[1] = 0;
-		data[2] = 0;	
-		data[1] |= (this->button_states["B"] ? 1 : 0 ) << 0;
-		data[1] |= (this->button_states["Y"] ? 1 : 0 ) << 1;
-		data[1] |= (this->button_states["SELECT"] ? 1 : 0 ) << 2;
-		data[1] |= (this->button_states["START"] ? 1 : 0 ) << 3;
-		data[1] |= (this->button_states["D_UP"] ? 1 : 0 ) << 4;
-		data[1] |= (this->button_states["D_DOWN"] ? 1 : 0 ) << 5;
-		data[1] |= (this->button_states["D_LEFT"] ? 1 : 0 ) << 6;
-		data[1] |= (this->button_states["D_RIGHT"] ? 1 : 0 ) << 7;
-		data[2] |= (this->button_states["A"] ? 1 : 0 ) << 0;
-		data[2] |= (this->button_states["X"] ? 1 : 0 ) << 1;
-		data[2] |= (this->button_states["LB"] ? 1 : 0 ) << 2;
-		data[2] |= (this->button_states["RB"] ? 1 : 0 ) << 3;
-		write(serial_fd, data, 3);
+	virtual void send_state(int serial_fd, unsigned char data[2]) override {
+	        data[0] = 0;
+		data[1] = 0;
+		data[0] |= (this->button_states["D_UP"] ? 1 : 0 ) << 0;
+		data[0] |= (this->button_states["D_DOWN"] ? 1 : 0 ) << 1;
+		data[0] |= (this->button_states["D_LEFT"] ? 1 : 0 ) << 2;
+		data[0] |= (this->button_states["D_RIGHT"] ? 1 : 0 ) << 3;
+		data[0] |= (this->button_states["B"] ? 1 : 0 ) << 4;
+		data[0] |= (this->button_states["C"] ? 1 : 0 ) << 5;
+		data[0] |= (this->button_states["A"] ? 1 : 0 ) << 6;
+		data[0] |= (this->button_states["START"] ? 1 : 0 ) << 7;
+		data[1] |= (this->button_states["MODE"] ? 1 : 0 ) << 0;
+		data[1] |= (this->button_states["Z"] ? 1 : 0 ) << 1;
+		data[1] |= (this->button_states["Y"] ? 1 : 0 ) << 2;
+		data[1] |= (this->button_states["X"] ? 1 : 0 ) << 3;
+		data[0] = ~data[0];
+		data[1] = ~data[1];
+		write(serial_fd, data, 2);
 	}
 };
 

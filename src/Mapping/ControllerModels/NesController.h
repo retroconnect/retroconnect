@@ -45,18 +45,17 @@ struct nes_controller_t: controller_t {
 		printf("Select: %d, Start: %d\n\n", button_states["SELECT"], button_states["START"]);
 	}
 
-	virtual void send_state(int serial_fd, unsigned char data[3]) override {
-		data[1] = 0;
-		data[2] = 0;
-		data[1] |= (this->button_states["A"] ? 1 : 0 ) << 0;
-		data[1] |= (this->button_states["B"] ? 1 : 0 ) << 1;
-		data[1] |= (this->button_states["SELECT"] ? 1 : 0 ) << 2;
-		data[1] |= (this->button_states["START"] ? 1 : 0 ) << 3;
-		data[1] |= (this->button_states["D_UP"] ? 1 : 0 ) << 4;
-		data[1] |= (this->button_states["D_DOWN"] ? 1 : 0 ) << 5;
-		data[1] |= (this->button_states["D_LEFT"] ? 1 : 0 ) << 6;
-		data[1] |= (this->button_states["D_RIGHT"] ? 1 : 0 ) << 7;
-		write(serial_fd, &data, sizeof(data));
+	virtual void send_state(int serial_fd, unsigned char data[2]) override {
+		data[0] = 0;
+		data[0] |= (this->button_states["A"] ? 1 : 0 ) << 0;
+		data[0] |= (this->button_states["B"] ? 1 : 0 ) << 1;
+		data[0] |= (this->button_states["SELECT"] ? 1 : 0 ) << 2;
+		data[0] |= (this->button_states["START"] ? 1 : 0 ) << 3;
+		data[0] |= (this->button_states["D_UP"] ? 1 : 0 ) << 4;
+		data[0] |= (this->button_states["D_DOWN"] ? 1 : 0 ) << 5;
+		data[0] |= (this->button_states["D_LEFT"] ? 1 : 0 ) << 6;
+		data[0] |= (this->button_states["D_RIGHT"] ? 1 : 0 ) << 7;
+		write(serial_fd, ~data[0], 1);
 	}
 
 };
