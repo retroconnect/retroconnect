@@ -141,6 +141,8 @@ The ```src/``` directory is divided into the logical components that makeup the 
 ## **Useful Links**
 
 - [SNES Protocol Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
+- [NES Protocol Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
+- [GEN Protocol Reference](https://github.com/jonthysell/SegaController/wiki/How-To-Read-Sega-Controllers)
 - [Controlling Arduino with Xbox Controller (guide + pics)](https://www.instructables.com/id/Controlling-Arduino-with-Gamepad/)
 
 
