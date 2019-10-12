@@ -30,10 +30,10 @@
 - Supported output devices:
   - Nintendo Entertainment System (NES)
   - Super Nintendo Entertainment System (SNES)
+  - Sega Genesis (GEN)
 - Analog sticks map to D-pads
 - Button combos to change output console
-- Less than 1 frame of input lag
-- Electronic safety with proper voltage handling
+- Less than 1 frame of input lag at 60 FPS
 
 #### Future Features:
 
@@ -41,7 +41,7 @@
 - Manufactured console adapters with standard USB-C plug
 - 3D printed case
 - Support for input devices: Switch Joycons, DualShock 3 / SixAxis, Wii, third party controllers
-- Support for output devices: Genesis, Saturn, Dreamcast, Nintendo 64, PlayStation 1, Atari 2600, and more
+- Support for output devices: Saturn, Dreamcast, Nintendo 64, PlayStation 1, Atari 2600, and more
 - A web app UI for customizing the controller mappings
 
 ## **Usage**
@@ -53,7 +53,7 @@
 - Wires to connect the Teensy to the Raspberry Pi
 
 #### Teensy Setup
-Open the `NES_SNES.ino` file using the Arduino IDE, and upload it to your microcontroller.  
+Locate the desired `.ino` file within the `arduino` directory and open it using the Arduino IDE and upload it to your microcontroller. See readme in the arduino directory for IDE configuration specific to each console.
 
 #### Raspberry Pi Setup
 1. Pull the git repo, compile with `make`.
@@ -114,7 +114,8 @@ root/
         ...
     build/
     configs/
-    NES_SNES.ino
+    arduino/
+      <.ino files>
     Readme.md
     LICENSE
     .gitignore
@@ -125,7 +126,7 @@ The ```root/``` directory contains the following components:
 - ```src/``` is meant to hold all our source code
 - ```build/``` is meant to hold the compiled and built code ready to run retroconnect
 - ```configs/``` is meant to hold user-configurable mapping config files
-- ```configs/``` is the Arduino code to be flashed to a Teensy 3.2 or other MCU
+- ```arduino/``` contains the Arduino code to be flashed to a Teensy 3.2 or other MCU
 - ```Readme.md``` is the file you are reading
 - ```LICENSE``` is a text file describing our code's legal licensing
 
@@ -135,7 +136,6 @@ The ```src/``` directory is divided into the logical components that makeup the 
     - ```ControllerModels/``` holds all the classes that define a controller's inputs and states, as well as the abstract Controller class that they all inherit from
     - ```ControllerConverters/``` holds all the classes that  have methods for converting one controller model to another, as well as the interface all controller converters will implement.
 - ```Backend/``` holds all the classes that have methods for writing a controllers state to its corresponding console, as well as the interface all backends will implement.
-
 
 
 ## **Useful Links**
