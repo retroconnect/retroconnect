@@ -35,12 +35,16 @@ struct ps4_controller_t: controller_t {
 		
 	}
 
-		virtual bool snes_combo_pressed() override {
-			return button_states["HOME"] && button_states["X"];
-		}
+	virtual bool snes_combo_pressed() override {
+		return button_states["HOME"] && button_states["X"];
+	}
 
-		virtual bool nes_combo_pressed() override {
-			return button_states["HOME"] && button_states["CIRCLE"];
+	virtual bool nes_combo_pressed() override {
+		return button_states["HOME"] && button_states["CIRCLE"];
+	}
+
+	virtual bool gen_combo_pressed() override {
+		return button_states["HOME"] && button_states["SQUARE"];
 	}
 
 	virtual void print_state() override {

@@ -4,8 +4,10 @@
 #include <ControllerConverter.h>
 #include <XboxToSnesControllerConverter.h>
 #include <XboxToNesControllerConverter.h>
+#include <XboxToGenControllerConverter.h>
 #include <Ps4ToSnesControllerConverter.h>
 #include <Ps4ToNesControllerConverter.h>
+#include <Ps4ToGenControllerConverter.h>
 
 #ifndef CONTROLLER_CONVERTER_FACTORY_H
 #define CONTROLLER_CONVERTER_FACTORY_H
@@ -26,6 +28,9 @@ class ControllerConverterFactory
 			} else if (output_controller.type == NES) {
 				userMap = getMapFromConfigFile("XboxToNesConfig.txt");
 				return new XboxToNesControllerConverter(userMap);
+			} else if (output_controller.type == GEN) {
+				userMap = getMapFromConfigFile("XboxToGenConfig.txt");
+				return new XboxToGenControllerConverter(userMap);
 			}
 		} else if(input_controller.type == PS4) {
 			if (output_controller.type == SNES) {
@@ -34,6 +39,9 @@ class ControllerConverterFactory
 			} else if (output_controller.type == NES) { 
 				userMap = getMapFromConfigFile("Ps4ToNesConfig.txt");
 				return new Ps4ToNesControllerConverter(userMap);
+			} else if (output_controller.type == GEN) {
+				userMap = getMapFromConfigFile("Ps4ToGenConfig.txt");
+				return new Ps4ToGenControllerConverter(userMap);
 			}
 		}
 

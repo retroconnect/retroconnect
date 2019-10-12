@@ -33,6 +33,10 @@ struct snes_controller_t: controller_t {
 	        return false;
 	}
 
+	virtual bool gen_combo_pressed() override {
+		return false;
+	}
+
 	virtual void read_buttons(button_struct_t b) override {
 		return;
 	}

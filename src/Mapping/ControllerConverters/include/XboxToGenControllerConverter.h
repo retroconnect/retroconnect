@@ -1,13 +1,13 @@
 #include <string>
 #include <ControllerConverter.h>
-#include <NesController.h>
+#include <GenController.h>
 #include <XboxController.h>
 
-#ifndef XBOX_TO_NES_CONTROLLER_CONVERTER_H
-#define XBOX_TO_NES_CONTROLLER_CONVERTER_H
+#ifndef XBOX_TO_GEN_CONTROLLER_CONVERTER_H
+#define XBOX_TO_GEN_CONTROLLER_CONVERTER_H
 
 
-class XboxToNesControllerConverter: public ControllerConverter {
+class XboxToGenControllerConverter: public ControllerConverter {
     private:
         int AXIS_DEADZONE;
         int TRIGGER_DEADZONE;
@@ -16,7 +16,7 @@ class XboxToNesControllerConverter: public ControllerConverter {
         int compileButtonMappingsFor(std::string b, xbox_controller_t xbox);
 
     public:
-        XboxToNesControllerConverter(std::map<std::string, std::string> userMap);
+	XboxToGenControllerConverter(std::map<std::string, std::string> userMap);
         void convert(controller_t& input_controller, controller_t& output_controller);
 };
 

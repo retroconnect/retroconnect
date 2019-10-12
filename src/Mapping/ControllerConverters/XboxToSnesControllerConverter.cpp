@@ -32,11 +32,6 @@ void XboxToSnesControllerConverter::convert(controller_t& input_controller, cont
         snes_controller.button_states["RB"] = compileButtonMappingsFor("RB", xbox_controller);
 }
 
-//user map will look like:
-//      "RB": "R1 R2"
-//      if both R1 and R2 on xbox controller should trigger the snes's RB
-//this function makes sure multiple mappings on input controller are taken into account when producing output controllers state
-//also handles deadzones
 int XboxToSnesControllerConverter::compileButtonMappingsFor(std::string b, xbox_controller_t xbox) {
         std::string xboxButtons = user_map[b];
 

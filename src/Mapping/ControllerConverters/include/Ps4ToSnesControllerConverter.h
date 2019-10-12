@@ -17,7 +17,7 @@ class Ps4ToSnesControllerConverter: public ControllerConverter {
 
     public:
     	Ps4ToSnesControllerConverter(std::map<std::string, std::string> userMap);
-        void convert(controller_t& input_contrller, controller_t& output_controller);
+        void convert(controller_t& input_controller, controller_t& output_controller);
 };
 
 #endif

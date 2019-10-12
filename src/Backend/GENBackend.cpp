@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <wiringPi.h>
 #include <SNESBackend.h>
-#include <SnesController.h>
+#include <GenController.h>
 #include <Constants.h>
 
-namespace snesbackend {
+namespace genbackend {
 
-	static snes_controller_t* output_controller;
+	static gen_controller_t* output_controller;
 	static bool output[16];
 
-	void update_controller(snes_controller_t* new_controller) {
+	void update_controller(gen_controller_t* new_controller) {
 
 		output_controller = new_controller;
 
