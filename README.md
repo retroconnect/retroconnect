@@ -37,7 +37,7 @@
 
 #### Future Features:
 
-- Single MCU instead of Raspberry Pi and Teensy
+- Use ESP32 Bluetooth instead of using a Raspberry Pi middleman
 - Manufactured console adapters with standard USB-C plug
 - 3D printed case
 - Support for input devices: Switch Joycons, DualShock 3 / SixAxis, Wii, third party controllers
@@ -47,12 +47,12 @@
 ## **Usage**
 
 #### Requirements
-- Teensy 3.2 (or other compatible microcontroller)
+- Teensy 3.2 or ESP32 (or other compatible microcontroller)
 - Raspberry Pi Zero W (or similar)
-- Console-specific adapters that connect to Teensy pin headers
-- Wires to connect the Teensy to the Raspberry Pi
+- Console-specific adapters that connect to Teensy/ESP32 pin headers
+- Wires to connect the Teensy/ESP32 to the Raspberry Pi
 
-#### Teensy Setup
+#### Microcontroller Setup
 Locate the desired `.ino` file within the `arduino` directory and open it using the Arduino IDE and upload it to your microcontroller. See readme in the arduino directory for IDE configuration specific to each console.
 
 #### Raspberry Pi Setup
