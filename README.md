@@ -138,7 +138,7 @@ The ```src/``` directory is divided into the logical components that makeup the 
 - ```Backend/``` holds all the classes that have methods for writing a controllers state to its corresponding console, as well as the interface all backends will implement.
 
 
-##C **Credits**
+## **Credits**
 
 - [SNES Protocol Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
 - [NES Protocol Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
