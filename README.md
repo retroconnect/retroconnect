@@ -37,7 +37,7 @@
 
 #### Future Features:
 
-- Use ESP32 Bluetooth instead of using a Raspberry Pi middleman
+- Use ESP32 Bluetooth instead of using a Raspberry Pi middleman (in progress)
 - Manufactured console adapters with standard USB-C plug
 - 3D printed case
 - Support for input devices: Switch Joycons, DualShock 3 / SixAxis, Wii, third party controllers
@@ -138,11 +138,12 @@ The ```src/``` directory is divided into the logical components that makeup the 
 - ```Backend/``` holds all the classes that have methods for writing a controllers state to its corresponding console, as well as the interface all backends will implement.
 
 
-## **Useful Links**
+##C **Credits**
 
 - [SNES Protocol Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
 - [NES Protocol Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
-- [GEN Protocol Reference](https://github.com/jonthysell/SegaController/wiki/How-To-Read-Sega-Controllers)
+- [Genesis Protocol Reference](https://github.com/jonthysell/SegaController/wiki/How-To-Read-Sega-Controllers)
+- Big thanks to [Pavel Glushkov (pashutk)](http://github.com/pashutk) for help with ESP32 Bluetooth
 
 
 Like it? Give us a tip on PayPal! 
