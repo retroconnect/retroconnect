@@ -20,7 +20,6 @@ void latch_isr() {
   else {
     GPIO.out_w1tc = ((uint32_t)1 << 22); //0
   }
-  //digitalWrite(DATA_PIN, data_arr[0] & 1);
   clock_counter = 1;
 }
 
@@ -31,7 +30,6 @@ void clock_isr() {
   else {
       GPIO.out_w1tc = ((uint32_t)1 << 22); //0
   }
-  //digitalWrite(DATA_PIN, (data_arr[0] >> clock_counter % 8) & 1);
   clock_counter++;
 }
 
