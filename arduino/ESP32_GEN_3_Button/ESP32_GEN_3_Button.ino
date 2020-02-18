@@ -94,88 +94,62 @@ void SerialHandler( void * parameter) {
 void loop() {
   while (1) {    
     portENTER_CRITICAL(&my_mutex);
-      
-    if ((GPIO.in >> PIN_7) & 0x1) {
-      //Serial.print("HIGH\n");
-      if (data[0] & 4) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_3); //LEFT
-      }
-      else {
-        GPIO.out_w1tc = ((uint32_t)1 << PIN_3);
-      }
-      if (data[0] & 8) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_4); //RIGHT
-      }
-      else {
-        GPIO.out_w1tc = ((uint32_t)1 << PIN_4);
-      }
-      if (data[0] & 1) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_1); //UP
-      }
-      else {
-        GPIO.out_w1tc = ((uint32_t)1 << PIN_1);
-      }
-      if (data[0] & 2) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_2); //DOWN
-      }
-      else {
-        GPIO.out_w1tc = ((uint32_t)1 << PIN_2);
-      }
-      if (data[0] & 16) {
-        GPIO.out1_w1ts.val = ((uint32_t)1 << PIN_6 - 32); //B
-      }
-      else {
-        GPIO.out1_w1tc.val = ((uint32_t)1 << PIN_6 - 32);
-      }
-      if (data[0] & 32) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_9); //C
-      }
-      else {
-        GPIO.out_w1tc = ((uint32_t)1 << PIN_9);
-      }
-      
-      while(digitalRead(PIN_7)) {}
-      
-      //Serial.print("LOW\n");
-      GPIO.out_w1tc = ((uint32_t)1 << PIN_3); //Set low to indicate controller connected
-      GPIO.out_w1tc = ((uint32_t)1 << PIN_4); //Set low to indicate controller connected
 
-      if (data[0] & 64) {
-        GPIO.out1_w1ts.val = ((uint32_t)1 << PIN_6 - 32); //A
-      }
-      else {
-        GPIO.out1_w1tc.val = ((uint32_t)1 << PIN_6 - 32);
-      }
-      
-      if (data[0] & 128) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_9); //START
-      }
-      else {
-        GPIO.out_w1tc = ((uint32_t)1 << PIN_9);
-      }
+    while((GPIO.in >> PIN_7) & 0x1 == HIGH) {} //Wait for SELECT LOW
 
-      //SELECT is held LOW for many milliseconds, so we have time to pre-set signals to prevent input bleed
-      delayMicroseconds(1);
-      if (data[0] & 4) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_3); //Pre-set LEFT
-      }
-      if (data[0] & 8) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_4); //Pre-set RIGHT
-      }
-      if (data[0] & 32) {
-        GPIO.out_w1ts = ((uint32_t)1 << PIN_9); //Pre-set C
-      }
-      else {
-        GPIO.out_w1tc = ((uint32_t)1 << PIN_9);
-      }
-      if (data[0] & 16) {
-        GPIO.out1_w1ts.val = ((uint32_t)1 << PIN_6 - 32); //Pre-set B
-      }
-      else {
-        GPIO.out1_w1tc.val = ((uint32_t)1 << PIN_6 - 32);
-      }
+    //State 0
+    GPIO.out_w1tc = ((uint32_t)1 << PIN_3); //Set low to indicate controller connected
+    GPIO.out_w1tc = ((uint32_t)1 << PIN_4); //Set low to indicate controller connected
+
+    if (data[0] & 64) {
+      GPIO.out1_w1ts.val = ((uint32_t)1 << PIN_6 - 32); //A
     }
+    else {
+      GPIO.out1_w1tc.val = ((uint32_t)1 << PIN_6 - 32);
+    }
+   
+    if (data[0] & 128) {
+      GPIO.out_w1ts = ((uint32_t)1 << PIN_9); //START
+    }
+    else {
+      GPIO.out_w1tc = ((uint32_t)1 << PIN_9);
+    }
+
+    //SELECT is held LOW for many milliseconds; pre-set signals for state 1
     
+    delayMicroseconds(1);
+    if (data[0] & 4) {
+      GPIO.out_w1ts = ((uint32_t)1 << PIN_3); //LEFT
+    }
+    if (data[0] & 8) {
+      GPIO.out_w1ts = ((uint32_t)1 << PIN_4); //RIGHT
+    }
+    if (data[0] & 1) {
+      GPIO.out_w1ts = ((uint32_t)1 << PIN_1); //UP
+    }
+    else {
+      GPIO.out_w1tc = ((uint32_t)1 << PIN_1);
+    }
+    if (data[0] & 2) {
+      GPIO.out_w1ts = ((uint32_t)1 << PIN_2); //DOWN
+    }
+    else {
+      GPIO.out_w1tc = ((uint32_t)1 << PIN_2);
+    }
+    if (data[0] & 16) {
+      GPIO.out1_w1ts.val = ((uint32_t)1 << PIN_6 - 32); //B
+    }
+    else {
+      GPIO.out1_w1tc.val = ((uint32_t)1 << PIN_6 - 32);
+    }
+    if (data[0] & 32) {
+      GPIO.out_w1ts = ((uint32_t)1 << PIN_9); //C
+    }
+    else {
+      GPIO.out_w1tc = ((uint32_t)1 << PIN_9);
+    }
+
+    while((GPIO.in >> PIN_7) & 0x1 == LOW) {}  //End State 1, inputs pre-set
     portEXIT_CRITICAL(&my_mutex);
   }
 }
