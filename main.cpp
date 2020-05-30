@@ -37,7 +37,7 @@ using namespace std;
 int main() {
 	
 	//Set serial baud rate
-	system("sudo stty -F /dev/ttyS0 115200");
+	system("sudo stty -F /dev/ttyS0 921600");
 	
 
 	//Copy disable_ertm config to /etc/modprobe.d/disable_ertm.conf

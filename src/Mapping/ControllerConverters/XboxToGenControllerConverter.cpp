@@ -21,6 +21,7 @@ void XboxToGenControllerConverter::convert(controller_t& input_controller, contr
 	gen_controller.button_states["Y"] = compileButtonMappingsFor("Y", xbox_controller);
 	gen_controller.button_states["Z"] = compileButtonMappingsFor("Z", xbox_controller);
         gen_controller.button_states["START"] = compileButtonMappingsFor("START", xbox_controller);
+        gen_controller.button_states["MODE"] = compileButtonMappingsFor("MODE", xbox_controller);
 
         //D-PAD
         gen_controller.button_states["D_UP"] = compileButtonMappingsFor("D_UP", xbox_controller);

@@ -55,7 +55,8 @@ struct nes_controller_t: controller_t {
 		data[0] |= (this->button_states["D_DOWN"] ? 1 : 0 ) << 5;
 		data[0] |= (this->button_states["D_LEFT"] ? 1 : 0 ) << 6;
 		data[0] |= (this->button_states["D_RIGHT"] ? 1 : 0 ) << 7;
-		write(serial_fd, ~data[0], 1);
+		data[0] = ~data[0];
+		write(serial_fd, data, 2);
 	}
 
 };
