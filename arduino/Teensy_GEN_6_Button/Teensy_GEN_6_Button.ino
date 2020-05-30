@@ -1,12 +1,12 @@
-//       | GEN   TEENSY  Genesis  DIRECT  |
-const byte PIN_1 = 2; // UP       PORTD0    
-const byte PIN_2 = 20; // DOWN     PORTA12   
-const byte PIN_3 = 21; // LEFT     PORTA13   
-const byte PIN_4 = 5; // RIGHT    PORTD7    
-//const byte PIN_5;   // (5V unused)
-const byte PIN_6 = 6; // FIRE1    PORTD4    
-const byte PIN_7 = 7; // SELECT   PORTD2     
-const byte PIN_9 = 8; // FIRE2    PORTD3    
+//       | GEN     TEENSY   Genesis         DIRECT  |
+const byte PIN_1 = 2;    // UP     | Z      PORTD0    
+const byte PIN_2 = 20;   // DOWN   | Y      PORTD5
+const byte PIN_3 = 21;   // LEFT   | X      PORTD6   
+const byte PIN_4 = 5;    // RIGHT  | MODE   PORTD7    
+//         PIN_5;        // (5V unused)
+const byte PIN_6 = 6;    // B      | A      PORTD4    
+const byte PIN_7 = 7;    // SELECT |        PORTD2     
+const byte PIN_9 = 8;    // C      | START  PORTD3        
 
 char data[2];
 bool sixButtonMode = true;
@@ -22,27 +22,6 @@ const byte PIN_6_BIT = 4;
 const byte PIN_7_BIT = 2;
 const byte PIN_9_BIT = 3;
 const byte PIN_BITMASK = (1 << PIN_1_BIT) | (1 << PIN_2_BIT) |(1 << PIN_3_BIT) |(1 << PIN_4_BIT) |(1 << PIN_6_BIT) |(1 << PIN_9_BIT); // bit mask for PORTD write updates
-
-
-
-/*
-  Low = pressed
-
-  Pin  Connection
-  ---  ---------------
-  5   Power: +5 Volts
-  7   Select signal
-  8   Power: Ground
-
-  Pin  Connection with select low  Connection with select high
-  ---  --------------------------  ---------------------------
-  2   joypad up signal             joypad up signal
-  3   joypad down signal           joypad down signal
-  4   logic low (ground)           joypad left signal
-  5   logic low (ground)           joypad right signal
-  6   Button A signal              Button B signal
-  9   Start button signal          Button C signal
-*/
 
 void setup() {
   ARM_DEMCR |= ARM_DEMCR_TRCENA;
