@@ -7,4 +7,4 @@ NES/SNES:
 
 Genesis (3 button controller):
 - CPU Speed: 120MHz (overclock)
-- Optimize: Fastest + Pure Code with LTO
+- Optimize: Fastest
