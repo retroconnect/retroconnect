@@ -61,24 +61,7 @@ Locate the desired `.ino` file within the `arduino` directory and open it using 
 3. Run `sudo retroconnect`. Sudo is necessary on the very first run to disable Bluetooth's Enhanced Retransmission Mode (ERTM) which breaks certain functionality of the Xbox One and PlayStation 4 controllers.
 
 #### Wiring
-1. Teensy 3.2 wiring is as follows:
-  - SNES:
-    - GND
-    - RX0 0
-    - TX0 1
-    - DATA 2
-    - CLOCK 3
-    - LATCH 4
-    - 5V line is unused
-
-  - NES:
-    - GND
-    - RX0 0
-    - TX0 1
-    - DATA 2
-    - CLOCK 3
-    - LATCH 4 
-    - 5V line is unused
+1. Teensy 3.2 wiring is noted at the top of each Arduino file.
     
 2. Wire the RX0 line from the Teensy to the TX line of the Raspberry Pi. Wire the TX0 line from the Teensy to the RX line of the Raspberry Pi. 
 
