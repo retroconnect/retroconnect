@@ -142,8 +142,9 @@ The ```src/``` directory is divided into the logical components that makeup the 
 
 - [SNES Protocol Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
 - [NES Protocol Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
-- [Genesis Protocol Reference](https://github.com/jonthysell/SegaController/wiki/How-To-Read-Sega-Controllers)
-- Big thanks to [Pavel Glushkov (pashutk)](http://github.com/pashutk) for help with ESP32 Bluetooth
+- [Genesis Protocol Reference](https://www.raspberryfield.life/2019/03/25/sega-mega-drive-genesis-6-button-xyz-controller/)
+- Thanks to [Pavel Glushkov (pashutk)](http://github.com/pashutk) for help with ESP32 Bluetooth handling
+- Thanks to [Ownasaurus](https://github.com/Ownasaurus) for massive help fixing Genesis 6 Button Mode on Teensy 
 
 
 Like it? Give us a tip on PayPal! 
