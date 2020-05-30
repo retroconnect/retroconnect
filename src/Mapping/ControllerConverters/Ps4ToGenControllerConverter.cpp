@@ -22,6 +22,7 @@ void Ps4ToGenControllerConverter::convert(controller_t& input_controller, contro
 	gen_controller.button_states["Y"] = compileButtonMappingsFor("Y", ps4_controller);
 	gen_controller.button_states["Z"] = compileButtonMappingsFor("Z", ps4_controller);
         gen_controller.button_states["START"] = compileButtonMappingsFor("START", ps4_controller);
+        gen_controller.button_states["MODE"] = compileButtonMappingsFor("MODE", ps4_controller);
 
         //D-PAD
         gen_controller.button_states["D_UP"] = compileButtonMappingsFor("D_UP", ps4_controller);
