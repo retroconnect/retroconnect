@@ -8,9 +8,10 @@ const byte PIN_1 = 22; // UP
 const byte PIN_2 = 21; // DOWN        
 const byte PIN_3 = 27; // LEFT        
 const byte PIN_4 = 25; // RIGHT        
-//const byte PIN_5;    // (5V unused)
+//         PIN_5;      // (5V unused)
 const byte PIN_6 = 32; // FIRE1        
-const byte PIN_7 = 26; // SELECT        
+const byte PIN_7 = 26; // SELECT   
+//         PIN_8;      // GND 
 const byte PIN_9 = 18; // FIRE2  
 //PIN_RX = 16
 //PIN_TX = 17         
