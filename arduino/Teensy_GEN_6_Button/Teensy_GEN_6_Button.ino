@@ -6,6 +6,7 @@ const byte PIN_4 = 5;    // RIGHT  | MODE   PORTD7
 //         PIN_5;        // (5V unused)
 const byte PIN_6 = 6;    // B      | A      PORTD4    
 const byte PIN_7 = 7;    // SELECT |        PORTD2     
+//         PIN_8;        // GND
 const byte PIN_9 = 8;    // C      | START  PORTD3        
 
 char data[2];
