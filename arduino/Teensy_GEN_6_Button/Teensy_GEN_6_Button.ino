@@ -1,13 +1,13 @@
-//       | GEN     TEENSY   Genesis         DIRECT  |
-const byte PIN_1 = 2;    // UP     | Z      PORTD0    
-const byte PIN_2 = 20;   // DOWN   | Y      PORTD5
-const byte PIN_3 = 21;   // LEFT   | X      PORTD6   
-const byte PIN_4 = 5;    // RIGHT  | MODE   PORTD7    
-//         PIN_5;        // (5V unused)
-const byte PIN_6 = 6;    // B      | A      PORTD4    
-const byte PIN_7 = 7;    // SELECT |        PORTD2     
-//         PIN_8;        // GND
-const byte PIN_9 = 8;    // C      | START  PORTD3        
+//       | DE-9    TEENSY    Genesis         DIRECT  |
+const byte PIN_1 = 2;     // UP     | Z      PORTD0    
+const byte PIN_2 = 20;    // DOWN   | Y      PORTD5
+const byte PIN_3 = 21;    // LEFT   | X      PORTD6   
+const byte PIN_4 = 5;     // RIGHT  | MODE   PORTD7    
+//         PIN_5;         // (5V unused)
+const byte PIN_6 = 6;     // B      | A      PORTD4    
+const byte PIN_7 = 7;     // SELECT |        PORTD2     
+//         PIN_8;         // GND
+const byte PIN_9 = 8;     // C      | START  PORTD3        
 
 char data[2];
 bool sixButtonMode = true;
