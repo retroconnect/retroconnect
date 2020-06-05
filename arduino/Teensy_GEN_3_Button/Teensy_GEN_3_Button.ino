@@ -41,6 +41,9 @@ void setup() {
   pinMode(PIN_9, OUTPUT); //C     | START
 
   pinMode(PIN_7, INPUT_PULLUP);  //SELECT
+  
+  data[0] = 255;
+  data[1] = 255;
 
   digitalWriteFast(PIN_1, HIGH);
   digitalWriteFast(PIN_2, HIGH);
