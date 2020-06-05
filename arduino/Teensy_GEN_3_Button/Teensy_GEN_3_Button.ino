@@ -1,13 +1,13 @@
-//       | GEN   TEENSY  Genesis  DIRECT  |
-const byte PIN_1 = 2; // UP       PORTD0    
-const byte PIN_2 = 3; // DOWN     PORTA12   
-const byte PIN_3 = 4; // LEFT     PORTA13   
-const byte PIN_4 = 5; // RIGHT    PORTD7    
-//         PIN_5;     // (5V unused)
-const byte PIN_6 = 6; // FIRE1    PORTD4    
-const byte PIN_7 = 7; // SELECT   PORTD2  
-//         PIN_8;     // GND
-const byte PIN_9 = 8; // FIRE2    PORTD3    
+//       | DE-9    TEENSY    Genesis  DIRECT  |
+const byte PIN_1 = 2;     // UP       PORTD0    
+const byte PIN_2 = 3;     // DOWN     PORTA12   
+const byte PIN_3 = 4;     // LEFT     PORTA13   
+const byte PIN_4 = 5;     // RIGHT    PORTD7    
+//         PIN_5;         // (5V unused)
+const byte PIN_6 = 6;     // FIRE1    PORTD4    
+const byte PIN_7 = 7;     // SELECT   PORTD2  
+//         PIN_8;         // GND
+const byte PIN_9 = 8;     // FIRE2    PORTD3    
 
 char data[2];
 
