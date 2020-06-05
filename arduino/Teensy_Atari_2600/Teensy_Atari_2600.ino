@@ -5,7 +5,8 @@ const byte PIN_3 = 21;    // LEFT           PORTD6
 const byte PIN_4 = 5;     // RIGHT          PORTD7    
 //const byte PIN_5;       // Pot B (paddle)
 const byte PIN_6 = 6;     // Button         PORTD4    
-//         PIN_7 = 7;     // (5V unused)    PORTD2     
+//         PIN_7 = 7;     // (5V unused)    PORTD2 
+//         PIN_8;         // GND
 //const byte PIN_9;       // Pot A (paddle)    
 
 char data[2];
