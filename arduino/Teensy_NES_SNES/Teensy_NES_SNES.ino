@@ -5,7 +5,7 @@ int clock = 0;
 char data[2];
 
 void setup() {
-  Serial.write("Started program!\n");
+  //Serial.write("Started program!\n");
   pinMode(DATA, OUTPUT);
   pinMode(CLOCK, INPUT);
   pinMode(LATCH, INPUT);
