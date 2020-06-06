@@ -38,8 +38,8 @@ char data[2];
 */
 
 void setup() {
-  Serial.begin(115200);
-  Serial.write("Started program!\n");
+  //Serial.begin(115200);
+  //Serial.write("Started program!\n");
   
   pinMode(PIN_1, OUTPUT); //UP    | Z
   pinMode(PIN_2, OUTPUT); //DOWN  | Y
