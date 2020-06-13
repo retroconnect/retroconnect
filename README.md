@@ -10,15 +10,7 @@
 - [Useful Links](#useful-links)
 
 ## **Project Summary**
-
-* **The problem:**
-
-    Retro game collectors worldwide often stumble across an issue with their collections: controllers. They take up a lot of space, the cords tangle up, and they often break down and need replacements which are usually pricey.
-
-* **Our solution:**
-
-    Our solution is a Bluetooth dongle which can wirelessly connect to a modern bluetooth controller of the user's choosing.The dongle can then be plugged in using a unique connector for each game console to adapt the Bluetooth dongle’s inputs to correct controller outputs for the target console. Suddenly, the great pile of old controllers is reduced to a single favorite controller.
-    
+RetroConnect is a project that allows you to use wireless Bluetooth controllers on retro game consoles. The end goal is a single module that can be plugged into any console using a console-specific cable. Suddenly, the great pile of old controllers is reduced to a single favorite controller.   
     
 
 ## **Project Goals**
@@ -31,17 +23,20 @@
   - Nintendo Entertainment System (NES)
   - Super Nintendo Entertainment System (SNES)
   - Sega Genesis (GEN)
+  - Atari 2600 (7800)
+  - Atari 7800 (7800)
 - Analog sticks map to D-pads
 - Button combos to change output console
+- Custom remapping via text files
 - Less than 1 frame of input lag at 60 FPS
 
 #### Future Features:
 
-- Use ESP32 Bluetooth instead of using a Raspberry Pi middleman (in progress)
-- Manufactured console adapters with standard USB-C plug
+- Use ESP32 with Bluetooth instead of using a Raspberry Pi middleman (in progress)
+- Manufactured console adapters with standard USB-C plug (SNES cables created)
 - 3D printed case
-- Support for input devices: Switch Joycons, DualShock 3 / SixAxis, Wii, third party controllers
-- Support for output devices: Saturn, Dreamcast, Nintendo 64, PlayStation 1, Atari 2600, and more
+- Support for input devices: Switch Joycons, DualShock 3 / SixAxis, Wii, generic controllers
+- Support for output devices: Saturn, Dreamcast, Nintendo 64, PlayStation 1/2, GameCube, Xbox, and more
 - A web app UI for customizing the controller mappings
 
 ## **Usage**
@@ -58,7 +53,7 @@ Locate the desired `.ino` file within the `arduino` directory and open it using 
 #### Raspberry Pi Setup
 1. Pull the git repo, compile with `make`.
 2. Modify configs found in the `configs/` folder to suit your preferences
-3. Run `sudo retroconnect`. Sudo is necessary on the very first run to disable Bluetooth's Enhanced Retransmission Mode (ERTM) which breaks certain functionality of the Xbox One and PlayStation 4 controllers.
+3. Run `sudo retroconnect`. Sudo is necessary on the very first run to disable the Raspberry Pi's Enhanced Retransmission Mode (ERTM) which breaks certain functionality of the Xbox One and PlayStation 4 controllers.
 
 #### Wiring
 1. Teensy 3.2 wiring is noted at the top of each Arduino file.
@@ -72,6 +67,7 @@ Execute the `retroconnect` program. If a compatible Bluetooth controller is not 
 - HOME + South Button = SNES mode (default)
 - HOME + East Button = NES mode 
 - HOME + West Button = Genesis mode
+- HOME + North Button = Atari mode
 
 ## **File Organization**
 
@@ -107,7 +103,7 @@ root/
 ### **```root/```**
 The ```root/``` directory contains the following components:
 - ```src/``` is meant to hold all our source code
-- ```build/``` is meant to hold the compiled and built code ready to run retroconnect
+- ```build/``` is meant to hold the compiled and built code ready to run RetroConnect
 - ```configs/``` is meant to hold user-configurable mapping config files
 - ```arduino/``` contains the Arduino code to be flashed to a Teensy 3.2 or other MCU
 - ```Readme.md``` is the file you are reading
@@ -115,7 +111,7 @@ The ```root/``` directory contains the following components:
 
 ### **```src/```**
 The ```src/``` directory is divided into the logical components that makeup the dataflow of our program
-- ```Mapping/``` handles converting one controllers state to another's
+- ```Mapping/``` handles converting one controllers state to another
     - ```ControllerModels/``` holds all the classes that define a controller's inputs and states, as well as the abstract Controller class that they all inherit from
     - ```ControllerConverters/``` holds all the classes that  have methods for converting one controller model to another, as well as the interface all controller converters will implement.
 - ```Backend/``` holds all the classes that have methods for writing a controllers state to its corresponding console, as well as the interface all backends will implement.
@@ -123,9 +119,10 @@ The ```src/``` directory is divided into the logical components that makeup the 
 
 ## **Credits**
 
-- [SNES Protocol Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
-- [NES Protocol Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
-- [Genesis Protocol Reference](https://www.raspberryfield.life/2019/03/25/sega-mega-drive-genesis-6-button-xyz-controller/)
+- [SNES Signal Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
+- [NES Signal Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
+- [Genesis Signal Reference](https://www.raspberryfield.life/2019/03/25/sega-mega-drive-genesis-6-button-xyz-controller/)
+- [Atari Signal Reference](http://wiki.icomp.de/w/index.php?title=DB9-Joystick&oldid=3915)
 - Thanks to [Pavel Glushkov (pashutk)](http://github.com/pashutk) for help with ESP32 Bluetooth handling
 - Thanks to [Ownasaurus](https://github.com/Ownasaurus) for massive help fixing Genesis 6 Button Mode on Teensy 
 
