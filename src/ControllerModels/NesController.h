@@ -20,21 +20,13 @@ struct nes_controller_t: controller_t {
 		button_states["SELECT"] = 0;
 		button_states["START"] = 0;
 	}
-
-	virtual bool snes_combo_pressed() override {
-                return false;
-        }
-            
-        virtual bool nes_combo_pressed() override {
-                return false;
-        }
 	
-	virtual bool gen_combo_pressed() override {
+	virtual int combo_pressed() override {
 		return false;
 	}
 
 	virtual void read_buttons(button_struct_t b) override {
-	        return;
+		return;
 	}
 
 	virtual void print_state() override {
