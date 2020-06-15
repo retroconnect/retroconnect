@@ -27,9 +27,6 @@ using namespace std;
 #include "Ps4ToSnesControllerConverter.h"
 #include "Ps4ToGenControllerConverter.h"
 #include "ControllerConverterFactory.h"
-#include "NESBackend.h"
-#include "SNESBackend.h"
-#include "GENBackend.h"
 
 
 /***************************************************/
@@ -53,7 +50,7 @@ int main() {
 	//Initialize controller models (SNES default output)
 	controller_t* input_controller; 
   	controller_t* output_controller = new snes_controller_t();
-
+	
 
 	//Find which event datastreams are for controller / consumer control device
 	string line, event_controller, event_consumer;
@@ -118,11 +115,7 @@ int main() {
 	//Initialize converter
 	ControllerConverter* converter;
 	converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-
-
-	//Set SNES as default output controllers
-	snesbackend::update_controller((snes_controller_t*) output_controller);
-
+	
 
 	//Setup input streams
 	string event_string = "/dev/input/event";
