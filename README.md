@@ -92,11 +92,11 @@ root/
 
 ### **```root/```**
 The ```root/``` directory contains the following components:
-- ```src/``` contains all Raspberry Pi source code
-  - ```ControllerModels/``` defines a controller's inputs/outputs and states, as well as the abstract Controller class that they all inherit from.
+- ```src/``` contains all Raspberry Pi source code.
+  - ```ControllerModels/``` defines a controller's inputs/outputs and states, and the abstract Controller class.
   - ```ControllerConverters/``` contains methods for converting one controller's model to another.
-- ```configs/``` contains user-configurable mapping config files
-- ```arduino/``` contains the Arduino code to be flashed to a Teensy 3.2 or other MCU
+- ```configs/``` contains user-configurable mapping config files.
+- ```arduino/``` contains the Arduino code to be flashed to a Teensy 3.2 or other MCU.
 
 ## **Credits**
 
