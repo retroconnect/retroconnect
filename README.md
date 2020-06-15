@@ -88,6 +88,7 @@ root/
         ControllerConverterFactory.cpp
         XboxToSnesControllerConverter.cpp
         ...
+```
 
 ### **```root/```**
 The ```root/``` directory contains the following components:
