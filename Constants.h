@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+enum ControllerType {UNSET, XB1, PS4, SNES, NES, GEN};
+
 #define DATA 9
 #define CLOCK 8
 #define LATCH 7

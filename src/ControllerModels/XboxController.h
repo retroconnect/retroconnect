@@ -33,16 +33,13 @@ struct xbox_controller_t: controller_t {
 		button_states["RS_Y"] = 32768;
 	}
 
-	virtual bool snes_combo_pressed() override {
-		return button_states["HOME"] && button_states["A"];
-	}
-
-	virtual bool nes_combo_pressed() override {
-		return button_states["HOME"] && button_states["B"];
-	}
-
-	virtual bool gen_combo_pressed() override {
-		return button_states["HOME"] && button_states["X"];
+	virtual int combo_pressed() override {
+		if (button_states["HOME"]) {
+			if (button_states["A"]) {return SNES;}
+			if (button_states["B"]) {return NES;}
+			if (button_states["X"]) {return GEN;}
+		}
+		return false;
 	}
 
 	virtual void print_state() override {
