@@ -77,6 +77,7 @@ root/
     arduino/
       <.ino files>
     configs/
+      <.txt files>
     src/
       ControllerModels/
         Controller.cpp
