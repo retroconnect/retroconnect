@@ -1,19 +1,19 @@
 # RetroConnect
-##### *Giving modern gamers a link to the past*
+##### *One controller to rule them all*
 
 ### **Sections**
 
-- [Project Summary](#project-summary)
-- [Project Goals](#project-goals)
+- [Overview](#project-summary)
+- [Goals](#project-goals)
 - [Usage](#usage)
 - [File  Organization](#file-organization)
 - [Useful Links](#useful-links)
 
-## **Project Summary**
+## **Overview**
 RetroConnect is a project that allows you to use wireless Bluetooth controllers on retro game consoles. The end goal is a single module that can be plugged into any console using a console-specific cable. Suddenly, the great pile of old controllers is reduced to a single favorite controller.   
     
 
-## **Project Goals**
+## **Goals**
 
 #### Completed Features:
 - Supported input devices: 
@@ -27,7 +27,7 @@ RetroConnect is a project that allows you to use wireless Bluetooth controllers 
   - Atari 7800 (7800)
 - Analog sticks map to D-pads
 - Button combos to change output console
-- Custom remapping via text files
+- Custom button remapping via text files
 - Less than 1 frame of input lag at 60 FPS
 
 #### Future Features:
@@ -74,48 +74,30 @@ Execute the `retroconnect` program. If a compatible Bluetooth controller is not 
 The following outlines the basic structure of our ```root``` folder and git repository
 ```
 root/
-    src/
-      Bluetooth/
-      Mapping/
-        ControllerModels/
-          Controller.cpp
-          XboxController.cpp
-          SnesController.cpp
-          ...
-        ControllerConverters/
-          ControllerConverter.cpp
-          ControllerConverterFactory.cpp
-          XboxToSnesControllerConverter.cpp
-          ...
-      Backend/
-        Backend.cpp
-        SNESBackend.cpp
-        ...
-    build/
-    configs/
     arduino/
       <.ino files>
-    Readme.md
-    LICENSE
-    .gitignore
-```
+    configs/
+    src/
+      ControllerModels/
+        Controller.cpp
+        XboxController.cpp
+        SnesController.cpp
+        ...
+      ControllerConverters/
+        ControllerConverter.cpp
+        ControllerConverterFactory.cpp
+        XboxToSnesControllerConverter.cpp
+        ...
 
 ### **```root/```**
 The ```root/``` directory contains the following components:
-- ```src/``` is meant to hold all our source code
-- ```build/``` is meant to hold the compiled and built code ready to run RetroConnect
-- ```configs/``` is meant to hold user-configurable mapping config files
+- ```src/``` contains all Raspberry Pi source code
+- ```configs/``` contains user-configurable mapping config files
 - ```arduino/``` contains the Arduino code to be flashed to a Teensy 3.2 or other MCU
-- ```Readme.md``` is the file you are reading
-- ```LICENSE``` is a text file describing our code's legal licensing
 
 ### **```src/```**
-The ```src/``` directory is divided into the logical components that makeup the dataflow of our program
-- ```Mapping/``` handles converting one controllers state to another
-    - ```ControllerModels/``` holds all the classes that define a controller's inputs and states, as well as the abstract Controller class that they all inherit from
-    - ```ControllerConverters/``` holds all the classes that  have methods for converting one controller model to another, as well as the interface all controller converters will implement.
-- ```Backend/``` holds all the classes that have methods for writing a controllers state to its corresponding console, as well as the interface all backends will implement.
-
+  - ```ControllerModels/``` defines a controller's inputs/outputs and states, as well as the abstract Controller class that they all inherit from.
+  - ```ControllerConverters/``` contains methods for converting one controller's model to another.
 
 ## **Credits**
 
@@ -123,6 +105,7 @@ The ```src/``` directory is divided into the logical components that makeup the 
 - [NES Signal Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
 - [Genesis Signal Reference](https://www.raspberryfield.life/2019/03/25/sega-mega-drive-genesis-6-button-xyz-controller/)
 - [Atari Signal Reference](http://wiki.icomp.de/w/index.php?title=DB9-Joystick&oldid=3915)
+- Scholars-Mate, BenThrasher5, SeanConners, and TheCoolMichael for initial project creation (XB1/PS4 to NES/SNES)
 - Thanks to [Pavel Glushkov (pashutk)](http://github.com/pashutk) for help with ESP32 Bluetooth handling
 - Thanks to [Ownasaurus](https://github.com/Ownasaurus) for massive help fixing Genesis 6 Button Mode on Teensy 
 
