@@ -14,11 +14,10 @@ LIBS = -lwiringPi
 CXX = g++
 
 # Source Destinations
-SRC_DIRS := src/Mapping/ControllerConverters/ src/Backend/ ./
+SRC_DIRS := src/ControllerConverters/ ./
 
 # Includes Directories
-INCLUDES =  -I src/Mapping/ControllerConverters/include -I src/Mapping/ControllerModels/
-INCLUDES += -I src/Backend/include -I ./
+INCLUDES =  -I src/ControllerConverters/include -I src/ControllerModels/ -I ./
 
 # automatically create lists of the sources and objects
 SRC_FILES := $(wildcard $(addsuffix *.cpp, $(SRC_DIRS)))
