@@ -4,10 +4,7 @@
 #define SNES_BACKEND_H
 
 namespace snesbackend {
-
 	void update_controller (snes_controller_t* new_controller);
-	void set_output();
-
 }
 
 #endif
