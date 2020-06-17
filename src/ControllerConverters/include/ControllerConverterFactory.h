@@ -5,9 +5,15 @@
 #include <XboxToSnesControllerConverter.h>
 #include <XboxToNesControllerConverter.h>
 #include <XboxToGenControllerConverter.h>
+#include <XboxTo2600ControllerConverter.h>
+#include <XboxTo7800ControllerConverter.h>
+#include <XboxToSmsControllerConverter.h>
 #include <Ps4ToSnesControllerConverter.h>
 #include <Ps4ToNesControllerConverter.h>
 #include <Ps4ToGenControllerConverter.h>
+#include <Ps4To2600ControllerConverter.h>
+#include <Ps4To7800ControllerConverter.h>
+#include <Ps4ToSmsControllerConverter.h>
 
 #ifndef CONTROLLER_CONVERTER_FACTORY_H
 #define CONTROLLER_CONVERTER_FACTORY_H
@@ -31,6 +37,15 @@ class ControllerConverterFactory
 			} else if (output_controller.type == GEN) {
 				userMap = getMapFromConfigFile("XboxToGenConfig.txt");
 				return new XboxToGenControllerConverter(userMap);
+			} else if (output_controller.type == ATARI_2600) {
+			       	userMap = getMapFromConfigFile("XboxTo2600Config.txt");
+				return new XboxTo2600ControllerConverter(userMap);
+			} else if (output_controller.type == ATARI_7800) {
+			       	userMap = getMapFromConfigFile("XboxTo7800Config.txt");
+				return new XboxTo7800ControllerConverter(userMap);
+			} else if (output_controller.type == SMS) {
+			       	userMap = getMapFromConfigFile("XboxToSmsConfig.txt");
+				return new XboxToSmsControllerConverter(userMap);
 			}
 		} else if(input_controller.type == PS4) {
 			if (output_controller.type == SNES) {
@@ -42,11 +57,20 @@ class ControllerConverterFactory
 			} else if (output_controller.type == GEN) {
 				userMap = getMapFromConfigFile("Ps4ToGenConfig.txt");
 				return new Ps4ToGenControllerConverter(userMap);
+			} else if (output_controller.type == ATARI_2600) {
+			       	userMap = getMapFromConfigFile("Ps4To2600Config.txt");
+				return new Ps4To2600ControllerConverter(userMap);
+			} else if (output_controller.type == ATARI_7800) {
+			       	userMap = getMapFromConfigFile("Ps4To7800Config.txt");
+				return new Ps4To7800ControllerConverter(userMap);
+			} else if (output_controller.type == SMS) {
+			       	userMap = getMapFromConfigFile("Ps4ToSmsConfig.txt");
+				return new Ps4ToSmsControllerConverter(userMap);
 			}
 		}
 
 		        
-		printf("ERROR: Controller combination not supported\n");
+		printf("ERROR: Controller combination not supported in ControllerConverterFactory.h\n");
        		exit(EXIT_FAILURE);
 	}
 

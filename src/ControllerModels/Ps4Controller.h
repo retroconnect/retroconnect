@@ -40,6 +40,9 @@ struct ps4_controller_t: controller_t {
 			if (button_states["X"]) {return SNES;}
 		  	if (button_states["CIRCLE"]) {return NES;}
 			if (button_states["SQUARE"]) {return GEN;}	
+			if (button_states["L1"]) {return ATARI_2600;}
+			if (button_states["R1"]) {return ATARI_7800;}
+			if (button_states["D_UP"]) {return SMS;}
 		}
 		return false;
 	}

@@ -1,30 +1,30 @@
 * Available Ps4 Options (Left of =):
 * X, CIRCLE, TRIANGLE, SQUARE, SHARE, OPTIONS, HOME, LS_PRESS, RS_PRESS, L1, R1, L2, R2, TRIGGER_DEADZONE, D_LEFT, D_RIGHT, D_DOWN, D_UP, LS_LEFT, LS_RIGHT, LS_DOWN, LS_UP, RS_LEFT, RS_RIGHT, RS_DOWN, RS_UP, STICK_DEADZONE
-* Available GEN Options (Right of =):
-* A, B, C, X, Y, Z, START, MODE, D_DOWN, D_UP, D_LEFT, D_RIGHT
+* Available 7800 Options (Right of =):
+* BUTTON_LEFT, BUTTON_RIGHT, BUTTON, D_DOWN, D_UP, D_LEFT, D_RIGHT
 * Tips:
-*   1. Format is PS4=GEN For example, if you wanted the X button on the PS4 to trigger the A button on GEN, write X=A
+*   1. Format is PS4=7800 For example, if you wanted the X button on the PS4 to trigger the A button on GEN, write X=A
 *   2. Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing circle on PS4 has no effect
 *   3. Aside from buttons, there are two numerical options, TRIGGER_DEADZONE and STICK_DEADZONE. These refer to how 'far' you have to press the analog
 *      inputs to trigger the button on the GEN. Ranges for these options are:
 *          TRIGGER_DEADZONE range: 0-255
 *          STICK_DEADZONE range: 0-255
 
-PS4 to GEN Mapping Configuration
+PS4 to 2600 Mapping Configuration
 *================================*
-X=B
-CIRCLE=C
-SQUARE=A
-TRIANGLE=Y
-OPTIONS=START
-SHARE=START
+X=BUTTON
+CIRCLE=BUTTON_RIGHT
+SQUARE=BUTTON_LEFT
+TRIANGLE=BUTTON
+OPTIONS=NULL
+SHARE=NULL
 HOME=NULL
 LS_PRESS=NULL
 RS_PRESS=NULL
-L1=X
-R1=Z
-L2=X
-R2=Z
+L1=BUTTON_LEFT
+R1=BUTTON_RIGHT
+L2=NULL
+R2=NULL
 TRIGGER_DEADZONE=10
 D_LEFT=D_LEFT
 D_RIGHT=D_RIGHT

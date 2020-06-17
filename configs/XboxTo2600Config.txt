@@ -1,30 +1,30 @@
 * Available Xbox Options (Left of =):
 * A, B, X, Y, START, SELECT, HOME, LS_PRESS, RS_PRESS, LB, RB, LT, RT, TRIGGER_DEADZONE, D_LEFT, D_RIGHT, D_DOWN, D_UP, LS_LEFT, LS_RIGHT, LS_DOWN, LS_UP, RS_LEFT, RS_RIGHT, RS_DOWN, RS_UP, STICK_DEADZONE
-* Available GEN Options (Right of =):
-* A, B, C, X, Y, Z, START, MODE, D_DOWN, D_UP, D_LEFT, D_RIGHT
+* Available 2600 Options (Right of =):
+* BUTTON, D_DOWN, D_UP, D_LEFT, D_RIGHT
 * Tips:
-*   1. Format is XBOX=GEN. For example, if you wanted the A button on the Xbox to trigger the X button on GEN, write A=X
+*   1. Format is XBOX=2600. For example, if you wanted the A button on the Xbox to trigger the button on 2600, write A=BUTTON
 *   2. Use NULL keyword if you don't want the button to map to anything. B=NULL means pressing B on Xbox has no effect
 *   3. Aside from buttons, there are two numerical options, TRIGGER_DEADZONE and STICK_DEADZONE. These refer to how 'far' you have to press the analog
-*      inputs to trigger the button on the GEN. Ranges for these options are:
+*      inputs to trigger the button on the 2600. Ranges for these options are:
 *          TRIGGER_DEADZONE range: 0-65535
 *          STICK_DEADZONE range: 0-65535
 
-Xbox to GEN Mapping Configuration
+Xbox to 2600 Mapping Configuration
 *================================*
-A=B
-B=C
-X=A
-Y=Y
-START=START
-SELECT=MODE
+A=BUTTON
+B=BUTTON
+X=BUTTON
+Y=BUTTON
+START=NULL
+SELECT=NULL
 HOME=NULL
 LS_PRESS=NULL
 RS_PRESS=NULL
-LB=X
-RB=Z
-LT=X
-RT=Z
+LB=NULL
+RB=NULL
+LT=NULL
+RT=NULL
 TRIGGER_DEADZONE=100
 D_LEFT=D_LEFT
 D_RIGHT=D_RIGHT
