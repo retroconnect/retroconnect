@@ -38,6 +38,9 @@ struct xbox_controller_t: controller_t {
 			if (button_states["A"]) {return SNES;}
 			if (button_states["B"]) {return NES;}
 			if (button_states["X"]) {return GEN;}
+			if (button_states["LB"]) {return ATARI_2600;}
+			if (button_states["RB"]) {return ATARI_7800;}
+			if (button_states["D_UP"]) {return SMS;}
 		}
 		return false;
 	}

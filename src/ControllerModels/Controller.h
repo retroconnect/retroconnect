@@ -14,11 +14,8 @@ struct button_struct_t {       //16 bytes total
 
 struct controller_t {
 	ControllerType type;
-
 	std::map<std::string, int> button_states;
-
 	virtual int combo_pressed() = 0;
-
 	virtual void print_state() = 0;
 	virtual void read_buttons(button_struct_t) = 0;
 	virtual void send_state(int, unsigned char[]){};

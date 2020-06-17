@@ -19,13 +19,22 @@ using namespace std;
 #include "XboxController.h"
 #include "Ps4Controller.h"
 #include "GenController.h"
+#include "SmsController.h"
+#include "Atari2600Controller.h"
+#include "Atari7800Controller.h"
 #include "ControllerConverter.h"
 #include "XboxToNesControllerConverter.h"
 #include "XboxToSnesControllerConverter.h"
 #include "XboxToGenControllerConverter.h"
+#include "XboxToSmsControllerConverter.h"
+#include "XboxTo2600ControllerConverter.h"
+#include "XboxTo7800ControllerConverter.h"
 #include "Ps4ToNesControllerConverter.h"
 #include "Ps4ToSnesControllerConverter.h"
 #include "Ps4ToGenControllerConverter.h"
+#include "Ps4ToSmsControllerConverter.h"
+#include "Ps4To2600ControllerConverter.h"
+#include "Ps4To7800ControllerConverter.h"
 #include "ControllerConverterFactory.h"
 
 /***************************************************/
@@ -164,8 +173,23 @@ int main() {
 					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 					break;
 				case GEN:
-					printf("Combo detected! Switching to GEN output\n");
+					printf("Combo detected! Switching to Sega Genesis output\n");
 					output_controller = new gen_controller_t();
+					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
+					break;
+				case ATARI_2600:
+					printf("Combo detected! Switching to Atari 2600 output\n");
+					output_controller = new atari_2600_controller_t();
+					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
+					break;
+				case ATARI_7800:
+					printf("Combo detected! Switching to Atari 7800 output\n");
+					output_controller = new atari_7800_controller_t();
+					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
+					break;
+				case SMS:
+					printf("Combo detected! Switching to Sega Master System output\n");
+					output_controller = new sms_controller_t();
 					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 					break;
 				default:
