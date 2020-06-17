@@ -23,7 +23,8 @@ RetroConnect is a project that allows you to use wireless Bluetooth controllers 
   - Nintendo Entertainment System (NES)
   - Super Nintendo Entertainment System (SNES)
   - Sega Genesis (GEN)
-  - Atari 2600 (7800)
+  - Sega Master System (SMS)
+  - Atari 2600 (2600)
   - Atari 7800 (7800)
 - Analog sticks map to D-pads
 - Button combos to change output console
@@ -66,8 +67,10 @@ Execute the `retroconnect` program. If a compatible Bluetooth controller is not 
 #### Button Combos
 - HOME + South Button = SNES mode (default)
 - HOME + East Button = NES mode 
-- HOME + West Button = Genesis mode
-- HOME + North Button = Atari mode
+- HOME + West Button = Sega Genesis mode
+- HOME + Left Button = Atari 2600 mode
+- HOME + Right Button = Atari 7800 mode
+- HOME + DPAD-UP = Sega Master System mode
 
 ## **File Organization**
 
@@ -105,7 +108,7 @@ The ```root/``` directory contains the following components:
 - [NES Signal Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
 - [Genesis Signal Reference](https://www.raspberryfield.life/2019/03/25/sega-mega-drive-genesis-6-button-xyz-controller/)
 - [Atari Signal Reference](http://wiki.icomp.de/w/index.php?title=DB9-Joystick&oldid=3915)
-- Scholars-Mate, BenThrasher5, SeanConners, and TheCoolMichael for initial project creation (XB1/PS4 to NES/SNES)
+- Scholars-Mate, DerfJagged, BenThrasher5, SeanConners, and TheCoolMichael for initial project creation (XB1/PS4 to NES/SNES)
 - Thanks to [Pavel Glushkov (pashutk)](http://github.com/pashutk) for help with ESP32 Bluetooth handling
 - Thanks to [Ownasaurus](https://github.com/Ownasaurus) for massive help fixing Genesis 6 Button Mode on Teensy 
 
