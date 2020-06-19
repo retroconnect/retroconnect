@@ -11,8 +11,8 @@ struct sms_controller_t: controller_t {
 		type = SMS;
 
 		//Note: these strings must be exactly the ones used in config files
-		button_states["A"] = 0;
-		button_states["B"] = 0;
+		button_states["1"] = 0;
+		button_states["2"] = 0;
 		button_states["D_UP"] = 0;
 		button_states["D_DOWN"] = 0;
 		button_states["D_LEFT"] = 0;
