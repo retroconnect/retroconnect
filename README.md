@@ -82,6 +82,8 @@ root/
     configs/
       <.txt files>
     src/
+      main.cpp
+      Constants.h
       ControllerModels/
         Controller.cpp
         XboxController.cpp
