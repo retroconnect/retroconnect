@@ -12,7 +12,6 @@ class XboxToSnesControllerConverter: public ControllerConverter {
         int AXIS_DEADZONE;
         int TRIGGER_DEADZONE;
 	static const int MAX_AXIS_VALUE = 65535;
-        std::map<std::string, std::string> user_map;
         int compileButtonMappingsFor(std::string b, xbox_controller_t xbox);
 
     public:

@@ -6,6 +6,7 @@
 
 class ControllerConverter {
     public:
+        std::map<std::string, std::string> user_map;
         virtual void convert(controller_t& input_controller, controller_t& output_controller) = 0;
 };
 

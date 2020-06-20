@@ -2,18 +2,6 @@
 #include <string>
 #include <Controller.h>
 #include <ControllerConverter.h>
-//#include <XboxToSnesControllerConverter.h>
-//#include <XboxToNesControllerConverter.h>
-//#include <XboxToGenControllerConverter.h>
-//#include <XboxTo2600ControllerConverter.h>
-//#include <XboxTo7800ControllerConverter.h>
-//#include <XboxToSmsControllerConverter.h>
-//#include <Ps4ToSnesControllerConverter.h>
-//#include <Ps4ToNesControllerConverter.h>
-//#include <Ps4ToGenControllerConverter.h>
-//#include <Ps4To2600ControllerConverter.h>
-//#include <Ps4To7800ControllerConverter.h>
-//#include <Ps4ToSmsControllerConverter.h>
 
 #ifndef CONTROLLER_CONVERTER_FACTORY_H
 #define CONTROLLER_CONVERTER_FACTORY_H

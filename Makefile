@@ -17,7 +17,7 @@ CXX = g++
 SRC_DIRS := src/ src/ControllerConverters/
 
 # Includes Directories
-INCLUDES =  -I src/ControllerConverters/include -I src/ControllerModels/ -I src/
+INCLUDES =  -I src/ControllerConverters/include -I src/ControllerModels/Input -I src/ControllerModels/Output -I src/
 
 # automatically create lists of the sources and objects
 SRC_FILES := $(wildcard $(addsuffix *.cpp, $(SRC_DIRS)))
