@@ -11,6 +11,7 @@ using namespace std;
 #include <fcntl.h>
 #include <typeinfo>
 #include <algorithm>
+#include <map>
 
 #include "Constants.h"
 #include "Controller.h"
@@ -36,6 +37,37 @@ using namespace std;
 #include "Ps4To2600ControllerConverter.h"
 #include "Ps4To7800ControllerConverter.h"
 #include "ControllerConverterFactory.h"
+
+typedef controller_t* ControllerMaker();
+controller_t* controller;
+
+template <class controller> controller_t* make() {
+	return new controller;
+}
+
+ControllerMaker* get_controller[] = {
+	make<xbox_controller_t>, //default
+	make<xbox_controller_t>,
+	make<ps4_controller_t>,
+	make<snes_controller_t>, 
+	make<nes_controller_t>,
+	make<gen_controller_t>,
+	make<sms_controller_t>,
+	make<atari_2600_controller_t>,
+	make<atari_7800_controller_t>
+};
+
+std::string CONTROLLERNAME[] = {
+	"UNSET",
+	"XB1",
+	"PS4",
+	"SNES",
+	"NES",
+	"GEN",
+	"SMS",
+	"ATARI_2600",
+	"ATARI_7800"
+};
 
 /***************************************************/
 
@@ -159,47 +191,23 @@ int main() {
 				continue;
 			}
 			
+			//Parse button presses
 			input_controller->read_buttons(button_struct);
 			
-			switch (input_controller->combo_pressed()) {
-				case SNES: 
-					printf("Combo detected! Switching to SNES output\n");
-					output_controller = new snes_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case NES:
-					printf("Combo detected! Switching to NES output\n");
-					output_controller = new nes_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case GEN:
-					printf("Combo detected! Switching to Sega Genesis output\n");
-					output_controller = new gen_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case ATARI_2600:
-					printf("Combo detected! Switching to Atari 2600 output\n");
-					output_controller = new atari_2600_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case ATARI_7800:
-					printf("Combo detected! Switching to Atari 7800 output\n");
-					output_controller = new atari_7800_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case SMS:
-					printf("Combo detected! Switching to Sega Master System output\n");
-					output_controller = new sms_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				default:
-					break;
+			//Check if a button combo is pressed
+			if (int new_input_controller = input_controller->combo_pressed()) {	
+				printf("Combo detected! Switching to %s output\n", CONTROLLERNAME[new_input_controller].c_str());
+				output_controller = (controller_t*) get_controller[new_input_controller]();
+				converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
 			}
 
+			//DEBUG - Print input controller state
 			input_controller->print_state();
 
 			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller);
+
+			//DEBUG - Print output controller state
 			output_controller->print_state();
 			
 			//Send button state to Teensy
@@ -217,14 +225,8 @@ int main() {
 				((xbox_controller_t*)input_controller)->button_states["HOME"] = button_struct.value;
 			}	
 			
-			//input_controller->print_state();
-			
 			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller);
-			//output_controller->print_state();
-			
-			//Send button state to Teensy
-			//output_controller->send_state();
 		}	
 	}
 
