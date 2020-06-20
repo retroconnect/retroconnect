@@ -3,6 +3,18 @@
 
 enum ControllerType {UNSET, XB1, PS4, SNES, NES, GEN, SMS, ATARI_2600, ATARI_7800};
 
+const std::string CONTROLLERNAME[] = {
+	"UNSET",
+	"XB1",
+	"PS4",
+	"SNES",
+	"NES",
+	"GEN",
+	"SMS",
+	"ATARI_2600",
+	"ATARI_7800"
+};
+
 //Xbox One Mapping
 #define XB1_BTN_A		0x130
 #define XB1_BTN_B		0x131

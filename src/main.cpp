@@ -13,8 +13,8 @@ using namespace std;
 #include <algorithm>
 #include <map>
 
-#include "Constants.h"
 #include "Controller.h"
+#include "Constants.h"
 #include "NesController.h"
 #include "SnesController.h"
 #include "XboxController.h"
@@ -55,18 +55,6 @@ ControllerMaker* get_controller[] = {
 	make<sms_controller_t>,
 	make<atari_2600_controller_t>,
 	make<atari_7800_controller_t>
-};
-
-std::string CONTROLLERNAME[] = {
-	"UNSET",
-	"XB1",
-	"PS4",
-	"SNES",
-	"NES",
-	"GEN",
-	"SMS",
-	"ATARI_2600",
-	"ATARI_7800"
 };
 
 /***************************************************/
