@@ -18,24 +18,12 @@ using namespace std;
 #include "NesController.h"
 #include "SnesController.h"
 #include "XboxController.h"
-#include "Ps4Controller.h"
+//#include "Ps4Controller.h"
 #include "GenController.h"
 #include "SmsController.h"
 #include "Atari2600Controller.h"
 #include "Atari7800Controller.h"
 #include "ControllerConverter.h"
-#include "XboxToNesControllerConverter.h"
-#include "XboxToSnesControllerConverter.h"
-#include "XboxToGenControllerConverter.h"
-#include "XboxToSmsControllerConverter.h"
-#include "XboxTo2600ControllerConverter.h"
-#include "XboxTo7800ControllerConverter.h"
-#include "Ps4ToNesControllerConverter.h"
-#include "Ps4ToSnesControllerConverter.h"
-#include "Ps4ToGenControllerConverter.h"
-#include "Ps4ToSmsControllerConverter.h"
-#include "Ps4To2600ControllerConverter.h"
-#include "Ps4To7800ControllerConverter.h"
 #include "ControllerConverterFactory.h"
 
 typedef controller_t* ControllerMaker();
@@ -48,7 +36,7 @@ template <class controller> controller_t* make() {
 ControllerMaker* get_controller[] = {
 	make<xbox_controller_t>, //default
 	make<xbox_controller_t>,
-	make<ps4_controller_t>,
+	//make<ps4_controller_t>,
 	make<snes_controller_t>, 
 	make<nes_controller_t>,
 	make<gen_controller_t>,
@@ -95,7 +83,9 @@ int main() {
 						if ((event_position = line.find("event", 0)) != (int) string::npos) {
 							event_controller = line.substr(event_position+5,2);
 							devices_found++;
-							input_controller = new ps4_controller_t();
+							//
+							input_controller = new xbox_controller_t();
+							//input_controller = new ps4_controller_t();
 							printf("PlayStation 4 Controller detected on event%s\n", event_controller.c_str());
 							continue;
 						}

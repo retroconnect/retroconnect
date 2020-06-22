@@ -5,9 +5,14 @@
 #define CONTROLLER_CONVERTER_H
 
 class ControllerConverter {
-    public:
-        std::map<std::string, std::string> user_map;
-        virtual void convert(controller_t& input_controller, controller_t& output_controller) = 0;
+	private:
+		int AXIS_DEADZONE = 10000;
+		int TRIGGER_DEADZONE = 100;
+		static const int MAX_AXIS_VALUE = 65535; //255 for PS4	
+	public:
+		ControllerConverter(std::map<std::string, std::string> userMap);
+	        std::map<std::string, std::string> user_map;
+        	void convert(controller_t& input_controller, controller_t& output_controller) = 0;
 };
 
 #endif

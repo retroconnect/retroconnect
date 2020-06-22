@@ -9,48 +9,15 @@
 class ControllerConverterFactory
 {
 	public:
-		static ControllerConverter* createConverter(controller_t& input_controller, controller_t& output_controller)
-	{
-		
-		std::map<std::string, std::string> userMap;
-
-		//List of supported input/output combinations currently supported
-		userMap = getMapFromConfigFile(CONTROLLERNAME[input_controller.type] + "_to_" + CONTROLLERNAME[output_controller.type] + ".txt");
-		
-		if(input_controller.type == XB1) {
-			if (output_controller.type == SNES) {
-				return new XboxToSnesControllerConverter(userMap);
-			} else if (output_controller.type == NES) {
-				return new XboxToNesControllerConverter(userMap);
-			} else if (output_controller.type == GEN) {
-				return new XboxToGenControllerConverter(userMap);
-			} else if (output_controller.type == ATARI_2600) {
-				return new XboxTo2600ControllerConverter(userMap);
-			} else if (output_controller.type == ATARI_7800) {
-				return new XboxTo7800ControllerConverter(userMap);
-			} else if (output_controller.type == SMS) {
-				return new XboxToSmsControllerConverter(userMap);
-			}
-		} else if(input_controller.type == PS4) {
-			if (output_controller.type == SNES) {
-				return new Ps4ToSnesControllerConverter(userMap);
-			} else if (output_controller.type == NES) { 
-				return new Ps4ToNesControllerConverter(userMap);
-			} else if (output_controller.type == GEN) {
-				return new Ps4ToGenControllerConverter(userMap);
-			} else if (output_controller.type == ATARI_2600) {
-				return new Ps4To2600ControllerConverter(userMap);
-			} else if (output_controller.type == ATARI_7800) {
-				return new Ps4To7800ControllerConverter(userMap);
-			} else if (output_controller.type == SMS) {
-				return new Ps4ToSmsControllerConverter(userMap);
-			}
+		static ControllerConverter* createConverter(controller_t& input_controller, controller_t& output_controller) {	
+			std::map<std::string, std::string> userMap;
+			userMap = getMapFromConfigFile(CONTROLLERNAME[input_controller.type] + "_to_" + CONTROLLERNAME[output_controller.type] + ".txt");
+			return new ControllerConverter(userMap);		
+		  
+		  	//If CONTROLLERNAME does not contain controller, report this:	
+			//printf("ERROR: Controller combination not supported in ControllerConverterFactory.h\n");
+	       		//exit(EXIT_FAILURE);
 		}
-
-		        
-		printf("ERROR: Controller combination not supported in ControllerConverterFactory.h\n");
-       		exit(EXIT_FAILURE);
-	}
 
 	private:
 		ControllerConverterFactory() {};
@@ -101,7 +68,6 @@ class ControllerConverterFactory
 
 			return cfgMap;
 		}
-
 };
 
 #endif
