@@ -110,7 +110,7 @@ The ```root/``` directory contains the following components:
 - [NES Signal Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
 - [Genesis Signal Reference](https://www.raspberryfield.life/2019/03/25/sega-mega-drive-genesis-6-button-xyz-controller/)
 - [Atari Signal Reference](http://wiki.icomp.de/w/index.php?title=DB9-Joystick&oldid=3915)
-- Scholars-Mate, DerfJagged, BenThrasher5, SeanConners, and TheCoolMichael for initial project creation (XB1/PS4 to NES/SNES)
+- Scholars-Mate, DerfJagged, BenThrasher5, BigScooter, and TheCoolMichael for initial project creation (XB1/PS4 to NES/SNES)
 - Thanks to [Pavel Glushkov (pashutk)](http://github.com/pashutk) for help with ESP32 Bluetooth handling
 - Thanks to [Ownasaurus](https://github.com/Ownasaurus) for massive help fixing Genesis 6 Button Mode on Teensy 
 
