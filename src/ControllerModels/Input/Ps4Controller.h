@@ -4,6 +4,54 @@
 #ifndef PS4_CONTROLLER_H
 #define PS4_CONTROLLER_H
 
+//PS4 Button Mappings
+#define PS4_BTN_CROSS		0x130
+#define PS4_BTN_CIRCLE		0x131
+#define PS4_BTN_SQUARE		0x134
+#define PS4_BTN_TRIANGLE	0x133
+#define PS4_BTN_L1		0x136
+#define PS4_BTN_R1		0x137
+#define PS4_BTN_SELECT		0x13A
+#define PS4_BTN_START		0x13B
+#define PS4_BTN_LS		0x13D
+#define PS4_BTN_RS		0x13E
+#define PS4_BTN_HOME		0x13C
+#define PS4_LEFT_Y_AXIS		0x01
+#define PS4_LEFT_X_AXIS		0x00
+#define PS4_RIGHT_Y_AXIS	0x04
+#define PS4_RIGHT_X_AXIS	0x03
+#define PS4_RIGHT_TRIGGER   	0x05
+#define PS4_LEFT_TRIGGER    	0x02
+#define PS4_DPAD_X		0x10
+#define PS4_DPAD_Y		0x11
+
+const int MAX_AXIS_VALUE = 255;
+
+enum ANALOG_BUTTON {
+	LS_UP,
+	LS_DOWN,
+	LS_LEFT,
+	LS_RIGHT,
+	RS_UP,
+	RS_DOWN,
+	RS_LEFT,
+	RS_RIGHT,
+	L2,
+	R2	
+};
+
+const std::map<std::string, ANALOG_BUTTON> string_to_button = {
+	{"LS_UP", LS_UP},
+	{"LS_DOWN", LS_DOWN},
+	{"LS_LEFT", LS_LEFT},
+	{"LS_RIGHT", LS_RIGHT},
+	{"RS_UP", RS_UP},
+	{"RS_DOWN", RS_DOWN},
+	{"RS_LEFT", RS_LEFT},
+	{"RS_RIGHT", RS_RIGHT},
+	{"L2", L2},
+	{"R2", R2}
+};
 
 struct ps4_controller_t: controller_t {
 
@@ -60,7 +108,7 @@ struct ps4_controller_t: controller_t {
 		printf("RS-x: %d, RS-y: %d, RS-press: %d\n", button_states["RS_X"], button_states["RS_Y"], button_states["RS_PRESS"]);
 	}
 
-	virtual void read_buttons(button_struct_t button_struct) override {
+	virtual void read_buttons(button_struct_t button_struct) {
 		switch(button_struct.code) {
 			case(PS4_LEFT_Y_AXIS):
 				printf("Left Analog Stick Y\n");
@@ -247,10 +295,6 @@ struct ps4_controller_t: controller_t {
 		//printf("\nButton Value: %04x\n", button_struct.value);
 	}
 
-	constexpr unsigned int hash(const char *s, int off = 0) {
-		return !s[off] ? 5381 : (hash(s, off+1)*33) ^ s[off];
-	}		
-
 	int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) {
 	        std::string button_aliases = user_map[button];
 		size_t pos = 0;
@@ -262,41 +306,41 @@ struct ps4_controller_t: controller_t {
 	                int triggerValue, new_button_value;
 	
 	                //handling for sticks is different for each direction, handling for triggers is unique, all other buttons captured by else
-	                switch(hash(token)) {
-				case hash("LS_LEFT"): 
+	                switch((string_to_button.find(token))->second) {
+				case LS_LEFT: 
 		       	                triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = -(button_states["LS_X"] - MAX_AXIS_VALUE / 2);
 					break;
-				case hash("LS_RIGHT"):
+				case LS_RIGHT:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = button_states["LS_X"] - MAX_AXIS_VALUE / 2;
 					break;
-				case hash("LS_UP"):
+				case LS_UP:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = -(button_states["LS_Y"] - MAX_AXIS_VALUE / 2);
 					break;
-				case hash("LS_DOWN"):
+				case LS_DOWN:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = button_states["LS_Y"] - MAX_AXIS_VALUE / 2;
 					break;
-				case hash("RS_LEFT"):
+				case RS_LEFT:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = -(button_states["RS_X"] - MAX_AXIS_VALUE / 2);
 					break;
-				case hash("RS_RIGHT"):
+				case RS_RIGHT:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = button_states["RS_X"] - MAX_AXIS_VALUE / 2;
 					break;
-				case hash("RS_UP"):
+				case RS_UP:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = -(button_states["RS_Y"] - MAX_AXIS_VALUE / 2);
 					break;
-				case hash("RS_DOWN"):
+				case RS_DOWN:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = button_states["RS_Y"] - MAX_AXIS_VALUE / 2;
 					break;
-				case hash("L2"):
-				case hash("R2"):
+				case L2:
+				case R2:
 		                        triggerValue = std::stoi(user_map["TRIGGER_DEADZONE"]);
 		                        new_button_value = button_states[token];
 					break;
@@ -311,8 +355,10 @@ struct ps4_controller_t: controller_t {
 		                //note, this assumes all buttons on output controller are not analog
 		                return 1;
 		        }
+
 	             	button_aliases.erase(0, pos + 1);
         	}
+
         	return 0;
 	}
 };

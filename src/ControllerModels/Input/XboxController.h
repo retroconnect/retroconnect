@@ -1,10 +1,49 @@
-//#include <Controller.h>
 #include <Constants.h>
 
 #ifndef XBOX_CONTROLLER_H
 #define XBOX_CONTROLLER_H
 
-enum BUTTON {
+//Xbox One Mapping
+#define XB1_BTN_A		0x130
+#define XB1_BTN_B		0x131
+#define XB1_BTN_X		0x133
+#define XB1_BTN_Y		0x134
+#define XB1_BTN_LB		0x136
+#define XB1_BTN_RB		0x137
+#define XB1_BTN_SELECT		0x9E
+#define XB1_BTN_START		0x13B
+#define XB1_BTN_LS		0x13D
+#define XB1_BTN_RS		0x13E
+#define XB1_BTN_HOME		0xAC
+#define XB1_LEFT_Y_AXIS		0x01
+#define XB1_LEFT_X_AXIS		0x00
+#define XB1_RIGHT_Y_AXIS	0x05
+#define XB1_RIGHT_X_AXIS	0x02
+#define XB1_RIGHT_TRIGGER   	0x09
+#define XB1_LEFT_TRIGGER   	0x0A
+#define XB1_DPAD_X		0x10
+#define XB1_DPAD_Y		0x11
+
+//Xbox One Alternate Mapping (reconnected controller)
+/*
+#define XB1_BTN_A		0x130
+#define XB1_BTN_B		0x131
+#define XB1_BTN_X		0x132
+#define XB1_BTN_Y		0x133
+#define XB1_BTN_LB		0x134
+#define XB1_BTN_RB		0x135
+#define XB1_BTN_SELECT		0x136
+#define XB1_BTN_START		0x137
+#define XB1_BTN_LS		0x138
+#define XB1_BTN_RS		0x139
+#define XB1_BTN_HOME		0xAC
+#define XB1_RIGHT_TRIGGER	0x09
+#define XB1_LEFT_TRIGGER    	0x0A
+*/
+
+const int MAX_AXIS_VALUE = 65535;
+
+enum ANALOG_BUTTON {
 	LS_UP,
 	LS_DOWN,
 	LS_LEFT,
@@ -17,7 +56,7 @@ enum BUTTON {
 	RT	
 };
 
-const std::map<std::string, BUTTON> string_to_button = {
+const std::map<std::string, ANALOG_BUTTON> string_to_button = {
 	{"LS_UP", LS_UP},
 	{"LS_DOWN", LS_DOWN},
 	{"LS_LEFT", LS_LEFT},
@@ -279,10 +318,7 @@ struct xbox_controller_t: controller_t {
 
 
 	int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) {
-        	//
-		int MAX_AXIS_VALUE = 65535;
-		//
-
+		
 		std::string button_aliases = user_map[button];
 	        size_t pos = 0;
 	        std::string token;
@@ -343,9 +379,10 @@ struct xbox_controller_t: controller_t {
 	                        //note, this assumes all buttons on output controller are not analog
 	                        return 1;
 	                }
-			
+
 	                button_aliases.erase(0, pos + 1);
-	        }	
+	        }
+
 	        return 0;
 	}
 };
