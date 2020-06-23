@@ -6,9 +6,7 @@
 
 class ControllerConverter {
 	private:
-		int AXIS_DEADZONE = 10000;
-		int TRIGGER_DEADZONE = 100;
-		static const int MAX_AXIS_VALUE = 65535; //255 for PS4	
+		std::string button_name;
 	public:
 		ControllerConverter(std::map<std::string, std::string> userMap);
 	        std::map<std::string, std::string> user_map;

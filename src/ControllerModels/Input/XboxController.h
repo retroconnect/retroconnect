@@ -42,6 +42,8 @@
 */
 
 const int MAX_AXIS_VALUE = 65535;
+const int STICK_DEADZONE = 10000;
+const int TRIGGER_DEADZONE = 100;
 
 enum ANALOG_BUTTON {
 	LS_UP,
@@ -95,10 +97,6 @@ struct xbox_controller_t: controller_t {
 		button_states["LS_X"] = 32768;
 		button_states["LS_Y"] = 32768;
 		button_states["RS_X"] = 32768;
-		button_states["RS_Y"] = 32768;
-		//int AXIS_DEADZONE = 10000;
-		//int TRIGGER_DEADZONE = 100;
-		//int MAX_AXIS_VALUE = 100;
 	}
 
 	virtual int combo_pressed() override {
@@ -322,64 +320,64 @@ struct xbox_controller_t: controller_t {
 		std::string button_aliases = user_map[button];
 	        size_t pos = 0;
 	        std::string token;
+		int deadzone, new_button_value;
 
 		//Loop to handle space separated mapping of two buttons to one button
 	        while((pos = button_aliases.find(" ")) != std::string::npos) {
 	                token = button_aliases.substr(0, pos);
 
-	                int triggerValue, new_button_value;
-
 	                //handling for sticks is different for each direction, handling for triggers is unique, all other buttons captured by else
 			switch ((string_to_button.find(token))->second) {
 				case LS_LEFT:
-		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+		                        deadzone = STICK_DEADZONE;
 	        	                new_button_value = -(button_states["LS_X"] - MAX_AXIS_VALUE / 2);
 	                		break;
 				case LS_RIGHT:
-	                        	triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+	                        	deadzone = STICK_DEADZONE;
 		                        new_button_value = button_states["LS_X"] - MAX_AXIS_VALUE / 2;
 					break;
 				case LS_UP:
-	                		triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+	                		deadzone = STICK_DEADZONE;
 	                        	new_button_value = -(button_states["LS_Y"] - MAX_AXIS_VALUE / 2);
 	                		break;	
 				case LS_DOWN:
-	                	        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+	                	        deadzone = STICK_DEADZONE;
 	                	        new_button_value = button_states["LS_Y"] - MAX_AXIS_VALUE / 2;
 	                		break;	
 				case RS_LEFT:
-	                        	triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+	                        	deadzone = STICK_DEADZONE;
 	                        	new_button_value = -(button_states["RS_X"] - MAX_AXIS_VALUE / 2);
 	                		break;	
 				case RS_RIGHT:
-	                        	triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+	                        	deadzone = STICK_DEADZONE;
 	                	        new_button_value = button_states["RS_X"] - MAX_AXIS_VALUE / 2;
 		        		break;        
 				case RS_UP:
-		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+		                        deadzone = STICK_DEADZONE;
 		                        new_button_value = -(button_states["RS_Y"] - MAX_AXIS_VALUE / 2);
 		        		break;        
 				case RS_DOWN:
-		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
+		                        deadzone = STICK_DEADZONE;
 		                        new_button_value = button_states["RS_Y"] - MAX_AXIS_VALUE / 2;
 		        		break;        
 				case LT:
 				case RT:
-		                        triggerValue = std::stoi(user_map["TRIGGER_DEADZONE"]);
+		                        deadzone = TRIGGER_DEADZONE;
 		                        new_button_value = button_states[token];
 		        		break;
 				default:
-		                        triggerValue = 1;
+		                        deadzone = 1;
 		                        new_button_value = button_states[token];
 					break;
 			}
 
-	                if(new_button_value >= triggerValue) {
-	                        //if any of the buttons are pressed, we're ready to return. 
-	                        //note, this assumes all buttons on output controller are not analog
+	                if(new_button_value >= deadzone) {
+	                        //analog buttons/sticks: activate button if value is greater than deadzone 
+	                        //digital buttons: activate button if non-zero
 	                        return 1;
 	                }
 
+			//proceed to next alias (for multiple mappings to one button)
 	                button_aliases.erase(0, pos + 1);
 	        }
 

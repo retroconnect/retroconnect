@@ -38,7 +38,8 @@ class ControllerConverterFactory
 						if(line == "*================================*") {
 							passedInstructions = true;
 						}
-					} else {
+					} 
+					else {
 						//split line into left and right of =
 						int equalIndex = line.find("=");
 						std::string leftValue = line.substr(0, equalIndex);
@@ -46,23 +47,20 @@ class ControllerConverterFactory
 
 						//ignore null mappings
 						if(rightValue != "NULL") {
-							//special handling for int values, don't want a space on the end
-							if(leftValue == "STICK_DEADZONE" || leftValue == "TRIGGER_DEADZONE") {
-								cfgMap.insert({leftValue, rightValue});
-							} else {
-								//if right value exists in map already, add left value to it's value with a space in between (handles multiple mappings to one button)
-								//otherwise we haven't read it yet and we need to make a new entry in the map
-								if(cfgMap.find(rightValue) == cfgMap.end()) { //key not found
-									cfgMap.insert({rightValue, leftValue + " "});
-								} else { //key is found
-									cfgMap.at(rightValue) = cfgMap.at(rightValue) + leftValue + " ";
-								}
+							//if right value exists in map already, add left value to its value (for multiple mappings to one button)
+							//otherwise it is a new entry in the map
+							if(cfgMap.find(rightValue) == cfgMap.end()) { //key not found
+								cfgMap.insert({rightValue, leftValue + " "});
+							} 
+							else { //key is found
+								cfgMap.at(rightValue) = cfgMap.at(rightValue) + leftValue + " ";
 							}
 						}
 					}
 				}
 				cfgFile.close();
-			} else {
+			} 
+			else {
 				printf("ERROR: config file not found");
 			}
 
