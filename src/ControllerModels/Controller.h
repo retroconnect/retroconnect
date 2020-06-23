@@ -19,6 +19,7 @@ struct controller_t {
 	virtual void print_state() = 0;
 	virtual void read_buttons(button_struct_t) = 0;
 	virtual void send_state(int, unsigned char[]){};
+	virtual int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) = 0;
 };
 
 #endif

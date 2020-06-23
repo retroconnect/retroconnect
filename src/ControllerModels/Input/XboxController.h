@@ -1,4 +1,4 @@
-#include <Controller.h>
+//#include <Controller.h>
 #include <Constants.h>
 
 #ifndef XBOX_CONTROLLER_H
@@ -17,7 +17,7 @@ enum BUTTON {
 	RT	
 };
 
-std::map<std::string, BUTTON> string_to_button = {
+const std::map<std::string, BUTTON> string_to_button = {
 	{"LS_UP", LS_UP},
 	{"LS_DOWN", LS_DOWN},
 	{"LS_LEFT", LS_LEFT},
