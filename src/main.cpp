@@ -64,7 +64,7 @@ int main() {
 
 
 	//Initialize controller models (SNES default output)
-	controller_t* input_controller; 
+	controller_t* input_controller = new xbox_controller_t(); 
   	controller_t* output_controller = new snes_controller_t();
 	
 

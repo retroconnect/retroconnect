@@ -1,4 +1,5 @@
 #include <string>
+#include <XboxController.h>
 #include <ControllerConverter.h>
 
 ControllerConverter::ControllerConverter(std::map<std::string, std::string> userMap) {
@@ -7,7 +8,7 @@ ControllerConverter::ControllerConverter(std::map<std::string, std::string> user
 
 void ControllerConverter::convert(controller_t& input_controller, controller_t& output_controller)
 {
- 	for (std::map<std::string, int>::iterator it = button_states.begin(); it != button_states.end(); ++it) {
+ 	for (std::map<std::string, int>::iterator it = input_controller->button_states.begin(); it != input_controller->button_states.end(); ++it) {
 		it->second = input_controller->compileMappingsForButton(it->first, user_map);
 	}
 

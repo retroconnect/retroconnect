@@ -4,6 +4,32 @@
 #ifndef XBOX_CONTROLLER_H
 #define XBOX_CONTROLLER_H
 
+enum BUTTON {
+	LS_UP,
+	LS_DOWN,
+	LS_LEFT,
+	LS_RIGHT,
+	RS_UP,
+	RS_DOWN,
+	RS_LEFT,
+	RS_RIGHT,
+	LT,
+	RT	
+};
+
+std::map<std::string, BUTTON> string_to_button = {
+	{"LS_UP", LS_UP},
+	{"LS_DOWN", LS_DOWN},
+	{"LS_LEFT", LS_LEFT},
+	{"LS_RIGHT", LS_RIGHT},
+	{"RS_UP", RS_UP},
+	{"RS_DOWN", RS_DOWN},
+	{"RS_LEFT", RS_LEFT},
+	{"RS_RIGHT", RS_RIGHT},
+	{"LT", LT},
+	{"RT", RT}
+};
+
 struct xbox_controller_t: controller_t {
 
 	xbox_controller_t() {
@@ -251,9 +277,6 @@ struct xbox_controller_t: controller_t {
 		//printf("\nButton Value: %04X\n", button_struct.value);
 	}
 
-	constexpr unsigned int hash(const char* s, int off = 0) {
-		return !s[off] ? 5381 : (hash(s, off+1)*33) ^ s[off];
-	}
 
 	int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) {
         	//
@@ -271,41 +294,41 @@ struct xbox_controller_t: controller_t {
 
 	                //handling for sticks is different for each direction, handling for triggers is unique, all other buttons captured by else
         	        
-			switch (hash(token.c_str())) {
-				case hash("LS_LEFT"):
+			switch ((string_to_button.find(token))->second) {
+				case LS_LEFT:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 	        	                new_button_value = -(button_states["LS_X"] - MAX_AXIS_VALUE / 2);
 	                		break;
-				case hash("LS_RIGHT"):
+				case LS_RIGHT:
 	                        	triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = button_states["LS_X"] - MAX_AXIS_VALUE / 2;
 					break;
-				case hash("LS_UP"):
+				case LS_UP:
 	                		triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 	                        	new_button_value = -(button_states["LS_Y"] - MAX_AXIS_VALUE / 2);
 	                		break;	
-				case hash("LS_DOWN"):
+				case LS_DOWN:
 	                	        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 	                	        new_button_value = button_states["LS_Y"] - MAX_AXIS_VALUE / 2;
 	                		break;	
-				case hash("RS_LEFT"):
+				case RS_LEFT:
 	                        	triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 	                        	new_button_value = -(button_states["RS_X"] - MAX_AXIS_VALUE / 2);
 	                		break;	
-				case hash("RS_RIGHT"):
+				case RS_RIGHT:
 	                        	triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 	                	        new_button_value = button_states["RS_X"] - MAX_AXIS_VALUE / 2;
 		        		break;        
-				case hash("RS_UP"):
+				case RS_UP:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = -(button_states["RS_Y"] - MAX_AXIS_VALUE / 2);
 		        		break;        
-				case hash("RS_DOWN"):
+				case RS_DOWN:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);
 		                        new_button_value = button_states["RS_Y"] - MAX_AXIS_VALUE / 2;
 		        		break;        
-				case hash("LT"):
-				case hash("RT"):
+				case LT:
+				case RT:
 		                        triggerValue = std::stoi(user_map["TRIGGER_DEADZONE"]);
 		                        new_button_value = button_states[token];
 		        		break;
