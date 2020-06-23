@@ -86,8 +86,6 @@ root/
         ...
       ControllerConverters/
         ControllerConverter.cpp
-        ControllerConverterFactory.cpp
-        XboxToSnesControllerConverter.cpp
         ...
 ```
 
