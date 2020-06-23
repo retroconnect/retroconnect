@@ -282,6 +282,7 @@ struct xbox_controller_t: controller_t {
         	//
 		int MAX_AXIS_VALUE = 65535;
 		//
+
 		std::string button_aliases = user_map[button];
 	        size_t pos = 0;
 	        std::string token;
@@ -293,7 +294,6 @@ struct xbox_controller_t: controller_t {
 	                int triggerValue, new_button_value;
 
 	                //handling for sticks is different for each direction, handling for triggers is unique, all other buttons captured by else
-        	        
 			switch ((string_to_button.find(token))->second) {
 				case LS_LEFT:
 		                        triggerValue = std::stoi(user_map["STICK_DEADZONE"]);

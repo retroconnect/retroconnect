@@ -33,6 +33,10 @@ struct snes_controller_t: controller_t {
 		return;
 	}
 
+	virtual int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) override {
+		return false;
+	}
+
 	virtual void print_state() override {
 		printf("\n---SNES Controller State---\n");
 
