@@ -1,14 +1,18 @@
 * Available Xbox Options (Left of =):
-* A, B, X, Y, START, SELECT, HOME, LS_PRESS, RS_PRESS, LB, RB, LT, RT, TRIGGER_DEADZONE, D_LEFT, D_RIGHT, D_DOWN, D_UP, LS_LEFT, LS_RIGHT, LS_DOWN, LS_UP, RS_LEFT, RS_RIGHT, RS_DOWN, RS_UP, STICK_DEADZONE
+* A, B, X, Y, START, SELECT, HOME, 
+* LS_PRESS, RS_PRESS, LB, RB, LT, RT,
+* D_LEFT, D_RIGHT, D_DOWN, D_UP, 
+* LS_LEFT, LS_RIGHT, LS_DOWN, LS_UP, 
+* RS_LEFT, RS_RIGHT, RS_DOWN, RS_UP
+*
 * Available 7800 Options (Right of =):
 * BUTTON_LEFT, BUTTON_RIGHT, BUTTON, D_DOWN, D_UP, D_LEFT, D_RIGHT
+*
 * Tips:
-*   1. Format is XBOX=7800. For example, if you wanted the A button on the Xbox to trigger the button on 2600, write A=BUTTON
-*   2. Use NULL keyword if you don't want the button to map to anything. B=NULL means pressing B on Xbox has no effect
-*   3. Aside from buttons, there are two numerical options, TRIGGER_DEADZONE and STICK_DEADZONE. These refer to how 'far' you have to press the analog
-*      inputs to trigger the button on the 2600. Ranges for these options are:
-*          TRIGGER_DEADZONE range: 0-65535
-*          STICK_DEADZONE range: 0-65535
+*   - Format is XBOX=7800. For example, if you wanted the A button on the Xbox to trigger the left button on 7800, write A=BUTTON_LEFT.
+*   - Use NULL keyword if you don't want the button to map to anything. B=NULL means pressing B on Xbox has no effect.
+*   - You can assign an output button to multiple input buttons. For example, X=BUTTON_LEFT and CIRCLE=BUTTON_LEFT. 
+*   - When creating a new config file, keep the separator marker below.
 
 Xbox to 7800 Mapping Configuration
 *================================*
