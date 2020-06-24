@@ -4,7 +4,7 @@
 #ifndef PS4_CONTROLLER_H
 #define PS4_CONTROLLER_H
 
-//PS4 Button Mappings
+//PS4 Bluetooth Button Definitions
 #define PS4_BTN_CROSS		0x130
 #define PS4_BTN_CIRCLE		0x131
 #define PS4_BTN_SQUARE		0x134
