@@ -11,12 +11,26 @@ class ControllerConverterFactory
 	public:
 		static ControllerConverter* createConverter(controller_t& input_controller, controller_t& output_controller) {	
 			std::map<std::string, std::string> userMap;
+			
+
+			try {
+				std::string input_controller_name = CONTROLLERNAME[input_controller.type];
+			}
+			catch (int e) {
+				printf("ERROR: Unknown input controller\n");
+				exit(0);
+			}
+
+			try {
+				std::string output_controller_name = CONTROLLERNAME[output_controller.type];
+			}
+			catch (int e) {
+				printf("ERROR: Unknown output controller\n");
+				exit(0);
+			}
+		
 			userMap = getMapFromConfigFile(CONTROLLERNAME[input_controller.type] + "_to_" + CONTROLLERNAME[output_controller.type] + ".txt");
 			return new ControllerConverter(userMap);		
-		  
-		  	//If CONTROLLERNAME does not contain controller, report this:	
-			//printf("ERROR: Controller combination not supported in ControllerConverterFactory.h\n");
-	       		//exit(EXIT_FAILURE);
 		}
 
 	private:
@@ -61,7 +75,7 @@ class ControllerConverterFactory
 				cfgFile.close();
 			} 
 			else {
-				printf("ERROR: config file not found");
+				printf("ERROR: Config file %s not found!", configFileName.c_str());
 			}
 
 			return cfgMap;
