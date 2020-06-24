@@ -1,14 +1,24 @@
-* Available Ps4 Options (Left of =):
-* X, CIRCLE, TRIANGLE, SQUARE, SHARE, OPTIONS, HOME, LS_PRESS, RS_PRESS, L1, R1, L2, R2, TRIGGER_DEADZONE, D_LEFT, D_RIGHT, D_DOWN, D_UP, LS_LEFT, LS_RIGHT, LS_DOWN, LS_UP, RS_LEFT, RS_RIGHT, RS_DOWN, RS_UP, STICK_DEADZONE
+* Available PS4 Options (Left of =):
+* X, CIRCLE, TRIANGLE, SQUARE, SHARE, OPTIONS, 
+* HOME, LS_PRESS, RS_PRESS, L1, R1, L2, R2, 
+* D_LEFT, D_RIGHT, D_DOWN, D_UP, 
+* LS_LEFT, LS_RIGHT, LS_DOWN, LS_UP, 
+* RS_LEFT, RS_RIGHT, RS_DOWN, RS_UP
+*
 * Available SMS Options (Right of =):
-* 1, 2, D_DOWN, D_UP, D_LEFT, D_RIGHT, PAUSE (pause is for modded consoles, it triggers all directions at once)
+* 1, 2, D_DOWN, D_UP, D_LEFT, D_RIGHT
+*
+* Special note:
+* OPTIONS is mapped to D_UP for modded SMS consoles to pause when UP/DOWN are held at the same time.
+* This allows you to press OPTIONS and Down on the D-PAD to pause the game.
+* SHARE is mapped to D_LEFT for modded SMS consoles to pause when LEFT/RIGHT are held at the same time.
+* This allows you to press SHARE and Right on the D-PAD to pause the game. 
+*
 * Tips:
-*   1. Format is PS4=SMS For example, if you wanted the X button on the PS4 to trigger the A button on GEN, write X=A
-*   2. Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing circle on PS4 has no effect
-*   3. Aside from buttons, there are two numerical options, TRIGGER_DEADZONE and STICK_DEADZONE. These refer to how 'far' you have to press the analog
-*      inputs to trigger the button on the GEN. Ranges for these options are:
-*          TRIGGER_DEADZONE range: 0-255
-*          STICK_DEADZONE range: 0-255
+*   - Format is PS4=SMS. For example, if you wanted the X button on the PS4 to trigger button 1 on the SMS, write X=1.
+*   - Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing Circle on PS4 has no effect.
+*   - You can assign an output button to multiple input buttons. For example, X=1 and CIRCLE=1. 
+*   - When creating a new config file, keep the separator marker below.
 
 PS4 to SMS Mapping Configuration
 *================================*
@@ -16,8 +26,8 @@ X=2
 CIRCLE=1
 SQUARE=1
 TRIANGLE=2
-OPTIONS=PAUSE
-SHARE=PAUSE
+OPTIONS=D_UP
+SHARE=D_LEFT
 HOME=NULL
 LS_PRESS=NULL
 RS_PRESS=NULL
