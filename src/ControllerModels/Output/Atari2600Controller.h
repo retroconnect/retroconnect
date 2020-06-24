@@ -1,6 +1,4 @@
 #include <Controller.h>
-#include <unistd.h>
-#include <fcntl.h>
 
 #ifndef ATARI_2600_CONTROLLER_H
 #define ATARI_2600_CONTROLLER_H

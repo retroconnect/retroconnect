@@ -1,4 +1,3 @@
-#include <typeinfo>
 #include <string>
 #include <Controller.h>
 #include <Converter.h>
