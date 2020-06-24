@@ -3,7 +3,7 @@
 
 #include <sys/time.h>
 #include <map>
-#include <Constants.h>
+#include "Constants.h"
 
 struct button_struct_t {       //16 bytes total
          struct timeval time;   //8 bytes
@@ -19,6 +19,7 @@ struct controller_t {
 	virtual void print_state() = 0;
 	virtual void read_buttons(button_struct_t) = 0;
 	virtual void send_state(int, unsigned char[]){};
+	virtual int get_mapped_button_state(std::string button, std::map<std::string, std::string> user_map) = 0;
 };
 
 #endif

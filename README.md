@@ -66,7 +66,7 @@ Execute the `retroconnect` program. If a compatible Bluetooth controller is not 
 
 #### Button Combos
 - HOME + South Button = SNES mode (default)
-- HOME + East Button = NES mode 
+- HOME + East Button = NES mode
 - HOME + West Button = Sega Genesis mode
 - HOME + Left Button = Atari 2600 mode
 - HOME + Right Button = Atari 7800 mode
@@ -83,24 +83,26 @@ root/
       <.txt files>
     src/
       main.cpp
-      Constants.h
+      converter.cpp
+      include/
+        Constants.h
+        Converter.h
+        ConverterFactory.h
       ControllerModels/
         Controller.cpp
-        XboxController.cpp
-        SnesController.cpp
-        ...
-      ControllerConverters/
-        ControllerConverter.cpp
-        ControllerConverterFactory.cpp
-        XboxToSnesControllerConverter.cpp
-        ...
+        Input/
+          XboxController.cpp
+          ...
+        Output/
+          SnesController.cpp
+          ...
 ```
 
 ### **```root/```**
 The ```root/``` directory contains the following components:
 - ```src/``` contains all Raspberry Pi source code.
-  - ```ControllerModels/``` defines a controller's inputs/outputs and states, and the abstract Controller class.
-  - ```ControllerConverters/``` contains methods for converting one controller's model to another.
+  - ```ControllerModels/``` defines a controller's inputs/outputs and supported buttons and the abstract Controller class.
+  - ```include/``` function definitions for converting one controller's model to another.
 - ```configs/``` contains user-configurable mapping config files.
 - ```arduino/``` contains the Arduino code to be flashed to a Teensy 3.2 or other MCU.
 
@@ -109,7 +111,7 @@ The ```root/``` directory contains the following components:
 - [SNES Signal Reference](https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395)
 - [NES Signal Reference](https://wiki.nesdev.com/w/index.php/Standard_controller)
 - [Genesis Signal Reference](https://www.raspberryfield.life/2019/03/25/sega-mega-drive-genesis-6-button-xyz-controller/)
-- [Atari Signal Reference](http://wiki.icomp.de/w/index.php?title=DB9-Joystick&oldid=3915)
+- [Atari / SMS Signal Reference](http://wiki.icomp.de/w/index.php?title=DB9-Joystick&oldid=3915)
 - Scholars-Mate, DerfJagged, BenThrasher5, BigScooter, and TheCoolMichael for initial project creation (XB1/PS4 to NES/SNES)
 - Thanks to [Pavel Glushkov (pashutk)](http://github.com/pashutk) for help with ESP32 Bluetooth handling
 - Thanks to [Ownasaurus](https://github.com/Ownasaurus) for massive help fixing Genesis 6 Button Mode on Teensy 

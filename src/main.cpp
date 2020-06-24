@@ -11,6 +11,7 @@ using namespace std;
 #include <fcntl.h>
 #include <typeinfo>
 #include <algorithm>
+#include <map>
 
 #include "Constants.h"
 #include "Controller.h"
@@ -22,20 +23,27 @@ using namespace std;
 #include "SmsController.h"
 #include "Atari2600Controller.h"
 #include "Atari7800Controller.h"
-#include "ControllerConverter.h"
-#include "XboxToNesControllerConverter.h"
-#include "XboxToSnesControllerConverter.h"
-#include "XboxToGenControllerConverter.h"
-#include "XboxToSmsControllerConverter.h"
-#include "XboxTo2600ControllerConverter.h"
-#include "XboxTo7800ControllerConverter.h"
-#include "Ps4ToNesControllerConverter.h"
-#include "Ps4ToSnesControllerConverter.h"
-#include "Ps4ToGenControllerConverter.h"
-#include "Ps4ToSmsControllerConverter.h"
-#include "Ps4To2600ControllerConverter.h"
-#include "Ps4To7800ControllerConverter.h"
-#include "ControllerConverterFactory.h"
+#include "Converter.h"
+#include "ConverterFactory.h"
+
+typedef controller_t* ControllerMaker();
+controller_t* controller;
+
+template <class controller> controller_t* make() {
+	return new controller;
+}
+
+ControllerMaker* get_controller[] = {
+	make<xbox_controller_t>, //default
+	make<xbox_controller_t>,
+	make<ps4_controller_t>,
+	make<snes_controller_t>, 
+	make<nes_controller_t>,
+	make<gen_controller_t>,
+	make<sms_controller_t>,
+	make<atari_2600_controller_t>,
+	make<atari_7800_controller_t>
+};
 
 /***************************************************/
 
@@ -55,8 +63,8 @@ int main() {
 	close(dst);
 
 
-	//Initialize controller models (SNES default output)
-	controller_t* input_controller; 
+	//Initialize controller models (SNES to XB1 by default)
+	controller_t* input_controller = new xbox_controller_t(); 
   	controller_t* output_controller = new snes_controller_t();
 	
 
@@ -75,7 +83,9 @@ int main() {
 						if ((event_position = line.find("event", 0)) != (int) string::npos) {
 							event_controller = line.substr(event_position+5,2);
 							devices_found++;
+							//
 							input_controller = new ps4_controller_t();
+							//input_controller = new ps4_controller_t();
 							printf("PlayStation 4 Controller detected on event%s\n", event_controller.c_str());
 							continue;
 						}
@@ -108,7 +118,7 @@ int main() {
 			}
 		}
 		if (devices_found == 0) {
-			printf("Supported input device not connected, scanning for supported Bluetooth controller...\n");
+			printf("Supported input device not connected, scanning for supported Bluetooth controller in sync mode...\n");
 			if (system("bash bluetooth.bash") == 2) {
 				return 0;
 			}
@@ -121,8 +131,8 @@ int main() {
 
 
 	//Initialize converter
-	ControllerConverter* converter;
-	converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
+	Converter* converter;
+	converter = ConverterFactory::create_converter(*input_controller, *output_controller);
 	
 
 	//Setup input streams
@@ -146,7 +156,7 @@ int main() {
 	unsigned char data[2] = {0, 0};
 	int serial_fd = open("/dev/ttyS0", O_WRONLY);
 	if (serial_fd == 0) {
-		printf("Teensy not connected!");
+		printf("Serial device not connected!");
 		return 0;
 	}
 
@@ -159,47 +169,23 @@ int main() {
 				continue;
 			}
 			
+			//Parse button presses
 			input_controller->read_buttons(button_struct);
 			
-			switch (input_controller->combo_pressed()) {
-				case SNES: 
-					printf("Combo detected! Switching to SNES output\n");
-					output_controller = new snes_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case NES:
-					printf("Combo detected! Switching to NES output\n");
-					output_controller = new nes_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case GEN:
-					printf("Combo detected! Switching to Sega Genesis output\n");
-					output_controller = new gen_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case ATARI_2600:
-					printf("Combo detected! Switching to Atari 2600 output\n");
-					output_controller = new atari_2600_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case ATARI_7800:
-					printf("Combo detected! Switching to Atari 7800 output\n");
-					output_controller = new atari_7800_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				case SMS:
-					printf("Combo detected! Switching to Sega Master System output\n");
-					output_controller = new sms_controller_t();
-					converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
-					break;
-				default:
-					break;
+			//Check if a button combo is pressed
+			if (int new_input_controller = input_controller->combo_pressed()) {	
+				printf("Combo detected! Switching to %s output\n", CONTROLLERNAME[new_input_controller].c_str());
+				output_controller = (controller_t*) get_controller[new_input_controller]();
+				converter = ConverterFactory::create_converter(*input_controller, *output_controller);
 			}
 
+			//DEBUG - Print input controller state
 			input_controller->print_state();
 
 			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller);
+
+			//DEBUG - Print output controller state
 			output_controller->print_state();
 			
 			//Send button state to Teensy
@@ -213,18 +199,12 @@ int main() {
 			}
 			
 			//input_controller->read_buttons(button_struct);
-			if (button_struct.code == XB1_BTN_HOME) {
-				((xbox_controller_t*)input_controller)->button_states["HOME"] = button_struct.value;
+			if (button_struct.code == 0xAC) { //XB1 HOME button
+				((controller_t*)input_controller)->button_states["HOME"] = button_struct.value;
 			}	
-			
-			//input_controller->print_state();
 			
 			//Convert button inputs to outputs
 			converter->convert(*input_controller, *output_controller);
-			//output_controller->print_state();
-			
-			//Send button state to Teensy
-			//output_controller->send_state();
 		}	
 	}
 
