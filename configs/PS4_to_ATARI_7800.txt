@@ -6,11 +6,12 @@
 * RS_LEFT, RS_RIGHT, RS_DOWN, RS_UP
 *
 * Available Atari 7800 Options (Right of =):
-* BUTTON_LEFT, BUTTON_RIGHT, BUTTON, D_DOWN, D_UP, D_LEFT, D_RIGHT
+* BUTTON_LEFT, BUTTON_RIGHT, BUTTON, 
+* D_DOWN, D_UP, D_LEFT, D_RIGHT
 *
 * Tips:
-*   - Format is PS4=7800. For example, if you wanted the X button on the PS4 to trigger BUTTON_LEFT, write X=BUTTON_LEFT.
-*   - Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing circle on PS4 has no effect.
+*   - Format is PS4=7800. For example, if you wanted the X button on the PS4 controller to trigger BUTTON_LEFT, write X=BUTTON_LEFT.
+*   - Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing circle on the PS4 controller has no effect.
 *   - You can assign an output button to multiple input buttons. For example, X=BUTTON_LEFT and CIRCLE=BUTTON_LEFT. 
 *   - When creating a new config file, keep the separator marker below.
 
