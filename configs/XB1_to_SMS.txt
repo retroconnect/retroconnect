@@ -16,7 +16,7 @@
 *
 * Tips:
 *   - Format is XBOX=SMS. For example, if you wanted the A button on the Xbox controller to trigger button 1 on the SMS, write A=1.
-*   - Use NULL keyword if you don't want the button to map to anything. B=NULL means pressing B on Xbox controller has no effect.
+*   - Use NULL keyword if you don't want the button to map to anything. B=NULL means pressing B on the Xbox controller has no effect.
 *   - You can assign an output button to multiple input buttons. For example, A=1 and B=1.
 *   - When creating a new config file, keep the separator marker below.
 
