@@ -14,8 +14,8 @@ Ps4 to NES Mapping Configuration
 *================================*
 X=A
 CIRCLE=B
-SQUARE=A
-TRIANGLE=B
+SQUARE=B
+TRIANGLE=A
 OPTIONS=START
 SHARE=SELECT
 HOME=NULL

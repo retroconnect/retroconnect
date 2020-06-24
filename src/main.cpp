@@ -13,16 +13,16 @@ using namespace std;
 #include <algorithm>
 #include <map>
 
-#include "Controller.h"
 #include "Constants.h"
-//#include "NesController.h"
+#include "Controller.h"
+#include "NesController.h"
 #include "SnesController.h"
 #include "XboxController.h"
-//#include "Ps4Controller.h"
-//#include "GenController.h"
-//#include "SmsController.h"
-//#include "Atari2600Controller.h"
-//#include "Atari7800Controller.h"
+#include "Ps4Controller.h"
+#include "GenController.h"
+#include "SmsController.h"
+#include "Atari2600Controller.h"
+#include "Atari7800Controller.h"
 #include "ControllerConverter.h"
 #include "ControllerConverterFactory.h"
 
@@ -36,13 +36,13 @@ template <class controller> controller_t* make() {
 ControllerMaker* get_controller[] = {
 	make<xbox_controller_t>, //default
 	make<xbox_controller_t>,
-	//make<ps4_controller_t>,
+	make<ps4_controller_t>,
 	make<snes_controller_t>, 
-	//make<nes_controller_t>,
-	//make<gen_controller_t>,
-	//make<sms_controller_t>,
-	//make<atari_2600_controller_t>,
-	//make<atari_7800_controller_t>
+	make<nes_controller_t>,
+	make<gen_controller_t>,
+	make<sms_controller_t>,
+	make<atari_2600_controller_t>,
+	make<atari_7800_controller_t>
 };
 
 /***************************************************/
@@ -199,8 +199,8 @@ int main() {
 			}
 			
 			//input_controller->read_buttons(button_struct);
-			if (button_struct.code == XB1_BTN_HOME) {
-				((xbox_controller_t*)input_controller)->button_states["HOME"] = button_struct.value;
+			if (button_struct.code == 0xAC) { //XB1 HOME button
+				((controller_t*)input_controller)->button_states["HOME"] = button_struct.value;
 			}	
 			
 			//Convert button inputs to outputs

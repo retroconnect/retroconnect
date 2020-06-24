@@ -25,37 +25,38 @@
 #define PS4_DPAD_X		0x10
 #define PS4_DPAD_Y		0x11
 
-const int MAX_AXIS_VALUE = 255;
-const int STICK_DEADZONE = 35;
-const int TRIGGER_DEADZONE = 10;
-
-enum ANALOG_BUTTON {
-	LS_UP,
-	LS_DOWN,
-	LS_LEFT,
-	LS_RIGHT,
-	RS_UP,
-	RS_DOWN,
-	RS_LEFT,
-	RS_RIGHT,
-	L2,
-	R2	
-};
-
-const std::map<std::string, ANALOG_BUTTON> string_to_button = {
-	{"LS_UP", LS_UP},
-	{"LS_DOWN", LS_DOWN},
-	{"LS_LEFT", LS_LEFT},
-	{"LS_RIGHT", LS_RIGHT},
-	{"RS_UP", RS_UP},
-	{"RS_DOWN", RS_DOWN},
-	{"RS_LEFT", RS_LEFT},
-	{"RS_RIGHT", RS_RIGHT},
-	{"L2", L2},
-	{"R2", R2}
-};
-
 struct ps4_controller_t: controller_t {
+
+	const int MAX_AXIS_VALUE = 255;
+	const int STICK_DEADZONE = 35;
+	const int TRIGGER_DEADZONE = 10;
+
+	enum ANALOG_BUTTON {
+		LS_UP,
+		LS_DOWN,
+		LS_LEFT,
+		LS_RIGHT,
+		RS_UP,
+		RS_DOWN,
+		RS_LEFT,
+		RS_RIGHT,
+		L2,
+		R2	
+	};
+
+	const std::map<std::string, ANALOG_BUTTON> string_to_button = {
+		{"LS_UP", LS_UP},
+		{"LS_DOWN", LS_DOWN},
+		{"LS_LEFT", LS_LEFT},
+		{"LS_RIGHT", LS_RIGHT},
+		{"RS_UP", RS_UP},
+		{"RS_DOWN", RS_DOWN},
+		{"RS_LEFT", RS_LEFT},
+		{"RS_RIGHT", RS_RIGHT},
+		{"L2", L2},
+		{"R2", R2}
+	};
+
 
 	ps4_controller_t() {
 		type = PS4;
@@ -98,7 +99,6 @@ struct ps4_controller_t: controller_t {
 
 	virtual void print_state() override {
 		printf("\n---PS4 Controller State---\n");
-
 		printf("X: %d, Circle: %d, Triangle: %d, Square: %d\n", button_states["X"], button_states["CIRCLE"], button_states["TRIANGLE"], button_states["SQUARE"]);
 		printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", button_states["D_UP"], button_states["D_DOWN"], button_states["D_LEFT"], button_states["D_RIGHT"]);
 		printf("L2: %d, R2: %d\n", button_states["L2"], button_states["R2"]);

@@ -12,30 +12,26 @@ struct atari_7800_controller_t: controller_t {
 
 		//Note: these strings must be exactly the ones used in config files
 		button_states["BUTTON"] = 0;
+		button_states["BUTTON_LEFT"] = 0;
+		button_states["BUTTON_RIGHT"] = 0;
 		button_states["D_UP"] = 0;
 		button_states["D_DOWN"] = 0;
 		button_states["D_LEFT"] = 0;
 		button_states["D_RIGHT"] = 0;
 	}
 
-	virtual int combo_pressed() override {
-		return false;
-	}
-
-	virtual void read_buttons(button_struct_t b) override {
-		return;
-	}
+	virtual int combo_pressed() override {return false;}
+	virtual void read_buttons(button_struct_t b) override {return;}
+	virtual int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) override {return false;}
 
 	virtual void print_state() override {
 		printf("\n---Atari 7800 Controller State---\n");
-
 		printf("Left Button: %d, Right Button: %d, 2600 Button: %d\n", button_states["BUTTON_LEFT"], button_states["BUTTON_RIGHT"], button_states["BUTTON"]);
 		printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", button_states["D_UP"], button_states["D_DOWN"], button_states["D_LEFT"], button_states["D_RIGHT"]);
 	}
 
 	virtual void send_state(int serial_fd, unsigned char data[2]) override {
 	        data[0] = 0;
-		data[1] = 0;
 		data[0] |= (this->button_states["D_UP"] ? 1 : 0 ) << 0;
 		data[0] |= (this->button_states["D_DOWN"] ? 1 : 0 ) << 1;
 		data[0] |= (this->button_states["D_LEFT"] ? 1 : 0 ) << 2;
@@ -44,7 +40,6 @@ struct atari_7800_controller_t: controller_t {
 		data[0] |= (this->button_states["BUTTON_RIGHT"] ? 1 : 0 ) << 5;
 		data[0] |= (this->button_states["BUTTON_LEFT"] ? 1 : 0 ) << 6;
 		data[0] = ~data[0];
-		data[1] = ~data[1];
 		write(serial_fd, data, 2);
 	}
 };

@@ -25,17 +25,12 @@ struct gen_controller_t: controller_t {
 		button_states["MODE"] = 0;
 	}
 
-	virtual int combo_pressed() override {
-		return false;
-	}
-
-	virtual void read_buttons(button_struct_t b) override {
-		return;
-	}
+	virtual int combo_pressed() override {return false;}
+	virtual void read_buttons(button_struct_t b) override {return;}
+	virtual int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) override {return false;}
 
 	virtual void print_state() override {
 		printf("\n---GEN Controller State---\n");
-
 		printf("A: %d, B: %d, C: %d, X: %d, Y: %d, Z: %d\n", button_states["A"], button_states["B"], button_states["C"], button_states["X"], button_states["Y"], button_states["Z"]);
 		printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", button_states["D_UP"], button_states["D_DOWN"], button_states["D_LEFT"], button_states["D_RIGHT"]);
 		printf("Start: %d\n\n", button_states["START"]);

@@ -14,8 +14,8 @@ Xbox to NES Mapping Configuration
 *================================*
 A=A
 B=B
-X=A
-Y=B
+X=B
+Y=A
 START=START
 SELECT=SELECT
 HOME=NULL

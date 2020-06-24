@@ -41,38 +41,38 @@
 #define XB1_LEFT_TRIGGER    	0x0A
 */
 
-const int MAX_AXIS_VALUE = 65535;
-const int STICK_DEADZONE = 10000;
-const int TRIGGER_DEADZONE = 100;
-
-enum ANALOG_BUTTON {
-	LS_UP,
-	LS_DOWN,
-	LS_LEFT,
-	LS_RIGHT,
-	RS_UP,
-	RS_DOWN,
-	RS_LEFT,
-	RS_RIGHT,
-	LT,
-	RT	
-};
-
-const std::map<std::string, ANALOG_BUTTON> string_to_button = {
-	{"LS_UP", LS_UP},
-	{"LS_DOWN", LS_DOWN},
-	{"LS_LEFT", LS_LEFT},
-	{"LS_RIGHT", LS_RIGHT},
-	{"RS_UP", RS_UP},
-	{"RS_DOWN", RS_DOWN},
-	{"RS_LEFT", RS_LEFT},
-	{"RS_RIGHT", RS_RIGHT},
-	{"LT", LT},
-	{"RT", RT}
-};
-
 struct xbox_controller_t: controller_t {
 
+	const int MAX_AXIS_VALUE = 65535;
+	const int STICK_DEADZONE = 10000;
+	const int TRIGGER_DEADZONE = 100;
+	
+	enum ANALOG_BUTTON {
+		LS_UP,
+		LS_DOWN,
+		LS_LEFT,
+		LS_RIGHT,
+		RS_UP,
+		RS_DOWN,
+		RS_LEFT,
+		RS_RIGHT,
+		LT,
+		RT	
+	};
+	
+	const std::map<std::string, ANALOG_BUTTON> string_to_button = {
+		{"LS_UP", LS_UP},
+		{"LS_DOWN", LS_DOWN},
+		{"LS_LEFT", LS_LEFT},
+		{"LS_RIGHT", LS_RIGHT},
+		{"RS_UP", RS_UP},
+		{"RS_DOWN", RS_DOWN},
+		{"RS_LEFT", RS_LEFT},
+		{"RS_RIGHT", RS_RIGHT},
+		{"LT", LT},
+		{"RT", RT}
+	};
+	
 	xbox_controller_t() {
 		type = XB1;
 
@@ -113,7 +113,6 @@ struct xbox_controller_t: controller_t {
 
 	virtual void print_state() override {
 		printf("\n---Xbox Controller State---\n");
-
 		printf("A: %d, B: %d, X: %d, Y: %d\n", button_states["A"], button_states["B"], button_states["X"], button_states["Y"]);
 		printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", button_states["D_UP"], button_states["D_DOWN"], button_states["D_LEFT"], button_states["D_RIGHT"]);
 		printf("LT: %d, RT: %d\n", button_states["LT"], button_states["RT"]);
