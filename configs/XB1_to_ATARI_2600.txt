@@ -9,8 +9,8 @@
 * BUTTON, D_DOWN, D_UP, D_LEFT, D_RIGHT
 
 * Tips:
-*   - Format is XBOX=2600. For example, if you wanted the A button on the Xbox to trigger the button on 2600, write A=BUTTON.
-*   - Use NULL keyword if you don't want the button to map to anything. B=NULL means pressing B on Xbox One has no effect.
+*   - Format is XBOX=2600. For example, if you wanted the A button on the Xbox controller to trigger the button on 2600, write A=BUTTON.
+*   - Use NULL keyword if you don't want the button to map to anything. B=NULL means pressing B on Xbox controller has no effect.
 *   - You can assign an output button to multiple input buttons. For example, X=BUTTON and Y=BUTTON.
 *   - When creating a new config file, keep the separator marker below.
 
