@@ -72,7 +72,6 @@ Execute the `retroconnect` program. If a compatible Bluetooth controller is not 
 - HOME + Right Button = Atari 7800 mode
 - HOME + DPAD-UP = Sega Master System mode
 
-
 ## **File Organization**
 
 The following outlines the basic structure of our ```root``` folder and git repository
@@ -83,20 +82,27 @@ root/
     configs/
       <.txt files>
     src/
+      main.cpp
+      converter.cpp
+      include/
+        Constants.h
+        Converter.h
+        ConverterFactory.h
       ControllerModels/
         Controller.cpp
-        XboxController.cpp
-        SnesController.cpp
-        ...
-      ControllerConverters/
-        ControllerConverter.cpp
+        Input/
+          XboxController.cpp
+          ...
+        Output/
+          SnesController.cpp
+          ...
 ```
 
 ### **```root/```**
 The ```root/``` directory contains the following components:
 - ```src/``` contains all Raspberry Pi source code.
   - ```ControllerModels/``` defines a controller's inputs/outputs and supported buttons and the abstract Controller class.
-  - ```ControllerConverters/``` contains methods for converting one controller's model to another.
+  - ```include/``` function definitions for converting one controller's model to another.
 - ```configs/``` contains user-configurable mapping config files.
 - ```arduino/``` contains the Arduino code to be flashed to a Teensy 3.2 or other MCU.
 
