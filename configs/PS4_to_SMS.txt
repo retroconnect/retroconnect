@@ -15,8 +15,8 @@
 * This allows you to press SHARE and Right on the D-PAD to pause the game. 
 *
 * Tips:
-*   - Format is PS4=SMS. For example, if you wanted the X button on the PS4 to trigger button 1 on the SMS, write X=1.
-*   - Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing Circle on PS4 has no effect.
+*   - Format is PS4=SMS. For example, if you wanted the X button on the PS4 controller to trigger button 1 on the SMS, write X=1.
+*   - Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing Circle on PS4 controller has no effect.
 *   - You can assign an output button to multiple input buttons. For example, X=1 and CIRCLE=1. 
 *   - When creating a new config file, keep the separator marker below.
 
