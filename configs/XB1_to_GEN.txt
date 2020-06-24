@@ -12,7 +12,7 @@
 * Tips:
 *   - Format is XBOX=GEN. For example, if you wanted the A button on the Xbox to trigger the X button on Genesis, write A=X.
 *   - Use NULL keyword if you don't want the button to map to anything. B=NULL means pressing B on Xbox has no effect.
-*   - You can assign an output button to multiple input buttons. For example, X=X and CIRCLE=X. 
+*   - You can assign an output button to multiple input buttons. For example, A=X and B=X. 
 *   - When creating a new config file, keep the separator marker below.
 
 Xbox to GEN Mapping Configuration
