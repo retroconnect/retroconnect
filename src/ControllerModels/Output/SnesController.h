@@ -1,6 +1,4 @@
 #include <Controller.h>
-#include <unistd.h>
-#include <fcntl.h>
 
 #ifndef SNES_CONTROLLER_H
 #define SNES_CONTROLLER_H

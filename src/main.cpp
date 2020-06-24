@@ -1,20 +1,12 @@
 using namespace std;
-#include <iostream>
-#include <stdlib.h>
-#include <wiringPi.h>
-#include <sys/time.h>
 #include <fstream>
-#include <iostream>
 #include <string>
 #include <poll.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <typeinfo>
 #include <algorithm>
-#include <map>
+#include "ConverterFactory.h"
 
-#include "Constants.h"
-#include "Controller.h"
 #include "NesController.h"
 #include "SnesController.h"
 #include "XboxController.h"
@@ -23,8 +15,6 @@ using namespace std;
 #include "SmsController.h"
 #include "Atari2600Controller.h"
 #include "Atari7800Controller.h"
-#include "Converter.h"
-#include "ConverterFactory.h"
 
 typedef controller_t* ControllerMaker();
 controller_t* controller;

@@ -1,6 +1,4 @@
 #include <Controller.h>
-#include <unistd.h>
-#include <fcntl.h>
 
 #ifndef NES_CONTROLLER_H
 #define NES_CONTROLLER_H
