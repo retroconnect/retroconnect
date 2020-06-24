@@ -105,7 +105,7 @@ struct ps4_controller_t: controller_t {
 		printf("L1: %d, R1: %d\n", button_states["L1"], button_states["R1"]);
 		printf("Share: %d, Home: %d, Options: %d\n", button_states["SHARE"], button_states["HOME"], button_states["OPTIONS"]);
 		printf("LS-x: %d, LS-y: %d, LS-press: %d\n", button_states["LS_X"], button_states["LS_Y"], button_states["LS_PRESS"]);
-		printf("RS-x: %d, RS-y: %d, RS-press: %d\n", button_states["RS_X"], button_states["RS_Y"], button_states["RS_PRESS"]);
+		printf("RS-x: %d, RS-y: %d, RS-press: %d\n\n", button_states["RS_X"], button_states["RS_Y"], button_states["RS_PRESS"]);
 	}
 
 	virtual void read_buttons(button_struct_t button_struct) {

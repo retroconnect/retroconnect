@@ -23,8 +23,8 @@ using namespace std;
 #include "SmsController.h"
 #include "Atari2600Controller.h"
 #include "Atari7800Controller.h"
-#include "ControllerConverter.h"
-#include "ControllerConverterFactory.h"
+#include "Converter.h"
+#include "ConverterFactory.h"
 
 typedef controller_t* ControllerMaker();
 controller_t* controller;

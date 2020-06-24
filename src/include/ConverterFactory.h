@@ -1,7 +1,7 @@
 #include <typeinfo>
 #include <string>
 #include <Controller.h>
-#include <ControllerConverter.h>
+#include <Converter.h>
 
 #ifndef CONTROLLER_CONVERTER_FACTORY_H
 #define CONTROLLER_CONVERTER_FACTORY_H

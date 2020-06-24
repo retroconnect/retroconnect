@@ -119,7 +119,7 @@ struct xbox_controller_t: controller_t {
 		printf("LB: %d, RB: %d\n", button_states["LB"], button_states["RB"]);
 		printf("Select: %d, Home: %d, Start: %d\n", button_states["SELECT"], button_states["HOME"], button_states["START"]);
 		printf("LS-x: %d, LS-y: %d, LS-press: %d\n", button_states["LS_X"], button_states["LS_Y"], button_states["LS_PRESS"]);
-		printf("RS-x: %d, RS-y: %d, RS-press: %d\n", button_states["RS_X"], button_states["RS_Y"], button_states["RS_PRESS"]);
+		printf("RS-x: %d, RS-y: %d, RS-press: %d\n\n", button_states["RS_X"], button_states["RS_Y"], button_states["RS_PRESS"]);
 	}
 
 	void read_buttons(button_struct_t button_struct) {
