@@ -9,8 +9,8 @@
 * BUTTON, D_DOWN, D_UP, D_LEFT, D_RIGHT
 *
 * Tips:
-*   - Format is PS4=2600. For example, if you wanted the X button on the PS4 to trigger the button on Atari 2600, write X=BUTTON.
-*   - Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing Circle on PS4 has no effect.
+*   - Format is PS4=2600. For example, if you wanted the X button on the PS4 controller to trigger the button on the Atari 2600, write X=BUTTON.
+*   - Use NULL keyword if you don't want the button to map to anything. CIRCLE=NULL means pressing Circle on the PS4 controller has no effect.
 *   - You can assign an output button to multiple input buttons. For example, X=BUTTON and CIRCLE=BUTTON. 
 *   - When creating a new config file, keep the separator marker below.
 
