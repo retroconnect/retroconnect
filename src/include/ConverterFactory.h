@@ -3,16 +3,15 @@
 #include <Controller.h>
 #include <Converter.h>
 
-#ifndef CONTROLLER_CONVERTER_FACTORY_H
-#define CONTROLLER_CONVERTER_FACTORY_H
+#ifndef CONVERTER_FACTORY_H
+#define CONVERTER_FACTORY_H
 
-class ControllerConverterFactory
+class ConverterFactory
 {
 	public:
-		static ControllerConverter* createConverter(controller_t& input_controller, controller_t& output_controller) {	
-			std::map<std::string, std::string> userMap;
+		static Converter* create_converter(controller_t& input_controller, controller_t& output_controller) {	
+			std::map<std::string, std::string> user_map;
 			
-
 			try {
 				std::string input_controller_name = CONTROLLERNAME[input_controller.type];
 			}
@@ -29,56 +28,55 @@ class ControllerConverterFactory
 				exit(0);
 			}
 		
-			userMap = getMapFromConfigFile(CONTROLLERNAME[input_controller.type] + "_to_" + CONTROLLERNAME[output_controller.type] + ".txt");
-			return new ControllerConverter(userMap);		
+			user_map = get_map_from_config_file(CONTROLLERNAME[input_controller.type] + "_to_" + CONTROLLERNAME[output_controller.type] + ".txt");
+			return new Converter(user_map);		
 		}
 
 	private:
-		ControllerConverterFactory() {};
+		ConverterFactory() {};
 
-		static std::map<std::string, std::string> getMapFromConfigFile(std::string configFileName) {
-			//create empty map
-			std::map<std::string, std::string> cfgMap = {};
+		static std::map<std::string, std::string> get_map_from_config_file(std::string config_filename) {
+			std::map<std::string, std::string> config_map = {};
 			string line;
-			bool passedInstructions = false;
-			configFileName = "./configs/" + configFileName;
-			ifstream cfgFile (configFileName);
+			bool marker_found = false;
+			config_filename = "./configs/" + config_filename;
+			ifstream config_file (config_filename);
 
-			if(cfgFile.is_open()) {
-				while(getline(cfgFile, line)) {
-					if(!passedInstructions) {
+			if(config_file.is_open()) {
+				while(getline(config_file, line)) {
+					if(!marker_found) {
 						//this is a special marker that signifies the start of the actual config text.
 						//until we find this line, we're scanning through the instructions at the top, which should be ignored in processing
 						if(line == "*================================*") {
-							passedInstructions = true;
+							marker_found = true;
 						}
 					} 
 					else {
 						//split line into left and right of =
-						int equalIndex = line.find("=");
-						std::string leftValue = line.substr(0, equalIndex);
-						std::string rightValue = line.substr(equalIndex+1);
+						int equal_index = line.find("=");
+						std::string left_value = line.substr(0, equal_index);
+						std::string right_value = line.substr(equal_index+1);
 
 						//ignore null mappings
-						if(rightValue != "NULL") {
+						if(right_value != "NULL") {
 							//if right value exists in map already, add left value to its value (for multiple mappings to one button)
 							//otherwise it is a new entry in the map
-							if(cfgMap.find(rightValue) == cfgMap.end()) { //key not found
-								cfgMap.insert({rightValue, leftValue + " "});
+							if(config_map.find(right_value) == config_map.end()) { //key not found
+								config_map.insert({right_value, left_value + " "});
 							} 
 							else { //key is found
-								cfgMap.at(rightValue) = cfgMap.at(rightValue) + leftValue + " ";
+								config_map.at(right_value) = config_map.at(right_value) + left_value + " ";
 							}
 						}
 					}
 				}
-				cfgFile.close();
+				config_file.close();
 			} 
 			else {
-				printf("ERROR: Config file %s not found!", configFileName.c_str());
+				printf("ERROR: Config file %s not found!", config_filename.c_str());
 			}
 
-			return cfgMap;
+			return config_map;
 		}
 };
 

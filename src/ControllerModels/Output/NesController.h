@@ -23,11 +23,10 @@ struct nes_controller_t: controller_t {
 	
 	virtual int combo_pressed() override {return false;}
 	virtual void read_buttons(button_struct_t b) override {return;}
-	virtual int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) override {return false;}
+	virtual int get_mapped_button_state(std::string button, std::map<std::string, std::string> user_map) override {return false;}
 
 	virtual void print_state() override {
 		printf("\n---NES Controller State---\n");
-
 		printf("A: %d, B: %d\n", button_states["A"], button_states["B"]);
 		printf("D-up: %d, D-down: %d, D-left: %d, D-right: %d\n", button_states["D_UP"], button_states["D_DOWN"], button_states["D_LEFT"], button_states["D_RIGHT"]);
 		printf("Select: %d, Start: %d\n\n", button_states["SELECT"], button_states["START"]);

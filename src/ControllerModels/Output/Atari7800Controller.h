@@ -22,7 +22,7 @@ struct atari_7800_controller_t: controller_t {
 
 	virtual int combo_pressed() override {return false;}
 	virtual void read_buttons(button_struct_t b) override {return;}
-	virtual int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) override {return false;}
+	virtual int get_mapped_button_state(std::string button, std::map<std::string, std::string> user_map) override {return false;}
 
 	virtual void print_state() override {
 		printf("\n---Atari 7800 Controller State---\n");

@@ -63,7 +63,7 @@ int main() {
 	close(dst);
 
 
-	//Initialize controller models (SNES default output)
+	//Initialize controller models (SNES to XB1 by default)
 	controller_t* input_controller = new xbox_controller_t(); 
   	controller_t* output_controller = new snes_controller_t();
 	
@@ -84,7 +84,7 @@ int main() {
 							event_controller = line.substr(event_position+5,2);
 							devices_found++;
 							//
-							input_controller = new xbox_controller_t();
+							input_controller = new ps4_controller_t();
 							//input_controller = new ps4_controller_t();
 							printf("PlayStation 4 Controller detected on event%s\n", event_controller.c_str());
 							continue;
@@ -118,7 +118,7 @@ int main() {
 			}
 		}
 		if (devices_found == 0) {
-			printf("Supported input device not connected, scanning for supported Bluetooth controller...\n");
+			printf("Supported input device not connected, scanning for supported Bluetooth controller in sync mode...\n");
 			if (system("bash bluetooth.bash") == 2) {
 				return 0;
 			}
@@ -131,8 +131,8 @@ int main() {
 
 
 	//Initialize converter
-	ControllerConverter* converter;
-	converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
+	Converter* converter;
+	converter = ConverterFactory::create_converter(*input_controller, *output_controller);
 	
 
 	//Setup input streams
@@ -156,7 +156,7 @@ int main() {
 	unsigned char data[2] = {0, 0};
 	int serial_fd = open("/dev/ttyS0", O_WRONLY);
 	if (serial_fd == 0) {
-		printf("Teensy not connected!");
+		printf("Serial device not connected!");
 		return 0;
 	}
 
@@ -176,7 +176,7 @@ int main() {
 			if (int new_input_controller = input_controller->combo_pressed()) {	
 				printf("Combo detected! Switching to %s output\n", CONTROLLERNAME[new_input_controller].c_str());
 				output_controller = (controller_t*) get_controller[new_input_controller]();
-				converter = ControllerConverterFactory::createConverter(*input_controller, *output_controller);
+				converter = ConverterFactory::create_converter(*input_controller, *output_controller);
 			}
 
 			//DEBUG - Print input controller state

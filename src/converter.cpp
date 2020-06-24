@@ -3,16 +3,16 @@
 
 std::string button_name = "";
 
-ControllerConverter::ControllerConverter(std::map<std::string, std::string> userMap) {
-        user_map = userMap;
+Converter::Converter(std::map<std::string, std::string> passed_user_map) {
+        user_map = passed_user_map;
 }
 
-void ControllerConverter::convert(controller_t& input_controller, controller_t& output_controller)
+void Converter::convert(controller_t& input_controller, controller_t& output_controller)
 {
 	try {
  		for (std::map<std::string, std::string>::iterator it = (user_map).begin(); it != (user_map).end(); ++it) {
 			button_name = it->first;
-			output_controller.button_states.at(button_name) = input_controller.compileMappingsForButton(button_name, user_map);
+			output_controller.button_states.at(button_name) = input_controller.get_mapped_button_state(button_name, user_map);
 		}
 	}
 	catch (const std::out_of_range& e) {

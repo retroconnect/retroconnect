@@ -295,7 +295,7 @@ struct ps4_controller_t: controller_t {
 		//printf("\nButton Value: %04x\n", button_struct.value);
 	}
 
-	int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) {
+	int get_mapped_button_state(std::string button, std::map<std::string, std::string> user_map) {
 	        std::string button_aliases = user_map[button];
 		size_t pos = 0;
 	        std::string token;

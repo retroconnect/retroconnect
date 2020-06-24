@@ -314,7 +314,7 @@ struct xbox_controller_t: controller_t {
 	}
 
 
-	int compileMappingsForButton(std::string button, std::map<std::string, std::string> user_map) {
+	int get_mapped_button_state(std::string button, std::map<std::string, std::string> user_map) {
 		
 		std::string button_aliases = user_map[button];
 	        size_t pos = 0;
