@@ -3,8 +3,8 @@
 
 ### **Sections**
 
-- [Overview](#project-summary)
-- [Goals](#project-goals)
+- [Overview](#overview)
+- [Features](#features)
 - [Usage](#usage)
 - [File  Organization](#file-organization)
 - [Useful Links](#useful-links)
@@ -13,7 +13,7 @@
 RetroConnect is a project that allows you to use wireless Bluetooth controllers on retro game consoles. The end goal is a single module that can be plugged into any console using a console-specific cable. Suddenly, the great pile of old controllers is reduced to a single favorite controller.   
     
 
-## **Goals**
+## **Features**
 
 #### Completed Features:
 - Supported input devices: 
