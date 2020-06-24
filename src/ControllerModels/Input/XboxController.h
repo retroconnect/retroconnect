@@ -3,7 +3,7 @@
 #ifndef XBOX_CONTROLLER_H
 #define XBOX_CONTROLLER_H
 
-//Xbox One Mapping
+//Xbox One  Bluetooth Button Definitions
 #define XB1_BTN_A		0x130
 #define XB1_BTN_B		0x131
 #define XB1_BTN_X		0x133
@@ -24,7 +24,7 @@
 #define XB1_DPAD_X		0x10
 #define XB1_DPAD_Y		0x11
 
-//Xbox One Alternate Mapping (reconnected controller)
+//Xbox One Alternate Bluetooth Button Definitions (reconnected controller)
 /*
 #define XB1_BTN_A		0x130
 #define XB1_BTN_B		0x131
