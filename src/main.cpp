@@ -40,7 +40,7 @@ ControllerMaker* get_controller[] = {
 int main() {
 	
 	//Set serial baud rate
-	system("sudo stty -F /dev/ttyS0 921600");
+	system("stty 921600");
 	
 
 	//Copy disable_ertm config to /etc/modprobe.d/disable_ertm.conf
@@ -144,7 +144,7 @@ int main() {
 	printf("Starting input collection...\n");
 	struct button_struct_t button_struct;
 	unsigned char data[2] = {0, 0};
-	int serial_fd = open("/dev/ttyS0", O_WRONLY);
+	int serial_fd = open("/dev/serial0", O_WRONLY);
 	if (serial_fd == 0) {
 		printf("Serial device not connected!");
 		return 0;
