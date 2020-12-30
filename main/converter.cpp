@@ -4,7 +4,7 @@
 std::string button_name = "";
 
 Converter::Converter(std::map<std::string, std::string> passed_user_map) {
-        user_map = passed_user_map;
+    user_map = passed_user_map;
 }
 
 void Converter::convert(controller_t& input_controller, controller_t& output_controller)

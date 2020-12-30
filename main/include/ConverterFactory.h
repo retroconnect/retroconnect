@@ -1,4 +1,5 @@
 #include <string>
+#include <fstream>
 #include <Controller.h>
 #include <Converter.h>
 
@@ -36,10 +37,10 @@ class ConverterFactory
 
 		static std::map<std::string, std::string> get_map_from_config_file(std::string config_filename) {
 			std::map<std::string, std::string> config_map = {};
-			string line;
+			std::string line;
 			bool marker_found = false;
 			config_filename = "./configs/" + config_filename;
-			ifstream config_file (config_filename);
+			std::ifstream config_file (config_filename);
 
 			if(config_file.is_open()) {
 				while(getline(config_file, line)) {

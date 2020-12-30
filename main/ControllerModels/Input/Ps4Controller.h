@@ -108,30 +108,30 @@ struct ps4_controller_t: controller_t {
 		printf("RS-x: %d, RS-y: %d, RS-press: %d\n\n", button_states["RS_X"], button_states["RS_Y"], button_states["RS_PRESS"]);
 	}
 
-	virtual void read_buttons(button_struct_t button_struct) {
-		switch(button_struct.code) {
+	virtual void read_buttons(button_struct_t* button_struct) {
+		/*switch(button_struct->code) {
 			case(PS4_LEFT_Y_AXIS):
 				printf("Left Analog Stick Y\n");
-				button_states["LS_Y"] = button_struct.value;
+				button_states["LS_Y"] = button_struct->value;
 				break;
 			case(PS4_LEFT_X_AXIS):
 				printf("Left Analog Stick X\n");
-				button_states["LS_X"] = button_struct.value;
+				button_states["LS_X"] = button_struct->value;
 				break;
 			case(PS4_RIGHT_Y_AXIS):
 				printf("Right Analog Stick Y\n");
-				button_states["RS_Y"] = button_struct.value;
+				button_states["RS_Y"] = button_struct->value;
 				break;
 			case(PS4_RIGHT_X_AXIS):
 				printf("Right Analog Stick X\n");
-				button_states["RS_X"] = button_struct.value;
+				button_states["RS_X"] = button_struct->value;
 				break;
 			case(PS4_DPAD_X):
-				if (button_struct.value == 1) {
+				if (button_struct->value == 1) {
 					printf("DPAD-Right\n");
 					button_states["D_RIGHT"] = 0;
 				}
-				else if (button_struct.value == 0) {
+				else if (button_struct->value == 0) {
 					printf("DPAD-X Released\n");
 					button_states["D_RIGHT"] = 0;
 					button_states["D_LEFT"] = 0;
@@ -142,11 +142,11 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_DPAD_Y):
-				if (button_struct.value == 1) {
+				if (button_struct->value == 1) {
 					printf("DPAD-Down\n");
 					button_states["D_DOWN"] = 0;
 				}
-				else if (button_struct.value == 0) {
+				else if (button_struct->value == 0) {
 					printf("DPAD-Y Released\n");
 					button_states["D_DOWN"] = 0;
 					button_states["D_UP"] = 0;
@@ -157,7 +157,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_CROSS):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("X released\n");
 					 button_states["X"]= 0;
 				}
@@ -167,7 +167,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_CIRCLE):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Circle released\n");
 					button_states["CIRCLE"] = 0;
 				}
@@ -177,7 +177,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_SQUARE):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Square released\n");
 					button_states["SQUARE"] = 0;
 				}
@@ -187,7 +187,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_TRIANGLE):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Triangle released\n");
 					button_states["TRIANGLE"] = 0;
 				}
@@ -197,7 +197,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_L1):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("L1 released\n");
 					button_states["L1"] = 0;
 				}
@@ -207,7 +207,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_R1):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("R1 released\n");
 					button_states["R1"] = 0;
 				}
@@ -217,7 +217,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_START):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Start released\n");
 					button_states["OPTIONS"] = 0;
 				}
@@ -227,7 +227,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_SELECT):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Select released\n");
 					button_states["SHARE"] = 0;
 				}
@@ -237,7 +237,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_LS):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Left Thumb released\n");
 					button_states["LS_PRESS"] = 0;
 				}
@@ -247,7 +247,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_RS):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Right Thumb released\n");
 					button_states["RS_PRESS"] = 0;
 				}
@@ -257,7 +257,7 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_BTN_HOME):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Home released\n");
 					button_states["HOME"] = 0;
 				}
@@ -267,32 +267,32 @@ struct ps4_controller_t: controller_t {
 				}
 				break;
 			case(PS4_RIGHT_TRIGGER):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Right Trigger released\n");
 				}
 				else {
 					printf("Right Trigger pressed\n");
 				}
-				button_states["R2"] = button_struct.value;
+				button_states["R2"] = button_struct->value;
 				break;
 			case(PS4_LEFT_TRIGGER):
-				if (button_struct.value == 0) {
+				if (button_struct->value == 0) {
 					printf("Left Trigger released\n");
 				}
 				else {
 					printf("Left Trigger pressed\n");
 				}
-				button_states["L2"] = button_struct.value;
+				button_states["L2"] = button_struct->value;
 				break;
 
 			default:
-				printf("!!! Unknown button code: %d !!!\n", button_struct.code);
+				printf("!!! Unknown button code: %d !!!\n", button_struct->code);
 		}
 		// Print full struct for button press debugging
-		//printf("\nButton Timestamp: %08X", button_struct.time);
-		//printf("\nButton Type: %02X", button_struct.type);
-		//printf("\nButton Code: %02X", button_struct.code);
-		//printf("\nButton Value: %04x\n", button_struct.value);
+		//printf("\nButton Timestamp: %08X", button_struct->time);
+		//printf("\nButton Type: %02X", button_struct->type);
+		//printf("\nButton Code: %02X", button_struct->code);
+		//printf("\nButton Value: %04x\n", button_struct->value);*/
 	}
 
 	int get_mapped_button_state(std::string button, std::map<std::string, std::string> user_map) {

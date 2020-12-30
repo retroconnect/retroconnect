@@ -74,9 +74,9 @@ void gpio_setup() {
     gpio_config(&io_conf);
 }
 
-void init_uart() {
-  /* Configure parameters of an UART driver,
-   * communication pins and install the driver */
+/*void init_uart() {
+  // Configure parameters of an UART driver,
+  // communication pins and install the driver
   uart_config_t uart_config = {
     .baud_rate = 921600,
     .data_bits = UART_DATA_8_BITS,
@@ -88,7 +88,7 @@ void init_uart() {
   ESP_ERROR_CHECK(uart_param_config(UART_NUM_1, &uart_config));
   ESP_ERROR_CHECK(uart_set_pin(UART_NUM_1, 22, 21, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
   ESP_ERROR_CHECK(uart_driver_install(UART_NUM_1, 2048, 0, 0, NULL, 0));
-}
+}*/
 
 void parallel_write(uint8_t value) {
   uint32_t signal_output =

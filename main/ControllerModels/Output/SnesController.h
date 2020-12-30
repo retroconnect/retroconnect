@@ -24,7 +24,7 @@ struct snes_controller_t: controller_t {
 	}
 
 	virtual int combo_pressed() override {return false;}
-	virtual void read_buttons(button_struct_t b) override {return;}
+	virtual void read_buttons(button_struct_t* b) override {return;}
 	virtual int get_mapped_button_state(std::string button, std::map<std::string, std::string> user_map) override {return false;}
 
 	virtual void print_state() override {
@@ -36,7 +36,8 @@ struct snes_controller_t: controller_t {
 	}
 
 	virtual void send_state(int serial_fd, unsigned char data[2]) override {
-	        data[0] = 0;
+		printf("STUBBED! (send_state in SnesController.h");
+	    /*data[0] = 0;
 		data[1] = 0;	
 		data[0] |= (this->button_states["B"] ? 1 : 0 ) << 0;
 		data[0] |= (this->button_states["Y"] ? 1 : 0 ) << 1;
@@ -50,7 +51,7 @@ struct snes_controller_t: controller_t {
 		data[1] |= (this->button_states["X"] ? 1 : 0 ) << 1;
 		data[1] |= (this->button_states["LB"] ? 1 : 0 ) << 2;
 		data[1] |= (this->button_states["RB"] ? 1 : 0 ) << 3;
-		write(serial_fd, data, 2);
+		write(serial_fd, data, 2);*/
 	}
 };
 
