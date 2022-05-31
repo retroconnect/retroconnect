@@ -1,4 +1,4 @@
-# RetroConnect
+# RetroConnect (deprecated, see [BlueRetro](https://github.com/darthcloud/BlueRetro))
 ##### *One controller to rule them all*
 
 ### **Sections**
@@ -10,8 +10,9 @@
 - [Credits](#credits)
 
 ## **Overview**
-RetroConnect is a project that allows you to use wireless Bluetooth controllers on retro game consoles. The end goal is a single module that can be plugged into any console using a console-specific cable. Suddenly, the great pile of old controllers is reduced to a single favorite controller.   
-    
+RetroConnect is a project that allows you to use wireless Bluetooth controllers on retro game consoles. The end goal is a single module that can be plugged into any console using a console-specific cable. Suddenly, the great pile of old controllers is reduced to a single favorite controller.
+
+This project was developed in parallel to [BlueRetro](https://github.com/darthcloud/BlueRetro) before either project went public. BlueRetro far surpasses this project with many more devices supported and a custom Bluetooth implementation that far outclasses this project.    
 
 ## **Features**
 
